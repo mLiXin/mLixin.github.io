@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Do Hyeon:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"/>
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css?v=7.1.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/mLixin.github.io/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Native调用Js api19之前   1public void loadUrl(String url)  api19及之后（效率更高）   12345678&#x2F;**    * Compatibility note. Applications targeting &amp;#123;@link android.os.Build.VERSION_CODES#N&amp;#125; or    * late">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android JsBridge的原理与实现">
+<meta property="og:url" content="http://yoursite.com/2019/05/24/android-jsbridge/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="Native调用Js api19之前   1public void loadUrl(String url)  api19及之后（效率更高）   12345678&#x2F;**    * Compatibility note. Applications targeting &amp;#123;@link android.os.Build.VERSION_CODES#N&amp;#125; or    * late">
+<meta property="article:published_time" content="2019-05-24T10:06:36.000Z">
+<meta property="article:modified_time" content="2019-06-10T06:26:48.786Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Hybrid">
+<meta property="article:tag" content="JsBridge">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/24/android-jsbridge/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Android JsBridge的原理与实现 | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/mLixin.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">mLiXin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">The truth conquers all.</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/archives/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-calendar&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;时间线</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/categories/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-th&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/tags/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-leetcode">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-heartbeat&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;LeetCode</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tips">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/tips/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-heart&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;说说</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/about/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;关于我</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/mLixin.github.io/2019/05/24/android-jsbridge/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="mLiXin"/>
+      <meta itemprop="description" content="Be true to yourself."/>
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android JsBridge的原理与实现
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-24 18:06:36" itemprop="dateCreated datePublished" datetime="2019-05-24T18:06:36+08:00">2019-05-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/mLixin.github.io/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="Native调用Js"><a href="#Native调用Js" class="headerlink" title="Native调用Js"></a>Native调用Js</h5><ul>
+<li><p>api19之前</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public void loadUrl(String url)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>api19及之后（效率更高）</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">    * Compatibility note. Applications targeting &#123;@link android.os.Build.VERSION_CODES#N&#125; or</span><br><span class="line">    * later, JavaScript state from an empty WebView is no longer persisted across navigations like</span><br><span class="line">    * &#123;@link #loadUrl(String)&#125;. For example, global variables and functions defined before calling</span><br><span class="line">    * &#123;@link #loadUrl(String)&#125; will not exist in the loaded page. Applications should use</span><br><span class="line">    * &#123;@link #addJavascriptInterface&#125; instead to persist JavaScript objects across navigations.</span><br><span class="line">    *&#x2F;</span><br><span class="line">public void evaluateJavascript(String script, ValueCallback&lt;String&gt; resultCallback)</span><br></pre></td></tr></table></figure>
+<p>  不同于上面的<code>loadUrl</code>，执行完以后就结束了，这种方法可以在执行完以后立即拿到Js返回的结果，但是这个方法有兼容性的要求，所以在<code>minSDK&lt;19</code>的app上，一般还是用的<code>loadUrl</code>。</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<h5 id="Js调用Native"><a href="#Js调用Native" class="headerlink" title="Js调用Native"></a>Js调用Native</h5><ul>
+<li><p>webview.addJavascriptInterface</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">   * For applications targeted to API</span><br><span class="line">   * level &#123;@link android.os.Build.VERSION_CODES#JELLY_BEAN_MR1&#125;</span><br><span class="line">   * and above, only public methods that are annotated with</span><br><span class="line">   * &#123;@link android.webkit.JavascriptInterface&#125; can be accessed from JavaScript.</span><br><span class="line">   * For applications targeted to API level &#123;@link android.os.Build.VERSION_CODES#JELLY_BEAN&#125; or below,</span><br><span class="line">   * all public methods (including the inherited ones) can be accessed, see the</span><br><span class="line">   * important security note below for implications.</span><br><span class="line">   *&#x2F;</span><br><span class="line">   public void addJavascriptInterface(Object object, String name)</span><br></pre></td></tr></table></figure>
+<p>  Native通过这个api可以提供Js可以执行的本地方法，但是在<code>api&lt;=16</code>即<code>Android 4.1</code>及以前的版本中，这个方法会有远程执行安全漏洞，Js可以通过Java的反射等机制调用Native中的任何方法。不过在<code>Android 4.2</code>及以后这个漏洞修复了，只有添加了<code>@JavascriptInterface</code>注解的方法才能被Js调用。</p>
+</li>
+<li><p>URL劫持 — webviewClient.shouldOverrideUrlLoading</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request)</span><br></pre></td></tr></table></figure>
+<p>  这个方法是<code>webview</code>拦截<code>url</code>的一种回调，当<code>webview</code>发生<code>url</code>跳转的时候会触发该回调。通常情况下，web端采用加载不可见​<code>iframe​</code>的方式传递​<code>url​</code>到<code>​Native</code>，<code>Native</code>通过获取约定好的<code>scheme</code>来执行web端需要的操作。<br>  但是这种方法有一个比较严重的问题是，无法在短时间内回调多次​<code>shouldOverrideUrlLoading</code>​方法，也就是说频繁交互的情况下，会有较大概率多次<code>​url​</code>跳转只回调一次该方法。</p>
+</li>
+<li><p>方法劫持</p>
+<ul>
+<li>Js – alert <code>VS</code> Native – webChromeClient.onJsAlert</li>
+<li>Js – prompt <code>VS</code> Native – webChromeClient.onJsPrompt</li>
+<li>Js – confirm <code>VS</code> Native – webChromeClient.onJsConfirm</li>
+<li>Js – console.log <code>VS</code> Native – webChromeClient.onConsoleMessage</li>
+</ul>
+</li>
+</ul>
+<h5 id="常用第三方库及底层实现方式"><a href="#常用第三方库及底层实现方式" class="headerlink" title="常用第三方库及底层实现方式"></a>常用第三方库及底层实现方式</h5><ul>
+<li><p><a href="https://github.com/lzyzsd/JsBridge" target="_blank" rel="noopener">lzyzsd/JsBridge</a></p>
+<ul>
+<li><p>实现方式:</p>
+<ul>
+<li><p>URL劫持</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; BridgeWebView中</span><br><span class="line"> private void init()&#123;</span><br><span class="line">     ......</span><br><span class="line">     this.setWebViewClient(generateBridgeWebViewClient());</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> protected BridgeWebViewClient generateBridgeWebViewClient()&#123;</span><br><span class="line">     return new BridgeWebViewClient (this);</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> &#x2F;&#x2F; BridgeWebViewClient中    </span><br><span class="line"> public boolean shouldOverrideUrlLoading(WebView view, String url)&#123;</span><br><span class="line">     try &#123;</span><br><span class="line">         url &#x3D; URLDecoder.decode(url, &quot;UTF-8&quot;);</span><br><span class="line">     &#125; catch (UnsupportedEncodingException e) &#123;</span><br><span class="line">         e.printStackTrace();</span><br><span class="line">     &#125;</span><br><span class="line">     if (url.startsWith(BridgeUtil.YY_RETURN_DATA)) &#123; &#x2F;&#x2F; 如果是返回数据</span><br><span class="line">         webView.handlerReturnData(url);</span><br><span class="line">         return true;</span><br><span class="line">     &#125; else if (url.startsWith(BridgeUtil.YY_OVERRIDE_SCHEMA)) &#123; &#x2F;&#x2F;</span><br><span class="line">         webView.flushMessageQueue();</span><br><span class="line">         return true;</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">         return this.onCustomShouldOverrideUrlLoading(url)?true:super.shouldOverrideUrlLoading(view, url);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/wendux/DSBridge-Android" target="_blank" rel="noopener">wendux/DSBridge-Android</a></p>
+<ul>
+<li><p>实现方式:</p>
+<ul>
+<li><p>4.2以下使用方法劫持，通过Js的prompt实现</p>
+</li>
+<li><p>4.2及以上使用addJavascriptInterface</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">private void init()&#123;</span><br><span class="line">	......</span><br><span class="line">	if (Build.VERSION.SDK_INT &gt; Build.VERSION_CODES.JELLY_BEAN) &#123;</span><br><span class="line">          	super.addJavascriptInterface(innerJavascriptInterface, BRIDGE_NAME);</span><br><span class="line">      	&#125; else &#123;</span><br><span class="line">          	&#x2F;&#x2F; add dsbridge tag in lower android version</span><br><span class="line">          	settings.setUserAgentString(settings.getUserAgentString() + &quot; _dsbridge&quot;);</span><br><span class="line">      	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line">public boolean onJsPrompt(WebView view, String url, final String message,</span><br><span class="line">                                String defaultValue, final JsPromptResult result) &#123;</span><br><span class="line"></span><br><span class="line">          if (Build.VERSION.SDK_INT &lt;&#x3D; Build.VERSION_CODES.JELLY_BEAN) &#123;</span><br><span class="line">              String prefix &#x3D; &quot;_dsbridge&#x3D;&quot;;</span><br><span class="line">              if (message.startsWith(prefix)) &#123;</span><br><span class="line">                  result.confirm(innerJavascriptInterface.call(message.substring(prefix.length()), defaultValue));</span><br><span class="line">                  return true;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          ......</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/mLixin.github.io/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/mLixin.github.io/tags/Hybrid/" rel="tag"># Hybrid</a>
+          
+            <a href="/mLixin.github.io/tags/JsBridge/" rel="tag"># JsBridge</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/mLixin.github.io/2019/05/09/book-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3ART/" rel="next" title="深入理解Android:Java虚拟机ART 学习笔记">
+                <i class="fa fa-chevron-left"></i> 深入理解Android:Java虚拟机ART 学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/mLixin.github.io/2019/06/17/leetcode-001/" rel="prev" title="LeetCode.001-Two Sum">
+                LeetCode.001-Two Sum <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">mLiXin</p>
+              <div class="site-description motion-element" itemprop="description">Be true to yourself.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/mLixin.github.io/archives/%20%7C%7C%20calendar">
+                
+                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/mLixin.github.io/categories/%20%7C%7C%20th">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/mLixin.github.io/tags/%20%7C%7C%20tags">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Native调用Js"><span class="nav-number">1.</span> <span class="nav-text">Native调用Js</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Js调用Native"><span class="nav-number">2.</span> <span class="nav-text">Js调用Native</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#常用第三方库及底层实现方式"><span class="nav-number">3.</span> <span class="nav-text">常用第三方库及底层实现方式</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin. The truth conquers all.</span>
+
+  
+
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/mLixin.github.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/mLixin.github.io/js/utils.js?v=7.1.1"></script>
+
+  <script src="/mLixin.github.io/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/mLixin.github.io/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/mLixin.github.io/js/scrollspy.js?v=7.1.1"></script>
+<script src="/mLixin.github.io/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/mLixin.github.io/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

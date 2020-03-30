@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Do Hyeon:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"/>
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css?v=7.1.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/mLixin.github.io/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="摘要一遍不行就两遍，看不懂就死磕，一直看不懂就一直死磕。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Geek Android开发高手课 学习笔记">
+<meta property="og:url" content="http://yoursite.com/2019/01/03/GeekBang-Android%E5%BC%80%E5%8F%91%E9%AB%98%E6%89%8B%E8%AF%BE/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="摘要一遍不行就两遍，看不懂就死磕，一直看不懂就一直死磕。">
+<meta property="article:published_time" content="2019-01-03T01:37:13.000Z">
+<meta property="article:modified_time" content="2019-10-21T06:45:51.942Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="GeekBang">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/01/03/GeekBang-Android%E5%BC%80%E5%8F%91%E9%AB%98%E6%89%8B%E8%AF%BE/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Geek Android开发高手课 学习笔记 | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/mLixin.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">mLiXin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">The truth conquers all.</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/archives/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-calendar&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;时间线</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/categories/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-th&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/tags/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-leetcode">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-heartbeat&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;LeetCode</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tips">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/tips/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-heart&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;说说</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/about/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;关于我</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/mLixin.github.io/2019/01/03/GeekBang-Android%E5%BC%80%E5%8F%91%E9%AB%98%E6%89%8B%E8%AF%BE/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="mLiXin"/>
+      <meta itemprop="description" content="Be true to yourself."/>
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Geek Android开发高手课 学习笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-03 09:37:13" itemprop="dateCreated datePublished" datetime="2019-01-03T09:37:13+08:00">2019-01-03</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>一遍不行就两遍，看不懂就死磕，一直看不懂就一直死磕。</p>
+<a id="more"></a>
+
+<h4 id="Pre"><a href="#Pre" class="headerlink" title="Pre"></a>Pre</h4><ol>
+<li><p>质量平台包括：</p>
+<ul>
+<li>稳定性<ul>
+<li>崩溃</li>
+<li>ANR</li>
+</ul>
+</li>
+<li>性能<ul>
+<li>内存</li>
+<li>卡顿</li>
+<li>启动</li>
+<li>IO</li>
+<li>渲染</li>
+<li>电量</li>
+<li>网络</li>
+<li>安装包</li>
+<li>存储</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>应用体验标准：</p>
+<ul>
+<li>性能<ul>
+<li>冷启动时间&lt;1秒</li>
+<li>热启动时间&lt;0.5秒</li>
+<li>界面帧率&gt;55</li>
+<li>界面不存在过度绘制</li>
+<li>不存在内存泄露</li>
+<li>前台内存用&lt;500M</li>
+<li>后台内存用&lt;400M</li>
+<li>后台CPU占用&lt;2%</li>
+</ul>
+</li>
+<li>功耗<ul>
+<li>后台WakeLock占用&lt;5min</li>
+<li>后台网络占用&lt;5min</li>
+<li>后台Alarm占用&lt;5min</li>
+<li>禁止后台传感器占用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="第1、2讲-崩溃优化"><a href="#第1、2讲-崩溃优化" class="headerlink" title="第1、2讲 崩溃优化"></a>第1、2讲 崩溃优化</h4><p>总结：native崩溃适当了解，需要C++、指令执行机制等的知识，我选择go die。TODO tag – 等着我，我一定会回来的。</p>
+<ol>
+<li><p>Android崩溃分为Java崩溃和Native崩溃</p>
+<ul>
+<li>Java崩溃是在Java代码中出现了未捕获异常，导致程序异常退出</li>
+<li>Native崩溃是因为在Native代码中访问非法地址，也可能是地址对齐出现了问题，或者发生了程序主动abort，这些都会产生相应的signal信号，导致程序异常退出</li>
+</ul>
+</li>
+<li><p>Native崩溃的捕获流程</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/g-WzYF3wWAljok1XjPoo7w?" target="_blank" rel="noopener">pre - Android 平台 Native 代码的崩溃捕获机制及实现</a></li>
+<li>编译端，编译C/C++代码的时候，需要将带符号信息的文件保留下来</li>
+<li>客户端，捕获到崩溃的时候，将收集到尽可能多的有用信息写入日志文件，然后选择合适的时机上传到服务器<ul>
+<li>文件句柄泄露，导致创建日志文件失败？<ul>
+<li>提前申请文件句柄fd预留，防止出现这种情况</li>
+</ul>
+</li>
+<li>因为栈溢出，导致日志生成失败？<ul>
+<li>防止栈溢出导致进程没有空间创建调用栈执行处理函数，通常会使用常见的singnalstack，在一些特殊情况，可能还需要直接替换当前栈，所以这里也需要在堆中预留部分空间</li>
+</ul>
+</li>
+<li>整个堆的内存都耗尽了，导致日志生成失败？<ul>
+<li>这个时候无法安全地分派内存，也不敢使用stl或libc的函数，因为它们内部实现会分配堆内存。这个时候如果继续分配内存，会导致出现堆破坏或者二次崩溃的情况。Breakpad做的比较彻底，重新封装了Linux Syscall Support，来避免直接调用libc </li>
+</ul>
+</li>
+<li>堆破坏或二次崩溃导致日志生成失败？<ul>
+<li>Breakpad会从原进程fork出子进程去手机崩溃线程，此外涉及与Java相关的，一般也会用子进程去操作。这样即使出现二次崩溃，只是这部分信息丢失，我们的父进程后面还可以继续获取其他的信息，在一些特殊情况，我们还可能需要从子进程fork出孙进程  </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>服务端，读取客户端上传的日志文件，寻找适合的符号文件，生成可读的C/C++调用栈</li>
+</ul>
+</li>
+<li><p>国内平台，腾讯bugly产品和和社区维护更好，阿里啄木鸟平台技术深度跟捕获能力更好</p>
+</li>
+<li><p>如何发现应用中的ANR异常？</p>
+<ul>
+<li>使用FileObserver监听/data/anr/tracs.txt的变化(微信使用Hardcoder框架)</li>
+<li>监控消息队列的运行时间。(无法准确的判断是否真正出现了ANR一场，也无法得到完整的ANR日志。)</li>
+</ul>
+</li>
+<li><p>应用退出的情形？</p>
+<ul>
+<li>主动自杀，Process.killProcess()/exit()等</li>
+<li>崩溃，出现了Java或Native崩溃</li>
+<li>系统重启，出现异常、断电、用户主动重启等，可以通过比较应用开机运行时间是否比之前记录的值更小</li>
+<li>被系统杀死，被low memory killer杀死，从系统的任务管理器中划掉等</li>
+<li>ANR</li>
+</ul>
+</li>
+<li><p>崩溃现场应该采集的信息：</p>
+<ul>
+<li>崩溃信息<ul>
+<li>进程名、线程名。崩溃的进程是前台进程还是后台进程，崩溃是不是发生在UI线程</li>
+<li>崩溃堆栈和类型。属于Java崩溃还是Native崩溃，还是ANR，不同类型的崩溃，关注点不一样</li>
+</ul>
+</li>
+<li>系统信息<ul>
+<li>Logcat。包括应用、系统的运行日志</li>
+<li>机型、系统、厂商、CPU、ABI、Linux版本等</li>
+<li>设备状态：是否root，是否是模拟器。一些问题是有Xposed或多开软件造成的，这部分问题要区别对待</li>
+</ul>
+</li>
+<li>内存信息<ul>
+<li>系统剩余内存：直接读取文件/proc/meminfo。当系统可用内存很小，OOM、大量GC、系统频繁自杀拉起等问题都非常容易出现</li>
+<li>应用使用内存：包括Java内存、RSS(Resident Set Size)、PSS(Proportional Set Size)，我们可以得出应用本身内存的占用大小和分布。</li>
+<li>虚拟内存：通过/proc/self/status得到，通过/proc/self/maps文件可以得到具体的分布情况。</li>
+</ul>
+</li>
+<li>资源信息<ul>
+<li>文件句柄fd:可以通过/proc/self/limits获得，一般单个进程语序打开的最大文件句柄个数为1024，但是如果文件句柄超过800个就比较危险，需要将所有的fd以及对应的文件名输出到日志中，进一步排查是否出现了有文件或者线程的泄露。</li>
+<li>线程数：可以通过上面的status文件获得，一个线程可能就占2mb的虚拟内存，过多的线程会怼虚拟内存和文件句柄带来压力。如果线程数超过400个就比较危险。</li>
+<li>JNI：容易出现引用失效、引用爆表等一些崩溃。</li>
+</ul>
+</li>
+<li>应用信息<ul>
+<li>崩溃场景，发生在哪个Activity或Fragment</li>
+<li>关键操作路径，记录关键的用户操作路径，对复现崩溃有比较大的帮助</li>
+<li>其他自定义信息，不同的应用关心不一样的重点。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="第3、4讲-内存优化"><a href="#第3、4讲-内存优化" class="headerlink" title="第3、4讲 内存优化"></a>第3、4讲 内存优化</h4><ol>
+<li><p>内存优化主要包括两方面的工作：</p>
+<ul>
+<li>优化Ram，即降低运行时内存，防止程序发生OOM，降低程序由于内存过大而被LMK机制杀死的概率，另一方面，不合理的内存使用会使GC大大增多，从而导致程序变卡。</li>
+<li>优化Rom，即降低程序占ROM的体积。这里主要是为了降低程序占用的空间，防止由于ROM空间不足导致程序无法安装。</li>
+</ul>
+</li>
+<li><p>Leakcanary，通过弱引用的方式侦查Activity或对象的生命周期，若发现内存泄露，自动dump Hprof文件，通过HAHA库得到泄露的最短路径，最后通过notification展示。</p>
+</li>
+<li><p>通过兜底回收内存，Activity泄露会导致Activit引用到的Bitmap、DrawingCache等无法释放，对内存造成大的压力，兜底是指对于已泄漏的Activity，尝试回收其持有的资源，泄漏的仅仅是一个Activity空壳，从而降低对内存的压力。在Activity的onDestroy里面从view的rootView开始，递归释放所有子View设计的图片、背景、DrawingCache、监听器等资源，让Activity成为一个不占资源的空壳。</p>
+</li>
+<li><p>降低运行时内存的一些方法</p>
+<ul>
+<li>减少bitmap占用的内存<ul>
+<li>防止bitmap占用资源过大导致OOM：Android4.X系统，可以采用fresco库的方案，将图片资源放于native中</li>
+<li>图片按需加载，inJustDecodeBounds+inSampleSize</li>
+<li>统一bitmap加载器，降低format</li>
+</ul>
+</li>
+<li>自身内存占用监控<ul>
+<li>通过Runtime获得内存，然后定期去监控这个值，达到为限制的时候，主动释放各种cache资源，同时显示的去Trim应用的memory，加速内存收集</li>
+</ul>
+</li>
+<li>使用多进程<ul>
+<li>webview、图库等，由于存在内存系统泄露或占用内存过多的问题，可以采用单独的进程。</li>
+</ul>
+</li>
+<li>上报OOM详细信息</li>
+</ul>
+</li>
+<li><p>内存抖动，是因为在短时间内大量的对象被创建又马上被释放。通过Memory Monitor，可以跟踪整个app的内存变化情况。若短时间发生了多次内存的涨跌，就意味着发生了内存抖动。</p>
+</li>
+<li><p>通过Heap Viewer，可以查看当前内存快照，便于对比分析哪些对象有可能发生了泄露。Allocation Tracker，追踪内存对象的类型、堆栈、大小等。</p>
+</li>
+<li><p>内存抖动需要注意的点：</p>
+<ul>
+<li>字符串拼接优化：减少字符串使用加号拼接，改用StringBuilder</li>
+<li>读文件优化：使用ByteArrayPool，初始设置capacity，减少expand</li>
+<li>资源重用：建立缓存池</li>
+<li>减少不必要或不合理的对象：在onDraw、getView中减少对象申请，尽量重用。</li>
+<li>选用合理的数据格式：使用SparseArray、SparseBooleanArray，LongSparseArray来代替HashMap</li>
+</ul>
+</li>
+<li><p>内存造成两个问题：异常和卡顿。</p>
+</li>
+<li><p>2.3之前的像素存储需要的内存是在native上分配的，并且生命周期不太可控，可能需要用户自己回收。  2.3-7.1之间，Bitmap的像素存储在Dalvik的Java堆上，当然，4.4之前的甚至能在匿名共享内存上分配（Fresco采用），而8.0之后的像素内存又重新回到native上去分配，不需要用户主动回收，8.0之后图像资源的管理更加优秀，极大降低了OOM。</p>
+</li>
+<li><p>当系统物理内存不足的时候，Lmk开始杀进程，从后台、桌面、服务、前台，直到手机重启。(mark，进程优先级应该是：前台进程、可见进程、服务进程、后台进程)</p>
+</li>
+<li><p>Dalvik GC日志分析：</p>
+<ul>
+<li>GC_CONCURRENT<ul>
+<li>在堆开始占用内存时可以释放内存的并发垃圾回收</li>
+</ul>
+</li>
+<li>GC_FOR_MALLOC<ul>
+<li>堆已满而系统不得不停止您的应用并回收内存时，您的应用尝试分配内存而引起的垃圾回收。</li>
+</ul>
+</li>
+<li>GC_HPROF_DUMP_HEAP<ul>
+<li>当请求创建HPROF文件来分析堆时出现的垃圾回收</li>
+</ul>
+</li>
+<li>GC_EXPLICIT<ul>
+<li>显式垃圾回收，当您调用gc()时</li>
+</ul>
+</li>
+<li>GC_EXTERNAL_ALLOC<ul>
+<li>API10及更低级别，可以忽略</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="https://developer.android.com/studio/profile/investigate-ram?hl=zh-cn" target="_blank" rel="noopener">Art GC日志分析</a>：不会为未明确请求的垃圾回收记录消息，只有在认为垃圾回收速度较慢时才会打印垃圾回收(垃圾回收暂停时间超过5ms或垃圾回收持续时间超过100ms时)。</p>
+<ul>
+<li>Concurrent<ul>
+<li>不会暂停应用线程的并发垃圾回收</li>
+</ul>
+</li>
+<li>Alloc<ul>
+<li>应用在堆已满时尝试分配内存引起的垃圾回收</li>
+</ul>
+</li>
+<li>Explicit<ul>
+<li>由应用明确请求的垃圾回收，如调用gc()</li>
+</ul>
+</li>
+<li>NativeAlloc<ul>
+<li>原生分配导致出现原生内存压力，进而引起的回收</li>
+</ul>
+</li>
+<li>CollectorTransition<ul>
+<li>由堆转换引起的回收(TODO ，没懂啥场景)</li>
+</ul>
+</li>
+<li>HomogeneousSpaceCompact<ul>
+<li>齐性空间压缩是空闲列表空间到空闲列表空间压缩，通常在应用进入到可察觉的暂停进程状态时发生。这样做的主要原因是减少 RAM 使用量并对堆进行碎片整理。(TODO 没懂)</li>
+</ul>
+</li>
+<li>DisableMovingGc</li>
+<li>HeapTrim</li>
+</ul>
+</li>
+<li><p>内存分析方法：</p>
+<ol>
+<li>Java内存分配，常用的工具是Allocation Tracker和MAT</li>
+<li>Native内存分配，Malloc调试(帮助调试Native内存的一些使用问题，例如堆破坏、内存泄露、非法地址等)和Malloc钩子(Android P之后，Android的libc支持拦截在程序执行期间发生的所有分配、释放调用，这样我们就可以构建出自定义的内存检测工具。)</li>
+</ol>
+</li>
+<li><p>内存优化方法：</p>
+<ul>
+<li>设备分级<ul>
+<li>让高端设备使用更多的内存，做到针对性能的好坏使用不同的内存分配和回收策略</li>
+<li>使用类似device-year-class的策略对设备分级，对于低端机用户可以关闭复杂的动画，或者是某些功能；使用565格式的图片，使用更小的缓存内存等。开发过程考虑功能要不要对低端机开启、在系统资源吃紧的时候能不能做降级</li>
+</ul>
+</li>
+<li>Bitmap优化<ul>
+<li>统一图片库</li>
+<li>统一监控<ul>
+<li>大图片监控</li>
+<li>重复图片监控</li>
+<li>图片总内存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>内存泄露<ul>
+<li>Java内存泄露</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="第5、6讲-卡顿优化-TODO-need-Linux"><a href="#第5、6讲-卡顿优化-TODO-need-Linux" class="headerlink" title="第5、6讲 卡顿优化 (TODO need Linux)"></a>第5、6讲 卡顿优化 (TODO need Linux)</h4><ol>
+<li><p>Android卡顿排查工具</p>
+<ul>
+<li>TraceView<ul>
+<li>对release包支持不好，无法反混淆</li>
+<li>性能损耗大</li>
+</ul>
+</li>
+<li>Nanoscope<ul>
+<li>性能损耗小</li>
+<li>trace结束生成结果文件时间较长</li>
+<li>当前只支持Nexus 6P，或采用其提供的x86架构的模拟器</li>
+<li>默认值支持主线程采集</li>
+</ul>
+</li>
+<li>systrace</li>
+<li>Simpleperf</li>
+<li>如果需要分析Native代码的耗时，可以选择Simpleperf；如果想分析系统调用，可以选择systrace；如果想分析整个程序执行流程的耗时，可以选择TraceView或者插桩版本的systrace。</li>
+</ul>
+</li>
+<li><p>可视化方法Profiler：</p>
+<ul>
+<li>Sample Java Methods的功能类似于Traceview的sample类型</li>
+<li>Trace Java Methods的功能类似于Traceview的instrument类型</li>
+<li>Trace System Calls的功能类似于systrace</li>
+<li>SampleNative的功能类似于Simpleperf</li>
+</ul>
+</li>
+<li><p>Call Chart、Flame Chart</p>
+<ul>
+<li>Call Chart适合分析整个流程的调用</li>
+<li>Flame Chart直观看出那些代码路径话费的CPU时间较多。</li>
+</ul>
+</li>
+<li><p>卡顿监控</p>
+<ul>
+<li>消息队列监控<ul>
+<li>通过一个监控线程，每隔一秒向主线程消息队列的头部插入一条空消息，加入一秒后这个消息并没有被主线程消费掉，说明阻塞消息运行的时间在0~1秒之间。</li>
+</ul>
+</li>
+<li>插桩，Inline Hook技术，实现类似Nnoscope先写内存的方案。</li>
+<li><a href="https://github.com/facebookincubator/profilo" target="_blank" rel="noopener">Profilo</a> <ul>
+<li>看不懂</li>
+<li>继承atrace功能</li>
+<li>快速获取Java堆栈</li>
+</ul>
+</li>
+<li>Android Vitals </li>
+</ul>
+</li>
+</ol>
+<h4 id="第7、8讲-启动优化-TODO-need-并发编程"><a href="#第7、8讲-启动优化-TODO-need-并发编程" class="headerlink" title="第7、8讲 启动优化 (TODO need 并发编程)"></a>第7、8讲 启动优化 (TODO need 并发编程)</h4><ol>
+<li>回顾一下Activity的启动流程</li>
+<li>启动优化<ul>
+<li>优化工具<ul>
+<li>systrace+函数插桩</li>
+</ul>
+</li>
+<li>优化方式<ul>
+<li>闪屏优化<ul>
+<li>只在Android6.0或者Android7.0以上才启用预览闪屏方案，让手机性能好的用户可以有更好的体验</li>
+</ul>
+</li>
+<li>业务梳理<ul>
+<li>梳理启动过程正在运行的每一个模块，那些是一定需要的，那些可以砍掉，哪些可以懒加载。</li>
+<li>懒加载要防止集中化，否则容易出现首页显示后用户无法操作的情形</li>
+</ul>
+</li>
+<li>业务优化<ul>
+<li>看看主线程满在哪里，然后通过算法今星期优化。</li>
+</ul>
+</li>
+<li>线程优化<ul>
+<li>减少CPU调度带来的波动，让应用的启动时间更加稳定。</li>
+<li>控制线程数量，太多会相互竞争CPU资源，因此要有统一的线程池，并且根据机器性能来控制数量。</li>
+<li>检查线程间的锁，systrace可以看到锁等待的事件。</li>
+<li><a href="https://github.com/alibaba/alpha" target="_blank" rel="noopener">alpha</a></li>
+</ul>
+</li>
+<li>GC优化<ul>
+<li>尽量减少GC的次数，避免造成主线程长时间的卡顿。可以通过systrace单独查看整个启动过程GC的时间。</li>
+</ul>
+</li>
+<li>系统调用优化  </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>启动进阶方法(TODO 没看懂，留着啃)：<ul>
+<li>I/O优化</li>
+<li>数据重排</li>
+<li>类的加载</li>
+<li>其他黑科技<ul>
+<li>保活</li>
+<li>插件化和热修复</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="第9、10、11讲-I-O优化-TODO-need-操作系统-文件系统"><a href="#第9、10、11讲-I-O优化-TODO-need-操作系统-文件系统" class="headerlink" title="第9、10、11讲 I/O优化 (TODO need 操作系统 文件系统)"></a>第9、10、11讲 I/O优化 (TODO need 操作系统 文件系统)</h4><ol>
+<li><p>Android的文件系统是Linux常用的ext4文件系统，未来可能是F2FS系统。</p>
+</li>
+<li><p>什么是文件损坏？为什么会损坏？</p>
+<ul>
+<li>文件内容丢失，结果不是程序写入时期望的结果。SharedPreference跨进程读写就非常容易出现数据丢失的情况。</li>
+<li>原因：<ul>
+<li>应用程序：I/O操作都不是原子操作，跨进程或者多线程写入、使用一个已经关闭的文件描述符fd来操作文件，都有可能导致数据被覆盖或者删除。大部分是这个原因。</li>
+<li>文件系统：断点导致的写入丢失，为了提升I/O性能，文件系统把数据写入到Page Cache中，然后等待何时的实际才会真正的写入磁盘。</li>
+<li>磁盘：在资料传输过程可能会发生电子遗失等现象导致数据错误。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>I/O有时候为什么会突然很慢？</p>
+<ul>
+<li>内存不足<ul>
+<li>内存不足的时候，系统会回收Page Cache和Buffer Cache的内存，大部分的写操作会直接落盘，导致性能底下。<ul>
+<li>写入放大</li>
+<li>闪存重复写入需要先进行擦除操作，但是这个擦除操作的基本单元是block块，一个page页的写入操作将会引起整个块数据的迁移。</li>
+<li>低端机的CPU和闪存性能比较差，在高负载的情况下容易出现瓶颈。 </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="第12、13、14讲存储优化"><a href="#第12、13、14讲存储优化" class="headerlink" title="第12、13、14讲存储优化"></a>第12、13、14讲存储优化</h4><ol>
+<li><p>存储的几种方式？</p>
+<ul>
+<li>SharedPreferences<ul>
+<li>性能问题：<ul>
+<li>跨进程不安全</li>
+<li>加载缓慢</li>
+<li>全量写入</li>
+<li>卡顿</li>
+</ul>
+</li>
+<li>替代存储方案：<a href="https://github.com/Tencent/MMKV" target="_blank" rel="noopener">MMKV</a> <ul>
+<li>利用文件锁保证进程的安全、使用mmap保证数据不会丢失、选用性能和存储空间更好的Protocol Buffer代替xml、支持增量更新等。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ContentProvider<ul>
+<li>提供了不同进程甚至是不同应用程序之间共享数据的机制。</li>
+<li>实现相对笨重，适合传输大的数据。</li>
+</ul>
+</li>
+<li>文件</li>
+<li>数据库</li>
+</ul>
+</li>
+<li><p>序列化的几种方式和优缺点</p>
+<ul>
+<li>Serializable</li>
+<li>Parcelable</li>
+<li><a href="https://github.com/twitter/Serial" target="_blank" rel="noopener">Serial</a><h3 id="第15、16、17讲-网络优化-TODO-need-网络"><a href="#第15、16、17讲-网络优化-TODO-need-网络" class="headerlink" title="第15、16、17讲 网络优化(TODO need 网络)"></a>第15、16、17讲 网络优化(TODO need 网络)</h3></li>
+</ul>
+</li>
+</ol>
+<h4 id="第18、19讲-耗电优化"><a href="#第18、19讲-耗电优化" class="headerlink" title="第18、19讲 耗电优化"></a>第18、19讲 耗电优化</h4><ol>
+<li><p>电池的关键指标</p>
+<ul>
+<li>电池容量</li>
+<li>充电时间</li>
+<li>寿命</li>
+<li>安全性</li>
+</ul>
+</li>
+<li><p>应用程序不会直接消耗电池，而是通过硬件模块消耗相应的电能</p>
+</li>
+<li><p>Android耗电的演进历程</p>
+<ul>
+<li>Pre Android5.0 野蛮生长</li>
+<li>逐步收紧 Android5.0~Android8.0<ul>
+<li>Volta项目</li>
+<li>dumpsys batteryst</li>
+</ul>
+</li>
+<li>最严限制 Android9.0<ul>
+<li>应用待机分组<ul>
+<li>分组决定后台被限制的程度：不常用的引用在后台将被限制地更加严格</li>
+</ul>
+</li>
+<li>应用后台限制<ul>
+<li>停止后台运行：提示用户后台耗电严重的应用，用户可选择停止它们的后台运行</li>
+</ul>
+</li>
+<li>省电模式<ul>
+<li>所有应用程序进入待机模式：更加严格的后台限制，而且无视应用的Target API</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>耗电优化方式</p>
+<ul>
+<li>优化应用的后台耗电<ul>
+<li>不在后台长时间获取WakeLock、WiFi和蓝牙扫描等</li>
+</ul>
+</li>
+<li>符合系统的规则，让系统认为你的耗电是正常的。<ul>
+<li>符合Vitals的规则：<ul>
+<li>Alarm Manager wakeup唤醒过多</li>
+<li>频繁使用局部唤醒锁</li>
+<li>后台网络使用量过高</li>
+<li>后台WiFi scans过多</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="第20、21讲-UI优化"><a href="#第20、21讲-UI优化" class="headerlink" title="第20、21讲 UI优化"></a>第20、21讲 UI优化</h4><ol>
+<li><p>UI优化的两个方面？</p>
+<ul>
+<li>效率提升</li>
+<li>性能提升</li>
+</ul>
+</li>
+<li><p>UI适配的方式？</p>
+<ul>
+<li>通过dp加上自适应布局可以基本解决屏幕碎片化的问题</li>
+<li>限制符适配方案：主要有宽高限定符与smallestWidth限定符适配方案</li>
+<li>今日头条适配方案：通过反射修正系统的density值</li>
+</ul>
+</li>
+<li><p>Android中都有哪些图形组件？的各个图形组件的作用？</p>
+<ul>
+<li>画笔：Skia或者OpenGL<ul>
+<li>我们可以用Skia画笔绘制2D图形，也可以用O喷GL来绘制2D、3D图形，前者用CPU绘制，后台使用GPU绘制</li>
+</ul>
+</li>
+<li>画纸：Surface<ul>
+<li>所有元素都在Surface这张画纸上进行绘制和渲染。Window是View的容器，每个窗口都关联一个Surface。而WindowManager则负责管理这些窗口，并且把它们的数据传递给SurfaceFlinger</li>
+</ul>
+</li>
+<li>画板：Graphic Buffer<ul>
+<li>Graphic Buffer缓冲用于应用程序图形的绘制，在Android4.1之前使用的是双缓冲机制；在Android4.1之后，使用的是三缓冲机制</li>
+</ul>
+</li>
+<li>显示：SurfaceFlinger<ul>
+<li>它将WindowManager提供的所有Surface，通过硬件合成器Hardware Composer合成并输出到显示屏。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>UI优化的进阶手段？</p>
+<ul>
+<li>Litho：异步布局<ul>
+<li>异步布局：把measure和layout都放到了后台线程，留下了必须要在住线程完成的draw，降低UI线程的负载</li>
+<li>界面扁平化：检测不必要的层级、减少ViewGroups</li>
+<li>优化RecyclerView中UI组件的缓存和回收方法<ul>
+<li>RecyclerView按照viewType来进行缓存和回收，Litho按照text、image和video独立回收，提高缓存命中率、降低内存使用率、提高滚动帧率</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Flutter：自己的布局+渲染引擎 </li>
+</ul>
+</li>
+<li><p>UI优化的所有手段？</p>
+<ul>
+<li>在系统的框架下优化<ul>
+<li>布局优化、使用代码创建、View缓存</li>
+</ul>
+</li>
+<li>利用系统新的特性<ul>
+<li>使用硬件加速、RenderThread、RenderScript</li>
+</ul>
+</li>
+<li>突破系统的限制<ul>
+<li>Litho、Flutter等<h4 id="第22、23讲-包体积优化"><a href="#第22、23讲-包体积优化" class="headerlink" title="第22、23讲 包体积优化"></a>第22、23讲 包体积优化</h4></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>安装包包括哪些内容？</p>
+<ul>
+<li>Dex</li>
+<li>Resource</li>
+<li>Assets</li>
+<li>Library</li>
+<li>签名信息</li>
+</ul>
+</li>
+<li><p>优化方式</p>
+<ul>
+<li>代码<ul>
+<li>ProGuard：检查最终合并的ProGuard配置文件，是否存在过度keep的现象</li>
+<li>去掉Debug信息或者去掉行号</li>
+<li>Dex分包</li>
+<li>Dex压缩</li>
+</ul>
+</li>
+<li>Native Library<ul>
+<li>Library压缩</li>
+<li>Library合并与裁剪</li>
+</ul>
+</li>
+<li>包体积监控 </li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/mLixin.github.io/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/mLixin.github.io/tags/GeekBang/" rel="tag"># GeekBang</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/mLixin.github.io/2018/09/28/book-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%A6%85/" rel="next" title="设计模式之禅 学习笔记">
+                <i class="fa fa-chevron-left"></i> 设计模式之禅 学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/mLixin.github.io/2019/05/09/book-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3ART/" rel="prev" title="深入理解Android:Java虚拟机ART 学习笔记">
+                深入理解Android:Java虚拟机ART 学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">mLiXin</p>
+              <div class="site-description motion-element" itemprop="description">Be true to yourself.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/mLixin.github.io/archives/%20%7C%7C%20calendar">
+                
+                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/mLixin.github.io/categories/%20%7C%7C%20th">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/mLixin.github.io/tags/%20%7C%7C%20tags">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pre"><span class="nav-number">2.</span> <span class="nav-text">Pre</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第1、2讲-崩溃优化"><span class="nav-number">3.</span> <span class="nav-text">第1、2讲 崩溃优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第3、4讲-内存优化"><span class="nav-number">4.</span> <span class="nav-text">第3、4讲 内存优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第5、6讲-卡顿优化-TODO-need-Linux"><span class="nav-number">5.</span> <span class="nav-text">第5、6讲 卡顿优化 (TODO need Linux)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第7、8讲-启动优化-TODO-need-并发编程"><span class="nav-number">6.</span> <span class="nav-text">第7、8讲 启动优化 (TODO need 并发编程)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第9、10、11讲-I-O优化-TODO-need-操作系统-文件系统"><span class="nav-number">7.</span> <span class="nav-text">第9、10、11讲 I&#x2F;O优化 (TODO need 操作系统 文件系统)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第12、13、14讲存储优化"><span class="nav-number">8.</span> <span class="nav-text">第12、13、14讲存储优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第15、16、17讲-网络优化-TODO-need-网络"><span class="nav-number"></span> <span class="nav-text">第15、16、17讲 网络优化(TODO need 网络)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第18、19讲-耗电优化"><span class="nav-number">1.</span> <span class="nav-text">第18、19讲 耗电优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第20、21讲-UI优化"><span class="nav-number">2.</span> <span class="nav-text">第20、21讲 UI优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第22、23讲-包体积优化"><span class="nav-number">3.</span> <span class="nav-text">第22、23讲 包体积优化</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin. The truth conquers all.</span>
+
+  
+
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/mLixin.github.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/mLixin.github.io/js/utils.js?v=7.1.1"></script>
+
+  <script src="/mLixin.github.io/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/mLixin.github.io/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/mLixin.github.io/js/scrollspy.js?v=7.1.1"></script>
+<script src="/mLixin.github.io/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/mLixin.github.io/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

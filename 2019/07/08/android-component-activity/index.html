@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Do Hyeon:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"/>
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css?v=7.1.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/mLixin.github.io/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="启动流程源码调用流程图，基于api27">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 四大组件之Activity">
+<meta property="og:url" content="http://yoursite.com/2019/07/08/android-component-activity/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="启动流程源码调用流程图，基于api27">
+<meta property="og:image" content="http://yoursite.com/images/android-activity-launch.jpg">
+<meta property="og:image" content="http://yoursite.com/images/android-activity-launch-new-thread.jpg">
+<meta property="article:published_time" content="2019-07-08T07:51:22.000Z">
+<meta property="article:modified_time" content="2019-07-17T03:30:22.867Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/android-activity-launch.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/07/08/android-component-activity/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Android 四大组件之Activity | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/mLixin.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">mLiXin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">The truth conquers all.</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/archives/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-calendar&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;时间线</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/categories/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-th&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/tags/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-leetcode">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-heartbeat&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;LeetCode</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tips">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/tips/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-heart&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;说说</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/mLixin.github.io/about/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;关于我</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/mLixin.github.io/2019/07/08/android-component-activity/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="mLiXin"/>
+      <meta itemprop="description" content="Be true to yourself."/>
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android 四大组件之Activity
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-08 15:51:22" itemprop="dateCreated datePublished" datetime="2019-07-08T15:51:22+08:00">2019-07-08</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/mLixin.github.io/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h4><h5 id="源码调用流程图，基于api27"><a href="#源码调用流程图，基于api27" class="headerlink" title="源码调用流程图，基于api27"></a>源码调用流程图，基于api27</h5><p><img src="/images/android-activity-launch.jpg" alt="Android启动流程"></p>
+<a id="more"></a>
+<p><img src="/images/android-activity-launch-new-thread.jpg" alt="进程不存在情况下，新建进程"></p>
+<h5 id="启动流程总结"><a href="#启动流程总结" class="headerlink" title="启动流程总结"></a>启动流程总结</h5><ul>
+<li>流程[1~3]:运行在调用者所在进程，比如从桌面启动Activity，则调用者所在进程为launcher进程，launcher进程会调用ActivityManagerService的startActivity方法，进入system_server进程(AMS相应的Server端)。<ul>
+<li><code>ActivityManager.getService()</code>返回的是<code>ActivityManagerService</code>对象，以前好像是<code>ActivityManagerProxy</code></li>
+</ul>
+</li>
+<li>流程[4~13]:运行在system_server系统进程，整个过程最为复杂、核心的过程，下面其中部分步骤：<ul>
+<li>流程[6]：会调用到resolveActivity()，借助PackageManager来查询系统中所有符合要求的Activity，当存在多个满足条件的Activity则会弹框让用户来选择;</li>
+<li>流程[7]：创建ActivityRecord对象，并检查是否运行App切换，然后再处理mPendingActivityLaunches中的activity;</li>
+<li>流程[9]：为Activity找到或创建新的Task对象，设置flags信息；</li>
+<li>流程[12]：当没有处于非finishing状态的Activity，则直接回到桌面； 否则，当mResumedActivity不为空则执行startPausingLocked()暂停该activity;然后再进入startSpecificActivityLocked()环节;</li>
+<li>流程[13]：当目标进程已存在则直接进入流程[14]，当进程不存在则创建进程，经过层层调用还是会进入流程[14];</li>
+<li>流程[14]：system_server进程利用的ATP(Binder Client)，经过Binder，程序接下来进入目标进程。</li>
+</ul>
+</li>
+<li>流程[16~23]:运行在目标进程，通过Handler消息机制，该进程中的Binder线程向主线程发送H.LAUNCH_ACTIVITY，最终会通过反射创建目标Activity，然后进入onCreate()生命周期。</li>
+</ul>
+<h5 id="进程创建流程"><a href="#进程创建流程" class="headerlink" title="进程创建流程"></a>进程创建流程</h5><ul>
+<li>启动进程会通过<code>startActivity</code>等方式，通过Binder发送消息给system_server进程；</li>
+<li>system_server进程会调用<code>Process.start()</code>方法，通过Socket方式向Zygote进程发送创建进程的请求；</li>
+<li>Zygote进程在执行<code>ZygoteInit.main()</code>之后会进入<code>runSelectLoop()</code>循环体中，当接收到客户端的连接时会执行<code>ZygoteConnection.processOneCommand()</code>方法(以前叫runOnce())，再经过层层调用后fork出新的应用进程；</li>
+<li>新进程创建完成以后，会继续执行<code>handleChildProc</code>方法，里面会先关闭socket连接，然后执行目标类的main()方法，App中则是调用<code>ActivityThread.main()</code>。</li>
+</ul>
+<h5 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h5><ul>
+<li>Android Source Code</li>
+<li><a href="http://gityuan.com/2016/03/26/app-process-create/" target="_blank" rel="noopener">理解Android进程创建流程</a>  </li>
+<li><a href="https://blankj.com/2018/09/29/the-process-of-app-start/" target="_blank" rel="noopener">App 启动过程（含 Activity 启动过程</a></li>
+</ul>
+<h4 id="启动模式"><a href="#启动模式" class="headerlink" title="启动模式"></a>启动模式</h4><ul>
+<li>四种启动模式：<ul>
+<li><code>standard</code>：标准模式，也是系统的默认模式。每次启动一个Activity都会重新创建一个新的实例。不管这个实例是否已经存在。<ul>
+<li>这种模式下，谁启动了这个 Activity，那么这个Activity就会运行在启动它的那个Activity所在的栈中。非Activity类型的Context并没有所谓的任务栈，所以用ApplicationContext启动的时候就会有问题。解决的方法是未待启动的Activity指定FLAG_ACATIVITY_NEW_TASK标记位，这样启动的是哦户就会为它创建一个新的任务栈，这时待启动Activity实际上是以singleTask模式启动的</li>
+</ul>
+</li>
+<li><code>singleTop</code>：栈顶复用模式，如果新Activity已经位于任务栈的栈顶，那么这个Activity不会被重新创建，同事它的onNewIntent方法会被回调，通过此方法的参数我们可以取出当前请求的信息。<ul>
+<li>注意这个Activity的onCreate、onStart不会被系统调用，因为它并没有改变</li>
+</ul>
+</li>
+<li><code>singleTask</code>：栈内复用模式，这是一种单实例模式，在这种模式下，只要Activity在一个栈中存在，那么多次启动此Activity都不会重新创建实例，同时也会回调onNewIntent。</li>
+<li><code>singleInstance</code>：单实例模式，这是一种加强的singleTask模式，除了具有singleTask模式的所有特性外，还加强了一点，那就是具有此种模式的Activity只能单独的位于一个任务栈中。</li>
+</ul>
+</li>
+<li>TaskAffinity<ul>
+<li>配合SingleTask使用，个人理解为指定任务栈名</li>
+</ul>
+</li>
+<li>Activity的Flags：<ul>
+<li>FLAG_ACTIVITY_NEW_TASK:为Activity指定SingleTask启动模式，效果和在AndroidMenifest中指定启动模式相同。</li>
+<li>FLAG_ACTIVITY_SINGLE_TOP:为Activity指定SingleTop启动模式，效果和在AndroidMenifest中指定启动模式相同。</li>
+<li>FLAG_ACTIVITY_CLEAR_TOP:一般配合NEW_TASK flag一起使用</li>
+<li>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS:不会出现在历史Activity的列表中</li>
+</ul>
+</li>
+<li>IntentFilter的匹配规则<ul>
+<li>同时匹配action、category、data信息，否则匹配失败</li>
+</ul>
+</li>
+</ul>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><h5 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h5><ul>
+<li>onCreate</li>
+<li>onNewIntent</li>
+<li>onRestart</li>
+<li>onStart</li>
+<li>onResume</li>
+<li>onPause</li>
+<li>onStop</li>
+<li>onDestroy    </li>
+</ul>
+<h5 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h5><ul>
+<li>Activity不可见时才会执行<code>onStop</code>，所以如果新启动的Activity是透明的，则旧Activity不会执行<code>onStop</code></li>
+<li>Activity新启动一个activity，必须当前activity的<code>onPause</code>执行后，新activity的<code>onCreate(、onStart、onResume)</code>才会执行。</li>
+<li>可能导致Activity被杀死并重建的情况：<ul>
+<li>资源相关的系统配置发生改变导致Activity被杀死并重新创建</li>
+<li>资源内存不足导致低优先级的Activity被杀死</li>
+</ul>
+</li>
+<li><code>onSaveInstanceState</code>在<code>onStop</code>之前执行，与<code>onPause</code>没有确定的时序关系；<code>onRestoreInstanceState</code>在<code>onStart</code>之后执行。</li>
+<li>每个View也有对应的<code>onSaveInstanceState</code>和<code>onRestoreIntanceState</code>方法，可以查看每个View都会保存哪些数据，如果当前View没有，可以去父类查找</li>
+<li>保存和恢复View的层次结构：首先Activity被意外终止时，Activity会调用<code>onSaveInstanceState</code>去保存数据，然后Activity会委托Window去保存数据，接着Window再委托它上面的顶级容器去保存数据；顶级容器是一个ViewGroup，一般来说它可能是DecorView，最后顶级容器再去一一通知它的子元素来保存数据，这样整个数据保存过程就完成了。这是一种典型的委托思想，上层委托下层，父容器委托子元素去处理一种事情，这种思想在Android中有很多应用，比如View的绘制过程、事件分发等都是采用的类似的思想。数据恢复过程也是类似的。</li>
+<li>举例说明TextView保存了自己的文本选中状态和文本内容。</li>
+<li>Activity按照优先级从高到底可以分为以下三种：<ul>
+<li><code>前台Activity</code>–正在和用户交互的Activity，优先级最高</li>
+<li><code>可见但非前台Activity</code>–比如Activity中弹出了一个对话框，导致Activity可见但是位于后台无法和用户直接交互</li>
+<li><code>后台Activity</code>–已经被暂停的Activity，比如执行了onStop，优先级最低</li>
+</ul>
+</li>
+<li>当系统内存不足时候，系统会按照上述的优先级去杀死目标Activity所在的进程，并在后续通过onSaveInstanceState和onRestoreInstanceState来存储和恢复数据。如果一个进程中没有四大组件在执行，那么这个进程将很快被系统杀死，因此，一些后台工作不适合脱离四大组件而独自运行在后台中，这样进程很容易被杀死。比较好的方法是将这些后台工作放入Service中从而保证进程有一定的优先级，这样就不会轻易被系统杀死。 </li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/mLixin.github.io/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/mLixin.github.io/2019/06/18/leetcode-004/" rel="next" title="LeetCode.004-Median of Two Sorted Arrays">
+                <i class="fa fa-chevron-left"></i> LeetCode.004-Median of Two Sorted Arrays
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/mLixin.github.io/2019/07/12/leetcode-005/" rel="prev" title="LeetCode.005-Longest Palindromic Substring">
+                LeetCode.005-Longest Palindromic Substring <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">mLiXin</p>
+              <div class="site-description motion-element" itemprop="description">Be true to yourself.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/mLixin.github.io/archives/%20%7C%7C%20calendar">
+                
+                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/mLixin.github.io/categories/%20%7C%7C%20th">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/mLixin.github.io/tags/%20%7C%7C%20tags">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动流程"><span class="nav-number">1.</span> <span class="nav-text">启动流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#源码调用流程图，基于api27"><span class="nav-number">1.1.</span> <span class="nav-text">源码调用流程图，基于api27</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#启动流程总结"><span class="nav-number">1.2.</span> <span class="nav-text">启动流程总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#进程创建流程"><span class="nav-number">1.3.</span> <span class="nav-text">进程创建流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参考资料"><span class="nav-number">1.4.</span> <span class="nav-text">参考资料</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动模式"><span class="nav-number">2.</span> <span class="nav-text">启动模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生命周期"><span class="nav-number">3.</span> <span class="nav-text">生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#流程"><span class="nav-number">3.1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tips"><span class="nav-number">3.2.</span> <span class="nav-text">tips:</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin. The truth conquers all.</span>
+
+  
+
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/mLixin.github.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/mLixin.github.io/js/utils.js?v=7.1.1"></script>
+
+  <script src="/mLixin.github.io/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/mLixin.github.io/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/mLixin.github.io/js/scrollspy.js?v=7.1.1"></script>
+<script src="/mLixin.github.io/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/mLixin.github.io/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
