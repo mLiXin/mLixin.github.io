@@ -14,7 +14,9 @@ No one will give you anything in this life,You must earn it.
 1. 数据结构与算法
 	- [<font color=#A9A9A9>极客时间 - 数据结构与算法之美 -- Done</font>](https://time.geekbang.org/column/intro/126) 
 		- {% post_link GeekBang-数据结构与算法之美 <font color=#A9A9A9>学习笔记 -- Done</font>%}
-	- {% post_link leetcode-interview-total LeetCode 热题 %}
+	- LeetCode
+		- {% post_link leetcode-total LeetCode 热题 %}
+		- {% post_link leetcode-interview-total LeetCode 剑指Offer %}
 2. 计算机组成原理
 3. 计算机网络
 	- <font color=#A9A9A9>《图解HTTP》 -- Done</font>
