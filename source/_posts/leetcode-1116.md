@@ -1,5 +1,5 @@
 ---
-title: LeetCode.1116-xxx
+title: LeetCode.1116-Print Zero Even Odd
 tags:
   - LeetCode
   - Algorithm
@@ -11,11 +11,22 @@ date: 2019-11-22 10:43:52
 ---
 ###### Question
 - Source
-	- []() 
+	- [Print Zero Even Odd](https://leetcode.com/problems/print-zero-even-odd/) 
 - Title
-	- xxx 
+	- 1116.Print Zero Even Odd 
 - Content
-	- x 
+	- Suppose you are given the following code:
+	- class ZeroEvenOdd {
+  public ZeroEvenOdd(int n) { ... }      // constructor
+  public void zero(printNumber) { ... }  // only output 0's
+  public void even(printNumber) { ... }  // only output even numbers
+  public void odd(printNumber) { ... }   // only output odd numbers
+}
+The same instance of ZeroEvenOdd will be passed to three different threads:
+	- Thread A will call zero() which should only output 0's.
+Thread B will call even() which should only ouput even numbers.
+Thread C will call odd() which should only output odd numbers.
+Each of the threads is given a printNumber method to output an integer. Modify the given program to output the series 010203040506... where the length of the series must be 2n.
 <!--more-->
 
 ###### Answer

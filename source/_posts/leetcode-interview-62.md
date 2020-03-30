@@ -1,5 +1,5 @@
 ---
-title: LeetCode-面试题62.圆圈中最后剩下的数字
+title: LeetCode.面试题62-圆圈中最后剩下的数字
 tags:
   - LeetCode
   - Algorithm

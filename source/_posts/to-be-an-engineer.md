@@ -13,12 +13,17 @@ No one will give you anything in this life,You must earn it.
 #### 计算机基础
 1. 数据结构与算法
 	- [<font color=#A9A9A9>极客时间 - 数据结构与算法之美 -- Done</font>](https://time.geekbang.org/column/intro/126) 
-		- {% post_link GeekBang-数据结构与算法之美 <font color=#A9A9A9>学习笔记 -- Done</font>%}
+		- {% post_link GeekBang-数据结构与算法之美 <font color=#A9A9A9> 学习笔记 -- Done</font> %}
 	- LeetCode
 		- {% post_link leetcode-total LeetCode 热题 %}
 		- {% post_link leetcode-interview-total LeetCode 剑指Offer %}
 2. 计算机组成原理
-3. 计算机网络
+3. 操作系统
+	- 《性能之巅》
+	- 《最强Android书：架构大剖析》
+	- 极客时间 - Linux性能优化实战 
+	- [极客时间 - 趣谈Linux操作系统](https://time.geekbang.org/column/intro/164)
+4. 计算机网络
 	- <font color=#A9A9A9>《图解HTTP》 -- Done</font>
 		- {% post_link book-图解HTTP <font color=#A9A9A9>学习笔记 -- Done</font>%} 	
 	- [极客时间 - 趣谈网络协议](https://time.geekbang.org/column/intro/85) 
@@ -27,11 +32,6 @@ No one will give you anything in this life,You must earn it.
 	- 《UNIX 网络编程 卷 1：套接字联网 API（第 3 版）》
 	- 公众号、技术文章等
 		- {% post_link pub-net 学习笔记 - 持续更新%} 
-4. 操作系统
-	- 《性能之巅》
-	- 《最强Android书：架构大剖析》
-	- 极客时间 - Linux性能优化实战 
-	- [极客时间 - 趣谈Linux操作系统](https://time.geekbang.org/column/intro/164)
 5. 设计模式
 	- 《设计模式之禅》 
 
