@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Android 四大组件之Activity | mLiXin&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="启动流程源码调用流程图，基于api27">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 四大组件之Activity">
+<meta property="og:url" content="http://yoursite.com/2019/07/08/android-component-activity/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="启动流程源码调用流程图，基于api27">
+<meta property="og:image" content="http://yoursite.com/images/android-activity-launch.jpg">
+<meta property="og:image" content="http://yoursite.com/images/android-activity-launch-new-thread.jpg">
+<meta property="article:published_time" content="2019-07-08T07:51:22.000Z">
+<meta property="article:modified_time" content="2019-07-17T03:30:22.867Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/android-activity-launch.jpg">
+  
+    <link rel="alternate" href="/mLixin.github.io/atom.xml" title="mLiXin&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/mLixin.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mLixin.github.io/" id="logo">mLiXin&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/mLixin.github.io/" id="subtitle">The truth conquers all.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/mLixin.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/mLixin.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/mLixin.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-android-component-activity" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/mLixin.github.io/2019/07/08/android-component-activity/" class="article-date">
+  <time datetime="2019-07-08T07:51:22.000Z" itemprop="datePublished">2019-07-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mLixin.github.io/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 四大组件之Activity
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h4><h5 id="源码调用流程图，基于api27"><a href="#源码调用流程图，基于api27" class="headerlink" title="源码调用流程图，基于api27"></a>源码调用流程图，基于api27</h5><p><img src="/images/android-activity-launch.jpg" alt="Android启动流程"></p>
+<a id="more"></a>
+<p><img src="/images/android-activity-launch-new-thread.jpg" alt="进程不存在情况下，新建进程"></p>
+<h5 id="启动流程总结"><a href="#启动流程总结" class="headerlink" title="启动流程总结"></a>启动流程总结</h5><ul>
+<li>流程[1~3]:运行在调用者所在进程，比如从桌面启动Activity，则调用者所在进程为launcher进程，launcher进程会调用ActivityManagerService的startActivity方法，进入system_server进程(AMS相应的Server端)。<ul>
+<li><code>ActivityManager.getService()</code>返回的是<code>ActivityManagerService</code>对象，以前好像是<code>ActivityManagerProxy</code></li>
+</ul>
+</li>
+<li>流程[4~13]:运行在system_server系统进程，整个过程最为复杂、核心的过程，下面其中部分步骤：<ul>
+<li>流程[6]：会调用到resolveActivity()，借助PackageManager来查询系统中所有符合要求的Activity，当存在多个满足条件的Activity则会弹框让用户来选择;</li>
+<li>流程[7]：创建ActivityRecord对象，并检查是否运行App切换，然后再处理mPendingActivityLaunches中的activity;</li>
+<li>流程[9]：为Activity找到或创建新的Task对象，设置flags信息；</li>
+<li>流程[12]：当没有处于非finishing状态的Activity，则直接回到桌面； 否则，当mResumedActivity不为空则执行startPausingLocked()暂停该activity;然后再进入startSpecificActivityLocked()环节;</li>
+<li>流程[13]：当目标进程已存在则直接进入流程[14]，当进程不存在则创建进程，经过层层调用还是会进入流程[14];</li>
+<li>流程[14]：system_server进程利用的ATP(Binder Client)，经过Binder，程序接下来进入目标进程。</li>
+</ul>
+</li>
+<li>流程[16~23]:运行在目标进程，通过Handler消息机制，该进程中的Binder线程向主线程发送H.LAUNCH_ACTIVITY，最终会通过反射创建目标Activity，然后进入onCreate()生命周期。</li>
+</ul>
+<h5 id="进程创建流程"><a href="#进程创建流程" class="headerlink" title="进程创建流程"></a>进程创建流程</h5><ul>
+<li>启动进程会通过<code>startActivity</code>等方式，通过Binder发送消息给system_server进程；</li>
+<li>system_server进程会调用<code>Process.start()</code>方法，通过Socket方式向Zygote进程发送创建进程的请求；</li>
+<li>Zygote进程在执行<code>ZygoteInit.main()</code>之后会进入<code>runSelectLoop()</code>循环体中，当接收到客户端的连接时会执行<code>ZygoteConnection.processOneCommand()</code>方法(以前叫runOnce())，再经过层层调用后fork出新的应用进程；</li>
+<li>新进程创建完成以后，会继续执行<code>handleChildProc</code>方法，里面会先关闭socket连接，然后执行目标类的main()方法，App中则是调用<code>ActivityThread.main()</code>。</li>
+</ul>
+<h5 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h5><ul>
+<li>Android Source Code</li>
+<li><a href="http://gityuan.com/2016/03/26/app-process-create/" target="_blank" rel="noopener">理解Android进程创建流程</a>  </li>
+<li><a href="https://blankj.com/2018/09/29/the-process-of-app-start/" target="_blank" rel="noopener">App 启动过程（含 Activity 启动过程</a></li>
+</ul>
+<h4 id="启动模式"><a href="#启动模式" class="headerlink" title="启动模式"></a>启动模式</h4><ul>
+<li>四种启动模式：<ul>
+<li><code>standard</code>：标准模式，也是系统的默认模式。每次启动一个Activity都会重新创建一个新的实例。不管这个实例是否已经存在。<ul>
+<li>这种模式下，谁启动了这个 Activity，那么这个Activity就会运行在启动它的那个Activity所在的栈中。非Activity类型的Context并没有所谓的任务栈，所以用ApplicationContext启动的时候就会有问题。解决的方法是未待启动的Activity指定FLAG_ACATIVITY_NEW_TASK标记位，这样启动的是哦户就会为它创建一个新的任务栈，这时待启动Activity实际上是以singleTask模式启动的</li>
+</ul>
+</li>
+<li><code>singleTop</code>：栈顶复用模式，如果新Activity已经位于任务栈的栈顶，那么这个Activity不会被重新创建，同事它的onNewIntent方法会被回调，通过此方法的参数我们可以取出当前请求的信息。<ul>
+<li>注意这个Activity的onCreate、onStart不会被系统调用，因为它并没有改变</li>
+</ul>
+</li>
+<li><code>singleTask</code>：栈内复用模式，这是一种单实例模式，在这种模式下，只要Activity在一个栈中存在，那么多次启动此Activity都不会重新创建实例，同时也会回调onNewIntent。</li>
+<li><code>singleInstance</code>：单实例模式，这是一种加强的singleTask模式，除了具有singleTask模式的所有特性外，还加强了一点，那就是具有此种模式的Activity只能单独的位于一个任务栈中。</li>
+</ul>
+</li>
+<li>TaskAffinity<ul>
+<li>配合SingleTask使用，个人理解为指定任务栈名</li>
+</ul>
+</li>
+<li>Activity的Flags：<ul>
+<li>FLAG_ACTIVITY_NEW_TASK:为Activity指定SingleTask启动模式，效果和在AndroidMenifest中指定启动模式相同。</li>
+<li>FLAG_ACTIVITY_SINGLE_TOP:为Activity指定SingleTop启动模式，效果和在AndroidMenifest中指定启动模式相同。</li>
+<li>FLAG_ACTIVITY_CLEAR_TOP:一般配合NEW_TASK flag一起使用</li>
+<li>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS:不会出现在历史Activity的列表中</li>
+</ul>
+</li>
+<li>IntentFilter的匹配规则<ul>
+<li>同时匹配action、category、data信息，否则匹配失败</li>
+</ul>
+</li>
+</ul>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><h5 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h5><ul>
+<li>onCreate</li>
+<li>onNewIntent</li>
+<li>onRestart</li>
+<li>onStart</li>
+<li>onResume</li>
+<li>onPause</li>
+<li>onStop</li>
+<li>onDestroy    </li>
+</ul>
+<h5 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h5><ul>
+<li>Activity不可见时才会执行<code>onStop</code>，所以如果新启动的Activity是透明的，则旧Activity不会执行<code>onStop</code></li>
+<li>Activity新启动一个activity，必须当前activity的<code>onPause</code>执行后，新activity的<code>onCreate(、onStart、onResume)</code>才会执行。</li>
+<li>可能导致Activity被杀死并重建的情况：<ul>
+<li>资源相关的系统配置发生改变导致Activity被杀死并重新创建</li>
+<li>资源内存不足导致低优先级的Activity被杀死</li>
+</ul>
+</li>
+<li><code>onSaveInstanceState</code>在<code>onStop</code>之前执行，与<code>onPause</code>没有确定的时序关系；<code>onRestoreInstanceState</code>在<code>onStart</code>之后执行。</li>
+<li>每个View也有对应的<code>onSaveInstanceState</code>和<code>onRestoreIntanceState</code>方法，可以查看每个View都会保存哪些数据，如果当前View没有，可以去父类查找</li>
+<li>保存和恢复View的层次结构：首先Activity被意外终止时，Activity会调用<code>onSaveInstanceState</code>去保存数据，然后Activity会委托Window去保存数据，接着Window再委托它上面的顶级容器去保存数据；顶级容器是一个ViewGroup，一般来说它可能是DecorView，最后顶级容器再去一一通知它的子元素来保存数据，这样整个数据保存过程就完成了。这是一种典型的委托思想，上层委托下层，父容器委托子元素去处理一种事情，这种思想在Android中有很多应用，比如View的绘制过程、事件分发等都是采用的类似的思想。数据恢复过程也是类似的。</li>
+<li>举例说明TextView保存了自己的文本选中状态和文本内容。</li>
+<li>Activity按照优先级从高到底可以分为以下三种：<ul>
+<li><code>前台Activity</code>–正在和用户交互的Activity，优先级最高</li>
+<li><code>可见但非前台Activity</code>–比如Activity中弹出了一个对话框，导致Activity可见但是位于后台无法和用户直接交互</li>
+<li><code>后台Activity</code>–已经被暂停的Activity，比如执行了onStop，优先级最低</li>
+</ul>
+</li>
+<li>当系统内存不足时候，系统会按照上述的优先级去杀死目标Activity所在的进程，并在后续通过onSaveInstanceState和onRestoreInstanceState来存储和恢复数据。如果一个进程中没有四大组件在执行，那么这个进程将很快被系统杀死，因此，一些后台工作不适合脱离四大组件而独自运行在后台中，这样进程很容易被杀死。比较好的方法是将这些后台工作放入Service中从而保证进程有一定的优先级，这样就不会轻易被系统杀死。 </li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/08/android-component-activity/" data-id="ck8e3fmmr000b27qybwvuftgg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/mLixin.github.io/tags/Android/" rel="tag">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mLixin.github.io/2019/07/12/leetcode-005/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          LeetCode.005-Longest Palindromic Substring
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mLixin.github.io/2019/06/18/leetcode-004/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">LeetCode.004-Median of Two Sorted Arrays</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/">Dart</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Engineer/">Engineer</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/">Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/">全栈</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/ART/" rel="tag">ART</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Algorithm/" rel="tag">Algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Android%E6%9C%BA%E5%88%B6/" rel="tag">Android机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Binder/" rel="tag">Binder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Book/" rel="tag">Book</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Dart/" rel="tag">Dart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Engineer/" rel="tag">Engineer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Flutter/" rel="tag">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/GeekBang/" rel="tag">GeekBang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Handler/" rel="tag">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Hybrid/" rel="tag">Hybrid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/JsBridge/" rel="tag">JsBridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Launguage/" rel="tag">Launguage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode/" rel="tag">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-Easy/" rel="tag">LeetCode-Easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-Hard/" rel="tag">LeetCode-Hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-Medium/" rel="tag">LeetCode-Medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-xxx/" rel="tag">LeetCode-xxx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/NEED-COMPLETE/" rel="tag">NEED_COMPLETE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/NEED-MORE-ATTENTION/" rel="tag">NEED_MORE_ATTENTION</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Plan/" rel="tag">Plan</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Pub/" rel="tag">Pub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/TODO/" rel="tag">TODO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/View/" rel="tag">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/book/" rel="tag">book</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/pub/" rel="tag">pub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/" rel="tag">事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" rel="tag">全栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" rel="tag">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/" rel="tag">第三方库解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" rel="tag">计算机基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%A6%85/" rel="tag">设计模式之禅</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AF%AD%E8%A8%80/" rel="tag">语言</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/mLixin.github.io/tags/ART/" style="font-size: 10px;">ART</a> <a href="/mLixin.github.io/tags/Algorithm/" style="font-size: 17.78px;">Algorithm</a> <a href="/mLixin.github.io/tags/Android/" style="font-size: 15.56px;">Android</a> <a href="/mLixin.github.io/tags/Android%E6%9C%BA%E5%88%B6/" style="font-size: 10px;">Android机制</a> <a href="/mLixin.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/mLixin.github.io/tags/Book/" style="font-size: 10px;">Book</a> <a href="/mLixin.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/mLixin.github.io/tags/Engineer/" style="font-size: 10px;">Engineer</a> <a href="/mLixin.github.io/tags/Flutter/" style="font-size: 12.22px;">Flutter</a> <a href="/mLixin.github.io/tags/GeekBang/" style="font-size: 10px;">GeekBang</a> <a href="/mLixin.github.io/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/mLixin.github.io/tags/Hybrid/" style="font-size: 10px;">Hybrid</a> <a href="/mLixin.github.io/tags/Java/" style="font-size: 20px;">Java</a> <a href="/mLixin.github.io/tags/JsBridge/" style="font-size: 10px;">JsBridge</a> <a href="/mLixin.github.io/tags/Launguage/" style="font-size: 10px;">Launguage</a> <a href="/mLixin.github.io/tags/LeetCode/" style="font-size: 18.89px;">LeetCode</a> <a href="/mLixin.github.io/tags/LeetCode-Easy/" style="font-size: 16.67px;">LeetCode-Easy</a> <a href="/mLixin.github.io/tags/LeetCode-Hard/" style="font-size: 12.22px;">LeetCode-Hard</a> <a href="/mLixin.github.io/tags/LeetCode-Medium/" style="font-size: 16.67px;">LeetCode-Medium</a> <a href="/mLixin.github.io/tags/LeetCode-xxx/" style="font-size: 13.33px;">LeetCode-xxx</a> <a href="/mLixin.github.io/tags/NEED-COMPLETE/" style="font-size: 10px;">NEED_COMPLETE</a> <a href="/mLixin.github.io/tags/NEED-MORE-ATTENTION/" style="font-size: 14.44px;">NEED_MORE_ATTENTION</a> <a href="/mLixin.github.io/tags/Plan/" style="font-size: 10px;">Plan</a> <a href="/mLixin.github.io/tags/Pub/" style="font-size: 10px;">Pub</a> <a href="/mLixin.github.io/tags/TODO/" style="font-size: 14.44px;">TODO</a> <a href="/mLixin.github.io/tags/View/" style="font-size: 10px;">View</a> <a href="/mLixin.github.io/tags/book/" style="font-size: 12.22px;">book</a> <a href="/mLixin.github.io/tags/pub/" style="font-size: 10px;">pub</a> <a href="/mLixin.github.io/tags/%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/" style="font-size: 10px;">事件传递</a> <a href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" style="font-size: 10px;">全栈</a> <a href="/mLixin.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/mLixin.github.io/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">并发编程</a> <a href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 10px;">数据结构与算法</a> <a href="/mLixin.github.io/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">第三方库解析</a> <a href="/mLixin.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/mLixin.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 11.11px;">计算机基础</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 11.11px;">计算机网络</a> <a href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%A6%85/" style="font-size: 10px;">设计模式之禅</a> <a href="/mLixin.github.io/tags/%E8%AF%AD%E8%A8%80/" style="font-size: 12.22px;">语言</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/12/09/java-list/">Java集合(一) 详解Java中的List接口</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/27/dart-%E5%AE%98%E7%BD%91-Language-tour/">Dart-Launguage Tour</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/26/leetcode-386/">LeetCode.386-Lexicographical Numbers</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/26/leetcode-071/">LeetCode.071-Simplify Path</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/22/leetcode-1116/">LeetCode.1116-xxx</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 mLiXin<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mLixin.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mLixin.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/mLixin.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/mLixin.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/mLixin.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

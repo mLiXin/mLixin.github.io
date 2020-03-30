@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Flutter学习笔记 - 闲鱼公众号 | mLiXin&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android Flutter内存初探主要关注Dart VM内存分配和回收相关的部分  Dart的线程是不共享内存的，各自的堆和栈都是隔离的，彼此通过消息通道来通信。Dart天然不存在数据竞争和变量状态同步的问题，整个Flutter Framework Widget的渲染过程都运行在一个isolate中。  Dart VM将内存管理分为新生代和老年代  新生代(New Generation) 初次">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter学习笔记 - 闲鱼公众号">
+<meta property="og:url" content="http://yoursite.com/2018/05/10/pub-flutter-%E9%97%B2%E9%B1%BC/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="Android Flutter内存初探主要关注Dart VM内存分配和回收相关的部分  Dart的线程是不共享内存的，各自的堆和栈都是隔离的，彼此通过消息通道来通信。Dart天然不存在数据竞争和变量状态同步的问题，整个Flutter Framework Widget的渲染过程都运行在一个isolate中。  Dart VM将内存管理分为新生代和老年代  新生代(New Generation) 初次">
+<meta property="article:published_time" content="2018-05-10T09:23:05.000Z">
+<meta property="article:modified_time" content="2019-11-27T02:54:12.686Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/mLixin.github.io/atom.xml" title="mLiXin&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/mLixin.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mLixin.github.io/" id="logo">mLiXin&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/mLixin.github.io/" id="subtitle">The truth conquers all.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/mLixin.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/mLixin.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/mLixin.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-pub-flutter-闲鱼" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/mLixin.github.io/2018/05/10/pub-flutter-%E9%97%B2%E9%B1%BC/" class="article-date">
+  <time datetime="2018-05-10T09:23:05.000Z" itemprop="datePublished">2018-05-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mLixin.github.io/categories/Flutter/">Flutter</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Flutter学习笔记 - 闲鱼公众号
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Android-Flutter内存初探"><a href="#Android-Flutter内存初探" class="headerlink" title="Android Flutter内存初探"></a><a href="https://mp.weixin.qq.com/s/efKCpCtvvHDHUiAsizobBQ" target="_blank" rel="noopener">Android Flutter内存初探</a></h4><p>主要关注Dart VM内存分配和回收相关的部分</p>
+<ul>
+<li><p>Dart的线程是不共享内存的，各自的堆和栈都是隔离的，彼此通过消息通道来通信。Dart天然不存在数据竞争和变量状态同步的问题，整个Flutter Framework Widget的渲染过程都运行在一个isolate中。</p>
+</li>
+<li><p>Dart VM将内存管理分为新生代和老年代</p>
+<ul>
+<li>新生代(New Generation)<ul>
+<li>初次分配的对象的都位于新生代中，该区域主要存放内存较小并且生命周期较短的对象，比如局部变量。</li>
+<li>新生代会频繁执行内存回收(GC)，回收采用“复制-清除”算法，将内存分为两块，运行时每次只使用其中一块，另一块备用，当发生GC的时候，当前内存使用的内存块中存活的对象拷贝到备用内存块中，然后清除当前使用内存块，最后交互两块内存的角色。</li>
+</ul>
+</li>
+<li>老年代(Old Generation)<ul>
+<li>新生代GC留下的对象会被转移到老年代中(这里可能还是和JVM一样会有年龄限制的，不是每次GC留下的对象都会马上转移到老年代中)。老年代存放生命力周期较长，内存较大的对象。</li>
+<li>老年代GC采用<code>标记-清除</code>算法，分成标记和清除两个阶段。标记阶段，所有线程参与并发的完成对回收对象的标记，降低标记阶段耗时；清除阶段，由GC线程负责清理回收对象，和应用线程同时执行，不影响应用运行。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Android和Flutter加载图片使用的内存有什么区别？</p>
+<ul>
+<li>Android原生的ImageView在6.0和7.0版本使用的是Java虚拟机内存，而在Android8.0是使用的Native内存</li>
+<li>Flutter中的Image Widget使用的内存是Graphics(图形缓冲区队列向屏幕显示像素所使用的内存，这是CPU共享的内存，不是CPU专用内存)，不懂，反正不是Java虚拟机内存，不会出现OOM</li>
+</ul>
+</li>
+<li><p>Flutter和原生混合开发的是时候，有两种方案可以实现：</p>
+<ul>
+<li>一个Activity里面启动一个新的Flutter View</li>
+<li>只用一个FlutterView，跳转的时候复用这个FlutterView<ul>
+<li>Flutter Framework中FlutterView是绑定Activity使用的，必须attach一个Activity，为了避免Activity泄露，可以在detach的时候传入mainActivity，因为运行过程中mainActivity是会一直存在的。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>复用FlutterView的时候会有问题，比如Activity切换的时候，就不得不将当前FlutterView detach掉给后面新建的Activity使用，会有空白闪动。</p>
+</li>
+<li><p>Flutter首帧渲染耗时较高，优化思路是，预先将要使用的FlutterView加载好首帧，这样在真正使用的时候就很快了。</p>
+</li>
+</ul>
+<h4 id="深入了解Flutter界面开发"><a href="#深入了解Flutter界面开发" class="headerlink" title="深入了解Flutter界面开发"></a><a href="https://mp.weixin.qq.com/s/z2r2OmnY7r7dQrkO8ndkFQ" target="_blank" rel="noopener">深入了解Flutter界面开发</a></h4><ol>
+<li><p>Flutter框架</p>
+<ul>
+<li>FrameWork<ul>
+<li>Material/Cupertino</li>
+<li>Widgets</li>
+<li>Rendering</li>
+<li>Animationg/Painting/Gestures</li>
+<li>Foundation</li>
+</ul>
+</li>
+<li>Engine<ul>
+<li>Skia/Dart/Text</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Rendering Pipeline</p>
+<ul>
+<li>GPU发出Vsync信号，会经过四个阶段到达Layer Tree<ul>
+<li>Animate：Tick animations to change widget state</li>
+<li>Build：Rebuild widgets to account for state changes</li>
+<li>Layout：Update size and position of render objects</li>
+<li>Paint：Record display lists for composited layers</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>三种视图树</p>
+<ul>
+<li>组合型：Composer角色，将其他widget进行拼装组合成一个新的widget<ul>
+<li>StatelessWidgt</li>
+<li>StatefuleWidget/State</li>
+</ul>
+</li>
+<li>代理型：数据传递<ul>
+<li>ProxyWidget</li>
+</ul>
+</li>
+<li>展示型：具有实际展示内容的视图<ul>
+<li>RenderObjectWidget</li>
+<li>SingleChildRenderObjectWidget</li>
+<li>LeafRenderObjectWidget</li>
+<li>MultiChildRenderObjectWidget</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>创建树的过程</p>
+<ul>
+<li>创建Widget树</li>
+<li>调用runApp(rootWidget)，将rootWidget传给rootElement，作为rootElement的子节点，生成Element树，再由Element树生成Render树<ul>
+<li>Widget树：存放渲染内容、视图布局信息，widget的属性最好是immutable不变的。</li>
+<li>Element树：存放上下文，通过Element遍历视图树，Element同时持有Widget和RenderObject</li>
+<li>RenderObject树：根据Widget的布局属性进行layout，paint Widget传入的内容</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>为什么widget都是immutable不可变的？</p>
+<ul>
+<li>flutter界面开发是一种响应式编程，主张simple is fast，flutter设计的初衷希望数据变更时发送通知到对应的可变更节点，由上到下重新create widget树进行刷新，思路简单，不用关心数据变更会影响到哪些节点。</li>
+</ul>
+</li>
+<li><p>widget重新创建，element数和renderObject树是否也重新创建？</p>
+<ul>
+<li>不会，widget只是一个配置数据结构，创建非常轻量，官方对widget的创建和销毁做了优化，不用担心整个widget树重新创建所带来的性能问题，但是renderObject涉及到layout、paint等复杂操作，是一个真正渲染的view，整个view树重新创建开销就比较大</li>
+</ul>
+</li>
+<li><p>树的更新规则</p>
+<ol>
+<li>找到widget对应的element节点，设置element为dirty，触发drawFrame，drawFrame会调用element的performRebuild()进行树重建</li>
+<li>widget.build() == null，deactive element.child，删除子树，流程结束</li>
+<li>element.child.widget == null，mount新子树，流程结束</li>
+<li>element.child.widget == widget.build()，无需重建，否则进入流程5</li>
+<li>widget.canUpdate(element.child.widget,newWidget) == true，更新child的slot，element.child.update(newWidget)(如果child还有子节点，则递归上面的流程进行子树更新),流程结束，否则转6</li>
+<li>Widget.canUpdate(element.child.widget, newWidget) != true（widget的classtype 或者 key 不相等），deactivew element.child，mount新子树</li>
+</ol>
+</li>
+<li><p>如何触发树的更新？</p>
+<ul>
+<li>全局更新：调用runApp(rootWidget)，flutter启动时候调用后不会再调用</li>
+<li>局部子树更新：将该子树做StatefulWidget的一个子widget，并创建对应的State类实例，通过调用state.setState() 触发该子树的刷新</li>
+</ul>
+</li>
+<li><p>StatefuleWidget和StatelessWidget的区别？</p>
+<ul>
+<li>StatelessWidget：<ul>
+<li>无中间状态变化的widget，需要更新展示内容就得通过重新new，flutter推荐尽量使用StatelessWidget</li>
+</ul>
+</li>
+<li>StatefulWidget：<ul>
+<li>存在中间状态变化，引入state的类用于存放中间态，通过调用state.setState()进行此节点及以下的整个子树更新</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>State生命周期</p>
+<ul>
+<li>initState()<ul>
+<li>state create之后被insert到tree的时候调用的</li>
+</ul>
+</li>
+<li>didUpdateWidget(newWidget)<ul>
+<li>祖先节点rebuild widget时调用</li>
+</ul>
+</li>
+<li>deactivate()<ul>
+<li>widget被remove的时候调用</li>
+<li>一个widget从tree中remove掉，可以在dispose接口被调用前，重新instert到一个新tree中</li>
+</ul>
+</li>
+<li>didChangeDependencies()<ul>
+<li>初始化时，在initState()之后理科调用</li>
+<li>当依赖的InheritedWidget rebuild会触发此接口被调用</li>
+</ul>
+</li>
+<li>build()<ul>
+<li>initState之后会被调用</li>
+<li>didUpdateWidget之后被调用</li>
+<li>setState之后</li>
+<li>依赖的State对象改变之后</li>
+<li>deactivate之后</li>
+</ul>
+</li>
+<li>dispose()<ul>
+<li>Widget彻底销毁时调用</li>
+</ul>
+</li>
+<li>reassemble()<ul>
+<li>hot reload调用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>生命周期注意事项</p>
+<ul>
+<li>A页面push一个新的B页面，A页面的widget树中所有state会依次调用deactivate、didUpdateWidget、build</li>
+<li>当ListView中的item滚动出可现实区域的时候，item会被从树中remove掉，此item子树中所有的state都会被dispose，state记录的数据都会销毁，item滚动回可显示区域时，会重新创建全新的state、element、renderobject</li>
+<li>使用hot reload功能的时候，state实例没有重新创建，如果该state中存在一些复杂的资源更新需要重新加载才能生效，那么需要在reassemble()添加处理</li>
+</ul>
+</li>
+</ol>
+<h4 id="深入理解flutter的编译原理与优化"><a href="#深入理解flutter的编译原理与优化" class="headerlink" title="深入理解flutter的编译原理与优化"></a><a href="https://mp.weixin.qq.com/s/vlHt8jxbdzBqJZDobpsFVw" target="_blank" rel="noopener">深入理解flutter的编译原理与优化</a></h4><h4 id="深入理解Flutter引擎线程模式"><a href="#深入理解Flutter引擎线程模式" class="headerlink" title="深入理解Flutter引擎线程模式"></a><a href="https://mp.weixin.qq.com/s/hZ5PUvPpMlEYBAJggGnJsw" target="_blank" rel="noopener">深入理解Flutter引擎线程模式</a></h4><h4 id="Flutter-Plugin调用Native-APIs"><a href="#Flutter-Plugin调用Native-APIs" class="headerlink" title="Flutter Plugin调用Native APIs"></a><a href="https://mp.weixin.qq.com/s/WORru3f5rfABFMoxQ_2nYw" target="_blank" rel="noopener">Flutter Plugin调用Native APIs</a></h4><h4 id="Flutter混合工程改造实践"><a href="#Flutter混合工程改造实践" class="headerlink" title="Flutter混合工程改造实践"></a><a href="https://mp.weixin.qq.com/s/Q1z6Mal2pZbequxk5I5UYA" target="_blank" rel="noopener">Flutter混合工程改造实践</a></h4><h4 id="Release-Flutter的最后一公里"><a href="#Release-Flutter的最后一公里" class="headerlink" title="Release Flutter的最后一公里"></a><a href="https://mp.weixin.qq.com/s/xV-FGR9o2ODLFJFq4YwnKg" target="_blank" rel="noopener">Release Flutter的最后一公里</a></h4><h4 id="Flutter-React编程范式实践"><a href="#Flutter-React编程范式实践" class="headerlink" title="Flutter React编程范式实践"></a><a href="https://mp.weixin.qq.com/s/GRHvM0BHe2D9Qwb_nW0New" target="_blank" rel="noopener">Flutter React编程范式实践</a></h4><h4 id="闲鱼Fultter混合工程持续集成的最佳实践"><a href="#闲鱼Fultter混合工程持续集成的最佳实践" class="headerlink" title="闲鱼Fultter混合工程持续集成的最佳实践"></a><a href="https://mp.weixin.qq.com/s/5opwrgVr48e0YDYtEWFXZQ" target="_blank" rel="noopener">闲鱼Fultter混合工程持续集成的最佳实践</a></h4><h4 id="Flutter新锐专家之路：工程研发体系篇"><a href="#Flutter新锐专家之路：工程研发体系篇" class="headerlink" title="Flutter新锐专家之路：工程研发体系篇"></a><a href="https://mp.weixin.qq.com/s/YMnzLGrUdjd1PFlkZdFMqQ" target="_blank" rel="noopener">Flutter新锐专家之路：工程研发体系篇</a></h4><h4 id="Flutter新锐专家之路：混合开发篇"><a href="#Flutter新锐专家之路：混合开发篇" class="headerlink" title="Flutter新锐专家之路：混合开发篇"></a><a href="https://mp.weixin.qq.com/s/1AMvmuckg9bEODqhULVhPQ" target="_blank" rel="noopener">Flutter新锐专家之路：混合开发篇</a></h4><h4 id="万万没想到-Flutter这样外接纹理"><a href="#万万没想到-Flutter这样外接纹理" class="headerlink" title="万万没想到-Flutter这样外接纹理"></a><a href="https://mp.weixin.qq.com/s/KkCsBvnRayvpXdI35J3fnw" target="_blank" rel="noopener">万万没想到-Flutter这样外接纹理</a></h4><h4 id="深入理解Flutter-Platform-Channel"><a href="#深入理解Flutter-Platform-Channel" class="headerlink" title="深入理解Flutter Platform Channel"></a><a href="https://mp.weixin.qq.com/s/FT7UFbee1AtxmKt3iJgvyg" target="_blank" rel="noopener">深入理解Flutter Platform Channel</a></h4><h4 id="Flutter快速上车之Widget"><a href="#Flutter快速上车之Widget" class="headerlink" title="Flutter快速上车之Widget"></a><a href="https://mp.weixin.qq.com/s/kAWPj97w5NfiqAYEpi3zVA" target="_blank" rel="noopener">Flutter快速上车之Widget</a></h4><h4 id="Flutter之禅-内存优化篇"><a href="#Flutter之禅-内存优化篇" class="headerlink" title="Flutter之禅 内存优化篇"></a><a href="https://mp.weixin.qq.com/s/mHBz56OWKBB_g9YavVKTbQ" target="_blank" rel="noopener">Flutter之禅 内存优化篇</a></h4><h4 id="揭秘Flutter-Hot-Reload（基础篇）"><a href="#揭秘Flutter-Hot-Reload（基础篇）" class="headerlink" title="揭秘Flutter Hot Reload（基础篇）"></a><a href="https://mp.weixin.qq.com/s/Z9QPUJ3dZy2btBOlhSfyQw" target="_blank" rel="noopener">揭秘Flutter Hot Reload（基础篇）</a></h4><h4 id="Flutter瘦身大作战"><a href="#Flutter瘦身大作战" class="headerlink" title="Flutter瘦身大作战"></a><a href="https://mp.weixin.qq.com/s/IIoaY2uw6Bqzc9XWI91YFw" target="_blank" rel="noopener">Flutter瘦身大作战</a></h4><h4 id="Flutter中嵌入Native组件的正确姿势是…"><a href="#Flutter中嵌入Native组件的正确姿势是…" class="headerlink" title="Flutter中嵌入Native组件的正确姿势是…"></a><a href="https://mp.weixin.qq.com/s/JM_AB0vVH0uOY7v0ToDamw" target="_blank" rel="noopener">Flutter中嵌入Native组件的正确姿势是…</a></h4><h4 id="关于Flutter初始化，我必须告诉你的是…（干货）"><a href="#关于Flutter初始化，我必须告诉你的是…（干货）" class="headerlink" title="关于Flutter初始化，我必须告诉你的是…（干货）"></a><a href="https://mp.weixin.qq.com/s/5JYzHWmczimYy3QMlLUJ4w" target="_blank" rel="noopener">关于Flutter初始化，我必须告诉你的是…（干货）</a></h4><h4 id="做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现"><a href="#做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现" class="headerlink" title="做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现"></a><a href="https://mp.weixin.qq.com/s/N5ih-DY5TuKyn_a0P2mz0Q" target="_blank" rel="noopener">做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现</a></h4><h4 id="Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）"><a href="#Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）" class="headerlink" title="Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）"></a><a href="https://mp.weixin.qq.com/s/YgE9lwEHb31WOWyraHL35w" target="_blank" rel="noopener">Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）</a></h4><h4 id="Flutter-Exception降到万分之几的秘密"><a href="#Flutter-Exception降到万分之几的秘密" class="headerlink" title="Flutter Exception降到万分之几的秘密"></a><a href="https://mp.weixin.qq.com/s/JiJ3XwIq_ADM457M6CBSxA" target="_blank" rel="noopener">Flutter Exception降到万分之几的秘密</a></h4><h4 id="如何在Flutter上优雅地序列化一个对象（实用）"><a href="#如何在Flutter上优雅地序列化一个对象（实用）" class="headerlink" title="如何在Flutter上优雅地序列化一个对象（实用）"></a><a href="https://mp.weixin.qq.com/s/W5kQBe0vlnkG7VwIVAmnRA" target="_blank" rel="noopener">如何在Flutter上优雅地序列化一个对象（实用）</a></h4><h4 id="已开源-码上用它开始Flutter混合开发——FlutterBoost"><a href="#已开源-码上用它开始Flutter混合开发——FlutterBoost" class="headerlink" title="已开源|码上用它开始Flutter混合开发——FlutterBoost"></a><a href="https://mp.weixin.qq.com/s/v-wwruadJntX1n-YuMPC7g" target="_blank" rel="noopener">已开源|码上用它开始Flutter混合开发——FlutterBoost</a></h4><h4 id="打通前后端逻辑，客户端Flutter代码一天上线"><a href="#打通前后端逻辑，客户端Flutter代码一天上线" class="headerlink" title="打通前后端逻辑，客户端Flutter代码一天上线"></a><a href="https://mp.weixin.qq.com/s/hFdBtDQo1TvvxBGHLV3Stw" target="_blank" rel="noopener">打通前后端逻辑，客户端Flutter代码一天上线</a></h4><h4 id="燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件"><a href="#燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件" class="headerlink" title="燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件"></a><a href="https://mp.weixin.qq.com/s/QwNMm0P2z7RGJ_xzhto1RQ" target="_blank" rel="noopener">燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件</a></h4><h4 id="Fish-Redux中的Dispatch是怎么实现的？"><a href="#Fish-Redux中的Dispatch是怎么实现的？" class="headerlink" title="Fish Redux中的Dispatch是怎么实现的？"></a><a href="https://mp.weixin.qq.com/s/4hJzGPH8OQ6hkthRFuisBQ" target="_blank" rel="noopener">Fish Redux中的Dispatch是怎么实现的？</a></h4><h4 id="走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相"><a href="#走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相" class="headerlink" title="走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相"></a><a href="https://mp.weixin.qq.com/s/26kY9rvRxVDkml2UeBnQfw" target="_blank" rel="noopener">走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相</a></h4><h4 id="在闲鱼，我们如何用Dart做高效后端开发？"><a href="#在闲鱼，我们如何用Dart做高效后端开发？" class="headerlink" title="在闲鱼，我们如何用Dart做高效后端开发？"></a><a href="https://mp.weixin.qq.com/s/jAD3hacFMVcOv9GnAfCFOw" target="_blank" rel="noopener">在闲鱼，我们如何用Dart做高效后端开发？</a></h4><h4 id="Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！"><a href="#Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！" class="headerlink" title="Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！"></a><a href="https://mp.weixin.qq.com/s/hw24XYmMDNj1iWZ2GAxMiQ" target="_blank" rel="noopener">Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！</a></h4><h4 id="一个优秀的可定制化Flutter相册组件，看这一篇就够了"><a href="#一个优秀的可定制化Flutter相册组件，看这一篇就够了" class="headerlink" title="一个优秀的可定制化Flutter相册组件，看这一篇就够了"></a><a href="https://mp.weixin.qq.com/s/ARKAvDn52irJmyw5tEeD0w" target="_blank" rel="noopener">一个优秀的可定制化Flutter相册组件，看这一篇就够了</a></h4><h4 id="揭秘！一个高准确率的Flutter埋点框架如何设计"><a href="#揭秘！一个高准确率的Flutter埋点框架如何设计" class="headerlink" title="揭秘！一个高准确率的Flutter埋点框架如何设计"></a><a href="https://mp.weixin.qq.com/s/CMYi-f0-6nwZ4ZyV5K_lKA" target="_blank" rel="noopener">揭秘！一个高准确率的Flutter埋点框架如何设计</a></h4><h4 id="如何低成本实现Flutter富文本，看着一篇就够了！"><a href="#如何低成本实现Flutter富文本，看着一篇就够了！" class="headerlink" title="如何低成本实现Flutter富文本，看着一篇就够了！"></a><a href="https://mp.weixin.qq.com/s/CGMwDXQbv_YbwEzblwGqRQ" target="_blank" rel="noopener">如何低成本实现Flutter富文本，看着一篇就够了！</a></h4><h4 id="编程界的“二向箔”——Dart元编程"><a href="#编程界的“二向箔”——Dart元编程" class="headerlink" title="编程界的“二向箔”——Dart元编程"></a><a href="https://mp.weixin.qq.com/s/-vEha279U54piV8PGKDzbA" target="_blank" rel="noopener">编程界的“二向箔”——Dart元编程</a></h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/10/pub-flutter-%E9%97%B2%E9%B1%BC/" data-id="ck8e3fmsc00hf27qy3nwc846y" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/mLixin.github.io/tags/Flutter/" rel="tag">Flutter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/mLixin.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mLixin.github.io/2018/05/20/book-%E5%9B%BE%E8%A7%A3HTTP/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          图解HTTP 读书笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mLixin.github.io/2018/02/17/android-third-EventBus/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android Lib解析之EventBus</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/">Dart</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Engineer/">Engineer</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/">Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/">全栈</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/ART/" rel="tag">ART</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Algorithm/" rel="tag">Algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Android%E6%9C%BA%E5%88%B6/" rel="tag">Android机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Binder/" rel="tag">Binder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Book/" rel="tag">Book</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Dart/" rel="tag">Dart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Engineer/" rel="tag">Engineer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Flutter/" rel="tag">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/GeekBang/" rel="tag">GeekBang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Handler/" rel="tag">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Hybrid/" rel="tag">Hybrid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/JsBridge/" rel="tag">JsBridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Launguage/" rel="tag">Launguage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode/" rel="tag">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-Easy/" rel="tag">LeetCode-Easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-Hard/" rel="tag">LeetCode-Hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-Medium/" rel="tag">LeetCode-Medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-xxx/" rel="tag">LeetCode-xxx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/NEED-COMPLETE/" rel="tag">NEED_COMPLETE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/NEED-MORE-ATTENTION/" rel="tag">NEED_MORE_ATTENTION</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Plan/" rel="tag">Plan</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Pub/" rel="tag">Pub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/TODO/" rel="tag">TODO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/View/" rel="tag">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/book/" rel="tag">book</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/pub/" rel="tag">pub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/" rel="tag">事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" rel="tag">全栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" rel="tag">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/" rel="tag">第三方库解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" rel="tag">计算机基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%A6%85/" rel="tag">设计模式之禅</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AF%AD%E8%A8%80/" rel="tag">语言</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/mLixin.github.io/tags/ART/" style="font-size: 10px;">ART</a> <a href="/mLixin.github.io/tags/Algorithm/" style="font-size: 17.78px;">Algorithm</a> <a href="/mLixin.github.io/tags/Android/" style="font-size: 15.56px;">Android</a> <a href="/mLixin.github.io/tags/Android%E6%9C%BA%E5%88%B6/" style="font-size: 10px;">Android机制</a> <a href="/mLixin.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/mLixin.github.io/tags/Book/" style="font-size: 10px;">Book</a> <a href="/mLixin.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/mLixin.github.io/tags/Engineer/" style="font-size: 10px;">Engineer</a> <a href="/mLixin.github.io/tags/Flutter/" style="font-size: 12.22px;">Flutter</a> <a href="/mLixin.github.io/tags/GeekBang/" style="font-size: 10px;">GeekBang</a> <a href="/mLixin.github.io/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/mLixin.github.io/tags/Hybrid/" style="font-size: 10px;">Hybrid</a> <a href="/mLixin.github.io/tags/Java/" style="font-size: 20px;">Java</a> <a href="/mLixin.github.io/tags/JsBridge/" style="font-size: 10px;">JsBridge</a> <a href="/mLixin.github.io/tags/Launguage/" style="font-size: 10px;">Launguage</a> <a href="/mLixin.github.io/tags/LeetCode/" style="font-size: 18.89px;">LeetCode</a> <a href="/mLixin.github.io/tags/LeetCode-Easy/" style="font-size: 16.67px;">LeetCode-Easy</a> <a href="/mLixin.github.io/tags/LeetCode-Hard/" style="font-size: 12.22px;">LeetCode-Hard</a> <a href="/mLixin.github.io/tags/LeetCode-Medium/" style="font-size: 16.67px;">LeetCode-Medium</a> <a href="/mLixin.github.io/tags/LeetCode-xxx/" style="font-size: 13.33px;">LeetCode-xxx</a> <a href="/mLixin.github.io/tags/NEED-COMPLETE/" style="font-size: 10px;">NEED_COMPLETE</a> <a href="/mLixin.github.io/tags/NEED-MORE-ATTENTION/" style="font-size: 14.44px;">NEED_MORE_ATTENTION</a> <a href="/mLixin.github.io/tags/Plan/" style="font-size: 10px;">Plan</a> <a href="/mLixin.github.io/tags/Pub/" style="font-size: 10px;">Pub</a> <a href="/mLixin.github.io/tags/TODO/" style="font-size: 14.44px;">TODO</a> <a href="/mLixin.github.io/tags/View/" style="font-size: 10px;">View</a> <a href="/mLixin.github.io/tags/book/" style="font-size: 12.22px;">book</a> <a href="/mLixin.github.io/tags/pub/" style="font-size: 10px;">pub</a> <a href="/mLixin.github.io/tags/%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/" style="font-size: 10px;">事件传递</a> <a href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" style="font-size: 10px;">全栈</a> <a href="/mLixin.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/mLixin.github.io/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">并发编程</a> <a href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 10px;">数据结构与算法</a> <a href="/mLixin.github.io/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">第三方库解析</a> <a href="/mLixin.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/mLixin.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 11.11px;">计算机基础</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 11.11px;">计算机网络</a> <a href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%A6%85/" style="font-size: 10px;">设计模式之禅</a> <a href="/mLixin.github.io/tags/%E8%AF%AD%E8%A8%80/" style="font-size: 12.22px;">语言</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/12/09/java-list/">Java集合(一) 详解Java中的List接口</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/27/dart-%E5%AE%98%E7%BD%91-Language-tour/">Dart-Launguage Tour</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/26/leetcode-386/">LeetCode.386-Lexicographical Numbers</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/26/leetcode-071/">LeetCode.071-Simplify Path</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/22/leetcode-1116/">LeetCode.1116-xxx</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 mLiXin<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mLixin.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mLixin.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/mLixin.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/mLixin.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/mLixin.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

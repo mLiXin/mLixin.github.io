@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java集合(一) 详解Java中的List接口 | mLiXin&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="摘要List是有序、可重复的容器。 常用方法 size(); isEmpty(); contains(Object o) add(E e) remove(Object o) get(int index) set(int index, E element);  常见实现类ArrayList根据名字猜实现数组实现，需要考虑数组需要动态扩容的情况 源码分析 构造函数 两种常用的构造函数 无参数 elem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合(一) 详解Java中的List接口">
+<meta property="og:url" content="http://yoursite.com/2019/12/09/java-list/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="摘要List是有序、可重复的容器。 常用方法 size(); isEmpty(); contains(Object o) add(E e) remove(Object o) get(int index) set(int index, E element);  常见实现类ArrayList根据名字猜实现数组实现，需要考虑数组需要动态扩容的情况 源码分析 构造函数 两种常用的构造函数 无参数 elem">
+<meta property="article:published_time" content="2019-12-09T08:08:22.000Z">
+<meta property="article:modified_time" content="2019-12-09T08:09:55.554Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/mLixin.github.io/atom.xml" title="mLiXin&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/mLixin.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mLixin.github.io/" id="logo">mLiXin&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/mLixin.github.io/" id="subtitle">The truth conquers all.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/mLixin.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/mLixin.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/mLixin.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java-list" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/mLixin.github.io/2019/12/09/java-list/" class="article-date">
+  <time datetime="2019-12-09T08:08:22.000Z" itemprop="datePublished">2019-12-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mLixin.github.io/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java集合(一) 详解Java中的List接口
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>List是有序、可重复的容器。</p>
+<h4 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h4><ul>
+<li><code>size();</code></li>
+<li><code>isEmpty();</code></li>
+<li><code>contains(Object o)</code></li>
+<li><code>add(E e)</code></li>
+<li><code>remove(Object o)</code></li>
+<li><code>get(int index)</code></li>
+<li><code>set(int index, E element);</code></li>
+</ul>
+<h4 id="常见实现类"><a href="#常见实现类" class="headerlink" title="常见实现类"></a>常见实现类</h4><h5 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h5><h6 id="根据名字猜实现"><a href="#根据名字猜实现" class="headerlink" title="根据名字猜实现"></a>根据名字猜实现</h6><p>数组实现，需要考虑数组需要动态扩容的情况</p>
+<h6 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h6><ul>
+<li>构造函数<ul>
+<li>两种常用的构造函数<ul>
+<li>无参数<ul>
+<li>elementData会初始化为一个空数组，容量为0</li>
+</ul>
+</li>
+<li>传入一个initialCapacity参数<ul>
+<li>elementData会初始化为一个容量为initialCapacity的数组</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用的时候如果事先知道List的大小，优先使用带参数的构造函数，可以减少一次数组的动态扩容，效率更高。</li>
+<li>即使传入了initialCapacity参数，后续如果ArrayList超过了这个参数的值，ArrayList仍然不会报错，只是会触发动态扩容来增大数组容量。</li>
+</ul>
+</li>
+<li>add方法：<code>boolean add(E e)</code><ul>
+<li>确保数组容量满足add一个新的元素<ul>
+<li>容量不够的时候，会通过数组拷贝，动态扩容elementData，通过<code>int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</code>可以知道，每次扩容为之前的1.5倍</li>
+<li>如果是以无参数的构造函数初始化的，默认的容量是10</li>
+</ul>
+</li>
+<li>将元素放入elementData数组size位置，并将size++</li>
+</ul>
+</li>
+<li>get方法：<code>E get(int index)</code><ul>
+<li>判断当前index是否小于size</li>
+<li>直接取elementData数组的第index位，时间复杂度为O(1)</li>
+</ul>
+</li>
+<li>remove方法：<code>E remove(int index)</code><ul>
+<li>判断参数index是否小于size</li>
+<li>从elementData数组中拿到当前index的value</li>
+<li>将index后面的数据都往前一位</li>
+<li>将elementData最后一位置为null，并将size减一</li>
+</ul>
+</li>
+</ul>
+<h6 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h6><ul>
+<li>数组实现，都是基本的数组操作。数组容量不够的时候会扩容为之前容量的1.5倍，默认容量是10.</li>
+<li>线程不安全，比如说add方法中<code>elementData[size++] = e;</code>实际是分成了两句：<code>elementData[size] = e; size++;</code>，举例说size=0的时候，线程1将elementData[0]赋值1，此时线程切换，size还是等于0，则线程2将elementData[0]赋值2，然后进行size++，这个时候elementData[0] = 2，而elementData[1]没有值，而此时size=2，1的位置就空洞了。</li>
+</ul>
+<h6 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h6><ul>
+<li>如果事先知道容量的时候，可以优先使用带容量参数的构造函数，这样能减少数组扩容导致的性能消耗</li>
+<li>add/get时间复杂度都是O(1)，add(index)/remove(index)需要批量移动元素，时间复杂度比较高，使用的时候如果一个List只有add和get操作，可以使用ArrayList，如果涉及里面的添加和删除操作，则使用LinkedList效率更高。</li>
+<li>线程不安全的，可以用CopyOnWriteArrayList替换</li>
+<li>elementData是用transient修饰的，因为elementData里面不是所有的元素都有数据，因为容量的问题，elementData里面有一些元素是空的，这种是没有必要序列化的。ArrayList的序列化和反序列化依赖writeObject和readObject方法来实现。可以避免序列化空的元素，节省空间</li>
+</ul>
+<h5 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h5><h6 id="根据名字猜实现-1"><a href="#根据名字猜实现-1" class="headerlink" title="根据名字猜实现"></a>根据名字猜实现</h6><p>链表实现的List</p>
+<h6 id="源码分析-1"><a href="#源码分析-1" class="headerlink" title="源码分析"></a>源码分析</h6><ul>
+<li>构造函数<ul>
+<li>无参构造函数，链表实现，无需提前指定容量，没意义，链表可以是容量无限的List</li>
+</ul>
+</li>
+<li>add方法：<code>boolean add(E e)</code><ul>
+<li>直接将元素的Node添加到链表尾部即可</li>
+</ul>
+</li>
+<li>get方法：<code>E get(int index)</code><ul>
+<li>成员变量有size，首先检查index是否在size范围内</li>
+<li>判断index位于前半段还是后半段，如果前半段就从first开始遍历查找，如果在后半段就从last开始遍历查找。</li>
+<li>里面的Node是有前后指针的双向链表实现的。</li>
+</ul>
+</li>
+<li>remove方法：<code>remove(Object o)</code><ul>
+<li>如果o为空，则从first开始遍历链表，如果x.item == null则将这个Node从链上unlink</li>
+<li>不为空，同样从first开始遍历链表，当o和Node.item相等(equals)的时候,将这个Node从链上unlink。</li>
+<li>这里要注意，unlink后直接return true了，所以如果LinkedList添加了多个同样的object，remove方法只会remove第一个object，后面的不会处理</li>
+</ul>
+</li>
+</ul>
+<h6 id="实现原理-1"><a href="#实现原理-1" class="headerlink" title="实现原理"></a>实现原理</h6><ul>
+<li>通过双向链表实现，成员变量size表示当前List的容量；</li>
+<li>当查找index位置的值的时候，通过index和size的对比判断index位于前半段还是后半段，前半段从first开始遍历，后半段则从last开始遍历(所以需要双向链表来实现，单链表后后面开始遍历是无解的。)</li>
+<li>线程不安全</li>
+</ul>
+<h6 id="Tips-1"><a href="#Tips-1" class="headerlink" title="Tips"></a>Tips</h6><ul>
+<li>first/last都是transient修饰的，因为first、last是持有的对象引用，序列化的时候这些都失效没意义了，所以用transient修饰，同时自己实现Serializable接口的writeObject、readObject。</li>
+<li>双向链表实现，大容量的情况下，性能肯定会比单链表好一些，单链表只能从表头开始遍历，双向链表可以从两头开始遍历。</li>
+</ul>
+<h5 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h5><h6 id="根据名字猜实现-2"><a href="#根据名字猜实现-2" class="headerlink" title="根据名字猜实现"></a>根据名字猜实现</h6><p>线程安全的ArrayList？</p>
+<h6 id="源码分析-2"><a href="#源码分析-2" class="headerlink" title="源码分析"></a>源码分析</h6><ul>
+<li>构造函数</li>
+<li>add方法：<code>boolean add(E e)</code><ul>
+<li>局部lock(可重入锁)指向当前成员变量lock并加锁，所以锁的是当前类</li>
+<li>拿到当前的array，拷贝并将容量加1，将元素放到数组最后面，并将当前array指向这新的数组</li>
+<li>最后释放锁，其他的线程可以获取该锁</li>
+<li>获取锁和释放锁将add的操作可以看成是原子操作，内部职能有一个线程运行代码块</li>
+</ul>
+</li>
+<li>get方法：<code>E get(int index)</code><ul>
+<li>直接拿array中index位置的值，这里array有volatile修饰保证对array写之后，每次读都是最新的,所以在add方法里进行了setArray完成之后，其他的线程再读这个array，都是最新的array；setArray完成之前，则读的都是之前的array</li>
+</ul>
+</li>
+<li>remove方法：<code>public E remove(int index)</code><ul>
+<li>和add类似，通过加锁将remove操作变成原子操作，这里注意，锁对象是同个lock，锁的是类变量lock，所以add和remove只有一个会被执行</li>
+<li>根据index知道remove的位置，然后进行对应的拷贝动作，最后将array指向新数组。</li>
+</ul>
+</li>
+</ul>
+<h6 id="实现原理-2"><a href="#实现原理-2" class="headerlink" title="实现原理"></a>实现原理</h6><ul>
+<li>List的变化add、remove等都先加锁再操作，保证只有一个线程可以修改List</li>
+<li>修改完成之后会将array指向新数组，完成之前，其他线程读的时候还是读的旧数组</li>
+</ul>
+<h6 id="Tips-2"><a href="#Tips-2" class="headerlink" title="Tips"></a>Tips</h6><ul>
+<li>多线程情况下可以使用CopyOnWriteArrayList替代ArrayList，没有线程并发问题还是用ArrayList性能更好。</li>
+<li>CopyOnWriteArrayList每次的add或remove操作都会拷贝一次数组，性能低下</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/09/java-list/" data-id="ck8e3fmn8001327qy55vhhpvq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/mLixin.github.io/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/mLixin.github.io/tags/Java/" rel="tag">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/mLixin.github.io/2019/11/27/dart-%E5%AE%98%E7%BD%91-Language-tour/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Dart-Launguage Tour</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/">Dart</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Engineer/">Engineer</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/">Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/">全栈</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/ART/" rel="tag">ART</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Algorithm/" rel="tag">Algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Android%E6%9C%BA%E5%88%B6/" rel="tag">Android机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Binder/" rel="tag">Binder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Book/" rel="tag">Book</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Dart/" rel="tag">Dart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Engineer/" rel="tag">Engineer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Flutter/" rel="tag">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/GeekBang/" rel="tag">GeekBang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Handler/" rel="tag">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Hybrid/" rel="tag">Hybrid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/JsBridge/" rel="tag">JsBridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Launguage/" rel="tag">Launguage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode/" rel="tag">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-Easy/" rel="tag">LeetCode-Easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-Hard/" rel="tag">LeetCode-Hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-Medium/" rel="tag">LeetCode-Medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/LeetCode-xxx/" rel="tag">LeetCode-xxx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/NEED-COMPLETE/" rel="tag">NEED_COMPLETE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/NEED-MORE-ATTENTION/" rel="tag">NEED_MORE_ATTENTION</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Plan/" rel="tag">Plan</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/Pub/" rel="tag">Pub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/TODO/" rel="tag">TODO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/View/" rel="tag">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/book/" rel="tag">book</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/pub/" rel="tag">pub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/" rel="tag">事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" rel="tag">全栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" rel="tag">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/" rel="tag">第三方库解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" rel="tag">计算机基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%A6%85/" rel="tag">设计模式之禅</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mLixin.github.io/tags/%E8%AF%AD%E8%A8%80/" rel="tag">语言</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/mLixin.github.io/tags/ART/" style="font-size: 10px;">ART</a> <a href="/mLixin.github.io/tags/Algorithm/" style="font-size: 17.78px;">Algorithm</a> <a href="/mLixin.github.io/tags/Android/" style="font-size: 15.56px;">Android</a> <a href="/mLixin.github.io/tags/Android%E6%9C%BA%E5%88%B6/" style="font-size: 10px;">Android机制</a> <a href="/mLixin.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/mLixin.github.io/tags/Book/" style="font-size: 10px;">Book</a> <a href="/mLixin.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/mLixin.github.io/tags/Engineer/" style="font-size: 10px;">Engineer</a> <a href="/mLixin.github.io/tags/Flutter/" style="font-size: 12.22px;">Flutter</a> <a href="/mLixin.github.io/tags/GeekBang/" style="font-size: 10px;">GeekBang</a> <a href="/mLixin.github.io/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/mLixin.github.io/tags/Hybrid/" style="font-size: 10px;">Hybrid</a> <a href="/mLixin.github.io/tags/Java/" style="font-size: 20px;">Java</a> <a href="/mLixin.github.io/tags/JsBridge/" style="font-size: 10px;">JsBridge</a> <a href="/mLixin.github.io/tags/Launguage/" style="font-size: 10px;">Launguage</a> <a href="/mLixin.github.io/tags/LeetCode/" style="font-size: 18.89px;">LeetCode</a> <a href="/mLixin.github.io/tags/LeetCode-Easy/" style="font-size: 16.67px;">LeetCode-Easy</a> <a href="/mLixin.github.io/tags/LeetCode-Hard/" style="font-size: 12.22px;">LeetCode-Hard</a> <a href="/mLixin.github.io/tags/LeetCode-Medium/" style="font-size: 16.67px;">LeetCode-Medium</a> <a href="/mLixin.github.io/tags/LeetCode-xxx/" style="font-size: 13.33px;">LeetCode-xxx</a> <a href="/mLixin.github.io/tags/NEED-COMPLETE/" style="font-size: 10px;">NEED_COMPLETE</a> <a href="/mLixin.github.io/tags/NEED-MORE-ATTENTION/" style="font-size: 14.44px;">NEED_MORE_ATTENTION</a> <a href="/mLixin.github.io/tags/Plan/" style="font-size: 10px;">Plan</a> <a href="/mLixin.github.io/tags/Pub/" style="font-size: 10px;">Pub</a> <a href="/mLixin.github.io/tags/TODO/" style="font-size: 14.44px;">TODO</a> <a href="/mLixin.github.io/tags/View/" style="font-size: 10px;">View</a> <a href="/mLixin.github.io/tags/book/" style="font-size: 12.22px;">book</a> <a href="/mLixin.github.io/tags/pub/" style="font-size: 10px;">pub</a> <a href="/mLixin.github.io/tags/%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/" style="font-size: 10px;">事件传递</a> <a href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" style="font-size: 10px;">全栈</a> <a href="/mLixin.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/mLixin.github.io/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">并发编程</a> <a href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 10px;">数据结构与算法</a> <a href="/mLixin.github.io/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">第三方库解析</a> <a href="/mLixin.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/mLixin.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 11.11px;">计算机基础</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 11.11px;">计算机网络</a> <a href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%A6%85/" style="font-size: 10px;">设计模式之禅</a> <a href="/mLixin.github.io/tags/%E8%AF%AD%E8%A8%80/" style="font-size: 12.22px;">语言</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mLixin.github.io/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/12/09/java-list/">Java集合(一) 详解Java中的List接口</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/27/dart-%E5%AE%98%E7%BD%91-Language-tour/">Dart-Launguage Tour</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/26/leetcode-386/">LeetCode.386-Lexicographical Numbers</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/26/leetcode-071/">LeetCode.071-Simplify Path</a>
+          </li>
+        
+          <li>
+            <a href="/mLixin.github.io/2019/11/22/leetcode-1116/">LeetCode.1116-xxx</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 mLiXin<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mLixin.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mLixin.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/mLixin.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/mLixin.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/mLixin.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
