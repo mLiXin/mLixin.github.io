@@ -174,6 +174,686 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/09/11/pub-flutter-gityuan/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/mLixin.github.io/2019/09/11/pub-flutter-gityuan/" class="post-title-link" itemprop="url">GitYuan Flutter相关tag学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-11 14:04:24" itemprop="dateCreated datePublished" datetime="2019-09-11T14:04:24+08:00">2019-09-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><p>原博客源码基于<code>Flutter1.5</code>，我对应查看的源码基于<code>Flutter1.9</code>.</p>
+<h4 id="深入理解Flutter引擎启动-TODO-基于Android，很多C-代码，先留着"><a href="#深入理解Flutter引擎启动-TODO-基于Android，很多C-代码，先留着" class="headerlink" title="深入理解Flutter引擎启动 - TODO 基于Android，很多C++代码，先留着"></a><a href="http://gityuan.com/2019/06/22/flutter_booting/" target="_blank" rel="noopener">深入理解Flutter引擎启动 - TODO 基于Android，很多C++代码，先留着</a></h4><ol>
+<li>Flutter引擎启动过程分为以下几个阶段：<ul>
+<li>FlutterApplication启动：执行其onCreate()方法，初始化配置，获取是否预编译模式，提取资源文件；加载libflutter.so库，并记录启动时间戳；</li>
+<li>FlutterActivity启动：执行其onCreate()方法，创建FlutterActivityDelegate、FlutterView、FlutterNativeView、FlutterMain、FlutterJNI等对象，也会初始化以下这些引擎核心类：<ul>
+<li>AndroidShellHolder</li>
+<li>DartVM</li>
+<li>Shell</li>
+<li>PlatformViewAndroid</li>
+<li>VsyncWaiterAndroid</li>
+<li>ShellIOManager</li>
+<li>Rasterizer</li>
+<li>Animator</li>
+<li>Engine</li>
+<li>RuntimeController</li>
+<li>Window</li>
+<li>DartIsolate</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="深入理解Dart虚拟机启动-TODO-又见C"><a href="#深入理解Dart虚拟机启动-TODO-又见C" class="headerlink" title="深入理解Dart虚拟机启动 - TODO 又见C++"></a><a href="http://gityuan.com/2019/06/23/dart-vm/" target="_blank" rel="noopener">深入理解Dart虚拟机启动 - TODO 又见C++</a></h4><ol>
+<li>Dart虚拟机拥有自己的Isolate，完全由虚拟机自己管理的，Flutter引擎也无法直接访问。Isolate之间内存并不共享，而是通过Port方式通信，每个Isolate是有自己的内存以及相应的线程载体。Isolate中的代码是按顺序执行，因为Dart没有共享内存的并发，没有竞争的可能性，故不需要加锁，也没有死锁风险。对于Dart程序的并发则需要依赖多个isolate来实现。</li>
+<li>同一个进程只有一个Dart虚拟机，所有的Shell共享该进程中的Dart虚拟机， 当leak_vm为false则在最后一个Shell对象退出时会回收dart虚拟机， 当leak_vm为true则即便Shell对象全部退出也不会回收dart虚拟机，这是为了优化再次启动的速度。</li>
+<li>DartVM创建过程：<ul>
+<li>创建名为”dart:io EventHandler”的线程，然后进入该线程进入poll轮询方法；</li>
+<li>创建名为”vm-isolate”的Isolate对象；</li>
+<li>执行InitForGlobal()过程会注册各种Native方法，用g_natives记录UI相关类，用g_natives_secondary记录非UI相关类；</li>
+</ul>
+</li>
+<li>Isolate创建过程：<ul>
+<li>创建DartIsolate和UIDartState对象；</li>
+<li>向task_observers_中添加TaskObserver，并所对应的操作方法为FlushMicrotasksNow();</li>
+<li>创建名为“Isolate-xxx”的Isolate对象，其中xxx是通过PortMap::CreatePort所创建port端口号；</li>
+<li>加载”dart:ui”和”dart:io”库，并安装DartRuntimeHooks。</li>
+</ul>
+</li>
+<li>关于Isolate有以下四种：<ul>
+<li>Dart虚拟机的Isolate：”vm-isolate”；</li>
+<li>服务Isolate：”vm-service”；</li>
+<li>内核Isolate：”kernel-service”；</li>
+<li>常见Isolate：“Isolate-xxx”，对于RootIsolate则属于这个类别；</li>
+</ul>
+</li>
+<li>Runtime Mode运行时模式有3种：debug，profile，release，其中debug模式使用JIT，profile/release使用AOT。在整个源码过程会有不少通过宏来控制针对不同运行模式的代码。 比如当处于非预编译模式(DART_PRECOMPILED_RUNTIME)，则开启Assert断言，否则关闭断言。</li>
+</ol>
+<h4 id="深入理解Flutter应用启动"><a href="#深入理解Flutter应用启动" class="headerlink" title="深入理解Flutter应用启动"></a><a href="http://gityuan.com/2019/06/29/flutter_run_app/" target="_blank" rel="noopener">深入理解Flutter应用启动</a></h4><ul>
+<li>参考其他<a href="https://www.stephenw.cc/2018/05/28/flutter-dart-framework/" target="_blank" rel="noopener">Flutter Dart Framework原理简解</a></li>
+</ul>
+<ol>
+<li>Flutter App的启动入口是<code>void main() =&gt; runApp(MyApp());</code>，我们就从这行代码来看看Flutter 应用是如何启动的。<ul>
+<li>WidgetsFlutterBinding.ensureInitialized()<ul>
+<li>这是一个单例模式，负责创建WidgetsFlutterBinding对象，WidgetsFlutterBinding继承抽象类BindingBase，并且附带7个mixin，初始化渲染、语义化、绘制、平台消息以及手势等一系列操作；</li>
+</ul>
+</li>
+<li>attachRootWidget(app)<ul>
+<li>遍历挂载整个视图树，并建立Widget、Element、RenderObject之间的连接与关系，此处Element的具体类型为RenderObjectToWidgetElement；</li>
+</ul>
+</li>
+<li>scheduleWarmUpFrame();<ul>
+<li>调度预热帧，执行帧绘制方法handleBeginFrame和handleDrawFrame。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Flutter中3个比较重要的树：<ul>
+<li>Widget，继承自DiagnosticableTree<ul>
+<li>Describes the configuration for an Element.(为Element提供配置信息)</li>
+<li>可以理解为，widget只是用来保存属性的容器</li>
+<li>Widget里面存储了一个视图的配置信息，包括布局、属性等待。所以它只是一份轻量的，可直接使用的数据结构。</li>
+</ul>
+</li>
+<li>Element，继承自DiagnosticableTree<ul>
+<li>An instantiation of a Widget at a particular location in the tree.(Element是在树中特定位置Widget的实例)</li>
+<li>Element是Widget的实例</li>
+<li>Element是 Widget的抽象，它其实承载了视图构建的上下文数据。构建系统通过遍历 Element树来构建 RenderObject数据，比如视图更新时，只会标记 dirty Element，而不会标记 dirty Widget。所以 Widget“无状态”，而 Element“有状态” （这个状态指框架层的构建状态）。</li>
+</ul>
+</li>
+<li>RenderObject，继承自AbstractNode<ul>
+<li>An object in the render tree.(渲染树中的一个对象。)</li>
+<li>只负责渲染工作</li>
+<li>在 RenderObject树中会发生 Layout、Paint的绘制事件，所以 Flutter中大部分的绘图性能优化发生在这里。RenderObject树构建的数据会被加入到 Engine所需的 LayerTree中，Engine通过 LayerTree进行视图合成并光栅化，提交给 GPU。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="深入理解Flutter消息机制-TODO-又是C-，过。感觉要先复习一下C-才看的下去，这是个问题"><a href="#深入理解Flutter消息机制-TODO-又是C-，过。感觉要先复习一下C-才看的下去，这是个问题" class="headerlink" title="深入理解Flutter消息机制 - TODO 又是C++，过。感觉要先复习一下C++才看的下去，这是个问题"></a><a href="http://gityuan.com/2019/07/20/flutter_message_loop/" target="_blank" rel="noopener">深入理解Flutter消息机制 - TODO 又是C++，过。感觉要先复习一下C++才看的下去，这是个问题</a></h4><ul>
+<li>Flutter引擎启动过程，会创建UI/GPU/IO这3个线程，并且会为每个线程依次创建MessageLoop对象，启动后处于epoll_wait等待状态。对于Flutter的消息机制跟Android原生的消息机制有很多相似之处，都有消息(或者任务)、消息队列以及Looper，有一点不同的是Android有一个Handler类，用于发送消息以及执行回调方法，相对应Flutter中有着相近功能的便是TaskRunner。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/09/11/leetcode-026/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/mLixin.github.io/2019/09/11/leetcode-026/" class="post-title-link" itemprop="url">LeetCode.026-Remove Duplicates from Sorted Array</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-11 11:36:15" itemprop="dateCreated datePublished" datetime="2019-09-11T11:36:15+08:00">2019-09-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
+<li>Source<ul>
+<li><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="noopener">26. Remove Duplicates from Sorted Array</a> </li>
+</ul>
+</li>
+<li>Title<ul>
+<li>Remove Duplicates from Sorted Array</li>
+</ul>
+</li>
+<li>Content<ul>
+<li>Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/mLixin.github.io/2019/09/11/leetcode-026/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/09/11/leetcode-021/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/mLixin.github.io/2019/09/11/leetcode-021/" class="post-title-link" itemprop="url">LeetCode.021-Merge Two Sorted Lists</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-11 11:10:27" itemprop="dateCreated datePublished" datetime="2019-09-11T11:10:27+08:00">2019-09-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
+<li>Source<ul>
+<li><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">21. Merge Two Sorted Lists</a> </li>
+</ul>
+</li>
+<li>Title<ul>
+<li>Merge Two Sorted Lists </li>
+</ul>
+</li>
+<li>Content <ul>
+<li>Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/mLixin.github.io/2019/09/11/leetcode-021/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/09/11/pub-net/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/mLixin.github.io/2019/09/11/pub-net/" class="post-title-link" itemprop="url">计算机基础学习笔记 网络相关</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-11 09:59:32" itemprop="dateCreated datePublished" datetime="2019-09-11T09:59:32+08:00">2019-09-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="面试官问我：一个-TCP-连接可以发多少个-HTTP-请求？我竟然回答不上来…"><a href="#面试官问我：一个-TCP-连接可以发多少个-HTTP-请求？我竟然回答不上来…" class="headerlink" title="面试官问我：一个 TCP 连接可以发多少个 HTTP 请求？我竟然回答不上来…"></a><a href="https://mp.weixin.qq.com/s/_UsD7w1LAdyFxPe3VgNQWg" target="_blank" rel="noopener">面试官问我：一个 TCP 连接可以发多少个 HTTP 请求？我竟然回答不上来…</a></h4><ol>
+<li>现代浏览器在与服务器建立了一个 TCP 连接后是否会在一个 HTTP 请求完成后断开？什么情况下会断开？<ul>
+<li>HTTP/1.0中，服务器在发送完一个HTTP响应后会断开TCP连接，这样每次请求都重新建立和断开连接，代价过大。HTTP/1.1中将Connection头写进标准，默认开启持久连接，这样建立TCP连接以后，不会断开，可以发送多个HTTP请求。除非将Connection:close，这样就会在请求完成后关闭连接。</li>
+</ul>
+</li>
+<li>一个 TCP 连接可以对应几个 HTTP 请求？<ul>
+<li>HTTP/1.1中默认开始持久连接，可以发送多个HTTP请求，没有限制 </li>
+</ul>
+</li>
+<li>一个 TCP 连接中 HTTP 请求发送可以一起发送么（比如一起发三个请求，再三个响应一起接收）？<ul>
+<li>HTTP/1.1中，单个TCP连接在同一时刻只能处理一个请求，两个请求的生命周期不能重叠，任意两个HTTP请求从开始到结束的实际在同一个TCP连接里不能重叠，有规定Pipelining来解决这个问题，但是这个功能在浏览器中默认是关闭的。不过在HTTP/2提供了多路传输特性，可以在一个TCP连接中同时完成多个HTTP请求<ul>
+<li>Pipelining是指一个支持持久连接的客户端可以在一个连接中发送多个请求，收到请求的服务器必须按照请求收到的顺序发送响应。     </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>为什么有的时候刷新页面不需要重新建立 SSL 连接？<ul>
+<li>TCP连接没有断开，SSL会用之前的 </li>
+</ul>
+</li>
+<li>浏览器对同一 Host 建立 TCP 连接到数量有没有限制？</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/09/10/leetcode-020/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/mLixin.github.io/2019/09/10/leetcode-020/" class="post-title-link" itemprop="url">LeetCodee.020-Valid Parentheses</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-10 10:08:09" itemprop="dateCreated datePublished" datetime="2019-09-10T10:08:09+08:00">2019-09-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
+<li>Source<ul>
+<li><a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener">20. Valid Parentheses</a> </li>
+</ul>
+</li>
+<li>Title<ul>
+<li>Valid Parentheses     </li>
+</ul>
+</li>
+<li>Content <ul>
+<li>Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘ and ‘]’, determine if the input string is valid.
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/mLixin.github.io/2019/09/10/leetcode-020/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/08/08/leetcode-014/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/mLixin.github.io/2019/08/08/leetcode-014/" class="post-title-link" itemprop="url">LeetCode.014-Longest Common Prefix</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-08 15:44:39" itemprop="dateCreated datePublished" datetime="2019-08-08T15:44:39+08:00">2019-08-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
+<li>Source<ul>
+<li><a href="https://leetcode.com/problems/longest-common-prefix/" target="_blank" rel="noopener">14. Longest Common Prefix</a></li>
+</ul>
+</li>
+<li>Title<ul>
+<li>Longest Common Prefix</li>
+</ul>
+</li>
+<li>Content <ul>
+<li>Write a function to find the longest common prefix string amongst an array of strings.</li>
+<li>If there is no common prefix, return an empty string “”.
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/mLixin.github.io/2019/08/08/leetcode-014/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/08/08/leetcode-013/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/mLixin.github.io/2019/08/08/leetcode-013/" class="post-title-link" itemprop="url">LeetCode.013-Roman to Integer</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-08 13:42:14" itemprop="dateCreated datePublished" datetime="2019-08-08T13:42:14+08:00">2019-08-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
+<li>Source<ul>
+<li><a href="https://leetcode.com/problems/roman-to-integer/" target="_blank" rel="noopener">13. Roman to Integer</a></li>
+</ul>
+</li>
+<li>Title<ul>
+<li>Roman to Integer</li>
+</ul>
+</li>
+<li>Content <ul>
+<li>Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/mLixin.github.io/2019/08/08/leetcode-013/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/07/29/android-event-dispatch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -415,610 +1095,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/07/16/leetcode-010/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
-      <meta itemprop="name" content="mLiXin">
-      <meta itemprop="description" content="Be true to yourself.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mLiXin's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mLixin.github.io/2019/07/16/leetcode-010/" class="post-title-link" itemprop="url">TODO-LeetCode.010-Regular Expression Matching</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-16 17:10:06" itemprop="dateCreated datePublished" datetime="2019-07-16T17:10:06+08:00">2019-07-16</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
-<li>Source<ul>
-<li><a href="https://leetcode.com/problems/regular-expression-matching/" target="_blank" rel="noopener">10.Regular Expression Matching</a></li>
-</ul>
-</li>
-<li>Title<ul>
-<li>Regular Expression Matching</li>
-</ul>
-</li>
-<li>Content <ul>
-<li>Given an input string (s) and a pattern (p), implement regular expression matching with support for ‘.’ and ‘*’.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;.&#39; Matches any single character.</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;*&#39; Matches zero or more of the preceding element.</span><br></pre></td></tr></table></figure>
-The matching should cover the entire input string (not partial).
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/mLixin.github.io/2019/07/16/leetcode-010/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/07/15/leetcode-009/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
-      <meta itemprop="name" content="mLiXin">
-      <meta itemprop="description" content="Be true to yourself.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mLiXin's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mLixin.github.io/2019/07/15/leetcode-009/" class="post-title-link" itemprop="url">LeetCode.09-Palindrome Number</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-15 18:18:59" itemprop="dateCreated datePublished" datetime="2019-07-15T18:18:59+08:00">2019-07-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
-<li>Source<ul>
-<li><a href="https://leetcode.com/problems/palindrome-number/" target="_blank" rel="noopener">9.Palindrome Number</a></li>
-</ul>
-</li>
-<li>Title<ul>
-<li>Palindrome Number</li>
-</ul>
-</li>
-<li>Content <ul>
-<li>Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/mLixin.github.io/2019/07/15/leetcode-009/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/07/15/leetcode-008/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
-      <meta itemprop="name" content="mLiXin">
-      <meta itemprop="description" content="Be true to yourself.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mLiXin's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mLixin.github.io/2019/07/15/leetcode-008/" class="post-title-link" itemprop="url">LeetCode.008-String to Integer</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-15 11:21:30" itemprop="dateCreated datePublished" datetime="2019-07-15T11:21:30+08:00">2019-07-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
-<li>Source<ul>
-<li><a href="https://leetcode.com/problems/string-to-integer-atoi/" target="_blank" rel="noopener">8.String to Integer</a></li>
-</ul>
-</li>
-<li>Title<ul>
-<li>String to Integer </li>
-</ul>
-</li>
-<li>Content <ul>
-<li>Implement atoi which converts a string to an integer.The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.If no valid conversion could be performed, a zero value is returned.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/mLixin.github.io/2019/07/15/leetcode-008/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/07/15/leetcode-007/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
-      <meta itemprop="name" content="mLiXin">
-      <meta itemprop="description" content="Be true to yourself.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mLiXin's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mLixin.github.io/2019/07/15/leetcode-007/" class="post-title-link" itemprop="url">LeetCode.007-Reverse Integer</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-15 09:50:25" itemprop="dateCreated datePublished" datetime="2019-07-15T09:50:25+08:00">2019-07-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
-<li>Source<ul>
-<li><a href="https://leetcode.com/problems/reverse-integer/" target="_blank" rel="noopener">7.Reverse Integer</a></li>
-</ul>
-</li>
-<li>Title<ul>
-<li>Reverse Integer</li>
-</ul>
-</li>
-<li>Content <ul>
-<li>Given a 32-bit signed integer, reverse digits of an integer.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/mLixin.github.io/2019/07/15/leetcode-007/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/07/12/leetcode-006/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
-      <meta itemprop="name" content="mLiXin">
-      <meta itemprop="description" content="Be true to yourself.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mLiXin's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mLixin.github.io/2019/07/12/leetcode-006/" class="post-title-link" itemprop="url">LeetCode.006-ZigZag Conversion</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-12 16:36:29" itemprop="dateCreated datePublished" datetime="2019-07-12T16:36:29+08:00">2019-07-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
-<li><p>Source</p>
-<ul>
-<li><a href="https://leetcode.com/problems/zigzag-conversion/" target="_blank" rel="noopener">6.ZigZag Conversion</a></li>
-</ul>
-</li>
-<li><p>Title</p>
-<ul>
-<li>ZigZag Conversion</li>
-</ul>
-</li>
-<li><p>Content </p>
-<ul>
-<li><p>The string “PAYPALISHIRING” is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">P   A   H   N</span><br><span class="line">A P L S I I G</span><br><span class="line">Y   I   R</span><br></pre></td></tr></table></figure>
-<p>And then read line by line: “PAHNAPLSIIGYIR”<br>Write the code that will take a string and make this conversion given a number of rows:string convert(string s, int numRows);</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/mLixin.github.io/2019/07/12/leetcode-006/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/07/12/leetcode-005/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
-      <meta itemprop="name" content="mLiXin">
-      <meta itemprop="description" content="Be true to yourself.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mLiXin's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mLixin.github.io/2019/07/12/leetcode-005/" class="post-title-link" itemprop="url">LeetCode.005-Longest Palindromic Substring</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-12 15:27:50" itemprop="dateCreated datePublished" datetime="2019-07-12T15:27:50+08:00">2019-07-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/mLixin.github.io/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h6 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h6><ul>
-<li>Source<ul>
-<li><a href="https://leetcode.com/problems/longest-palindromic-substring" target="_blank" rel="noopener">5.Longest Palindromic Substring</a></li>
-</ul>
-</li>
-<li>Title<ul>
-<li>Longest Palindromic Substring</li>
-</ul>
-</li>
-<li>Content<ul>
-<li>Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/mLixin.github.io/2019/07/12/leetcode-005/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/07/08/android-component-activity/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
-      <meta itemprop="name" content="mLiXin">
-      <meta itemprop="description" content="Be true to yourself.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mLiXin's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mLixin.github.io/2019/07/08/android-component-activity/" class="post-title-link" itemprop="url">Android 四大组件之Activity</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-08 15:51:22" itemprop="dateCreated datePublished" datetime="2019-07-08T15:51:22+08:00">2019-07-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/mLixin.github.io/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h4><h5 id="源码调用流程图，基于api27"><a href="#源码调用流程图，基于api27" class="headerlink" title="源码调用流程图，基于api27"></a>源码调用流程图，基于api27</h5><p><img src="/images/android-activity-launch.jpg" alt="Android启动流程"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/mLixin.github.io/2019/07/08/android-component-activity/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/mLixin.github.io/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/mLixin.github.io/">1</a><span class="space">&hellip;</span><a class="page-number" href="/mLixin.github.io/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/mLixin.github.io/page/8/">8</a><a class="page-number" href="/mLixin.github.io/page/9/">9</a><a class="extend next" rel="next" href="/mLixin.github.io/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/mLixin.github.io/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/mLixin.github.io/">1</a><span class="space">&hellip;</span><a class="page-number" href="/mLixin.github.io/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/mLixin.github.io/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/mLixin.github.io/page/10/">10</a><a class="extend next" rel="next" href="/mLixin.github.io/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1084,7 +1165,7 @@ The matching should cover the entire input string (not partial).
       <div class="site-state-item site-state-posts">
           <a href="/mLixin.github.io/archives/">
         
-          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-count">97</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
