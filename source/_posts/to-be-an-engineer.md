@@ -18,7 +18,9 @@ No one will give you anything in this life,You must earn it.
 		- {% post_link leetcode-total LeetCode 热题 %}
 		- {% post_link leetcode-interview-total LeetCode 剑指Offer %}
 2. 计算机组成原理
+	- 《计算机组成原理》 by 唐朔飞 Doing
 3. 操作系统
+	- 《计算机操作系统》by 汤小丹等
 	- 《性能之巅》
 	- 《最强Android书：架构大剖析》
 	- 极客时间 - Linux性能优化实战 
@@ -34,6 +36,8 @@ No one will give you anything in this life,You must earn it.
 		- {% post_link pub-net 学习笔记 - 持续更新%} 
 5. 设计模式
 	- 《设计模式之禅》 
+	- [极客时间 - 设计模式之美](https://time.geekbang.org/column/intro/250)
+		- {% post_link GeekBang-设计模式之美 学习笔记 %}
 
 #### 编程语言
 1. Java

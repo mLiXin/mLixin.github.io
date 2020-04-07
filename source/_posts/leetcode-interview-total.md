@@ -24,7 +24,7 @@ Must done List
 | 面试题13 |[机器人的运动范围  LCOF](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof)| {% post_link leetcode-interview-13 toDo%} | 中等 |
 | 面试题14- I |[剪绳子  LCOF](https://leetcode-cn.com/problems/jian-sheng-zi-lcof)| {% post_link leetcode-interview-14 toDo%} | 中等 |
 | 面试题14- II |[剪绳子 II LCOF](https://leetcode-cn.com/problems/jian-sheng-zi-ii-lcof)| {% post_link leetcode-interview-14 toDo%} | 中等 |
-| 面试题15 |[二进制中1的个数 LCOF](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof)| {% post_link leetcode-interview-15 toDo%} | 简单 |
+| 面试题15 |[二进制中1的个数 LCOF](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof)| {% post_link leetcode-interview-15 Done%} | 简单 |
 | 面试题16 |[数值的整数次方 LCOF](https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof)| {% post_link leetcode-interview-16 toDo%} | 中等 |
 | 面试题17 |[打印从1到最大的n位数 LCOF](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof)| {% post_link leetcode-interview-17 toDo%} | 简单 |
 | 面试题18 |[删除链表的节点 LCOF](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof)| {% post_link leetcode-interview-18 toDo%} | 简单 |
