@@ -55,6 +55,7 @@ No one will give you anything in this life,You must earn it.
 2. Kotlin
 	- 《Kotlin in action》
 3. Dart
+	- [《Dart in action》](http://2.droppdf.com/files/ljS2u/dart-in-action.pdf) 
 4. JavaScript
 5. C++
 	- 《More Effective C++》 
@@ -99,9 +100,13 @@ No one will give you anything in this life,You must earn it.
 - 闲鱼技术公众号
 	- {% post_link pub-flutter-闲鱼 学习笔记 - 持续更新%} 
 - GitYuan技术博客(主要讲源码、机制)
-	- {% post_link pub-flutter-gityuan 学习笔记 - 持续更新%}  
+	- {% post_link pub-flutter-gityuan 学习笔记 - 持续更新%} 
+- [Flutter in action](https://developer.aliyun.com/article/720790?utm_content=g_1000111061) 
 
-	
+##### 微信小程序
+- 官网开发指南
+	- {% post_link miniprogram-guide 学习笔记%} 
+
 ##### Web
 - 基础
 - React
