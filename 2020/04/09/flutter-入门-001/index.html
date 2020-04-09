@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mlixin.com","root":"/mLixin.github.io/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false,"padding":18},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"save":"auto","color":"#222"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要总结Dart语言入门基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter入门(一) Dart基础">
+<meta property="og:url" content="http://mlixin.com/2020/04/09/flutter-%E5%85%A5%E9%97%A8-001/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="摘要总结Dart语言入门基础">
+<meta property="article:published_time" content="2020-04-09T05:44:08.000Z">
+<meta property="article:modified_time" content="2020-04-09T07:38:11.743Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="Dart">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mlixin.com/2020/04/09/flutter-%E5%85%A5%E9%97%A8-001/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Flutter入门(一) Dart基础 | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/mLixin.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">mLiXin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">The truth conquers all.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/mLixin.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/mLixin.github.io/archives/" rel="section"><i class="fa fa-fw fa-calendar"></i>时间线</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/mLixin.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/mLixin.github.io/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section"><i class="fa fa-fw fa-heartbeat"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-tips">
+
+    <a href="/mLixin.github.io/tips/" rel="section"><i class="fa fa-fw fa-heart"></i>说说</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/mLixin.github.io/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2020/04/09/flutter-%E5%85%A5%E9%97%A8-001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flutter入门(一) Dart基础
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-09 13:44:08" itemprop="dateCreated datePublished" datetime="2020-04-09T13:44:08+08:00">2020-04-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>总结Dart语言入门基础</p>
+<a id="more"></a>
+<h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><h5 id="内置数据类型"><a href="#内置数据类型" class="headerlink" title="内置数据类型"></a>内置数据类型</h5><ul>
+<li>类型：<ul>
+<li>num<ul>
+<li>int：-2^53 ~ 2^53</li>
+<li>double：64位双精度浮点数</li>
+</ul>
+</li>
+<li>String</li>
+<li>bool</li>
+<li>List</li>
+<li>Map</li>
+<li>Runes</li>
+</ul>
+</li>
+<li>所有的变量都是对象，所有对象都集成与Object类，所有类型没有初始化的变量默认值为null。</li>
+</ul>
+<h5 id="变量与常量"><a href="#变量与常量" class="headerlink" title="变量与常量"></a>变量与常量</h5><ul>
+<li>两种方式定义变量：<ul>
+<li>显式指定变量类型：<code>String name = &quot;hello&quot;;</code></li>
+<li>不指定类型：<code>var name = &quot;hello&quot;;</code></li>
+</ul>
+</li>
+<li>使用dunamic或Object定义的变量可以动态改变变量的数据类型</li>
+<li>定义常量的两种方式：<ul>
+<li>final：运行时常量，可以是一个变量</li>
+<li>const：编译时常量，必须是一个字面常量值。</li>
+</ul>
+</li>
+</ul>
+<h5 id="内置类型的常用操作"><a href="#内置类型的常用操作" class="headerlink" title="内置类型的常用操作"></a>内置类型的常用操作</h5><ul>
+<li>String转int<ul>
+<li><code>var one = int.parse(&#39;1&#39;);</code></li>
+</ul>
+</li>
+<li>String转double<ul>
+<li><code>var onePointOne = double.parse(&#39;1.1&#39;);</code> </li>
+</ul>
+</li>
+<li>int转String<ul>
+<li><code>String oneStr = 1.toString();</code></li>
+</ul>
+</li>
+<li>double转String<ul>
+<li><code>String paiAsStr = 3.14159.toStringAsFixed(2);//保留两位小数</code></li>
+</ul>
+</li>
+<li>数位操作<ul>
+<li><code>print((3&lt;&lt;1) == 6);</code> </li>
+<li><code>print((3&gt;&gt;1) == 1);</code></li>
+<li><code>print((3|4) == 7);</code></li>
+</ul>
+</li>
+<li>字符串操作<ul>
+<li>可以用单引号、双引号来创建字符串</li>
+<li>可以使用三引号来创建多行字符串</li>
+<li>前面加r可以创建原始字符串，特殊字符不用转义</li>
+<li>支持“+”拼接字符串</li>
+<li>支持插值表达式“${}”</li>
+<li>使用“==”比较字符串内容</li>
+</ul>
+</li>
+<li>布尔类型默认值为null，只有flase、true两个值</li>
+<li>列表操作：<ul>
+<li>创建列表：<code>var list = [1,2,3];</code></li>
+<li>可以通过数组下标方式访问列表item：<code>list[0];</code></li>
+<li>可以使用add添加元素</li>
+<li>可以在lsit字面量钱添加const关键字来定义一个不可改变的列表</li>
+</ul>
+</li>
+<li>映射操作：<ul>
+<li>字面量创建Map：<code>var keyMap = {&quot;first&quot;:1,&quot;secode&quot;:2};</code></li>
+<li>构造函数创建Map：<code>var keyMap = new Map(); keyMap[&#39;first&#39;] = 1;</code></li>
+<li>通过可以下标查找map：<code>keyMap[&#39;first&#39;]</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h5><ul>
+<li><p>定义函数：</p>
+<ul>
+<li><code>返回值类型 函数名(参数){ 处理和return}</code></li>
+</ul>
+</li>
+<li><p>不指定函数返回类型，则返回null，除非指定void，则函数没有返回值</p>
+</li>
+<li><p>函数的参数</p>
+<ul>
+<li>命名可选参数：<ul>
+<li>定义函数的时候，给参数列表中的参数设置默认值，则该参数是可选的，函数调用的时候可以忽略</li>
+</ul>
+</li>
+<li>位置可选参数<ul>
+<li>使用中括号来定义参数列表，中括号中的参数是可选的</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>匿名函数：</p>
+<ul>
+<li>没有名字的函数，也被称为lambda表达式或者闭包。</li>
+<li>和普通函数基本相同，只是省去了函数名而已。</li>
+<li><code>var func = (x,y){ return x + y;}; print(func(10,11));</code></li>
+</ul>
+</li>
+<li><p>箭头函数</p>
+<ul>
+<li>函数体只包含一条语句的时候，就可以使用=&gt;箭头语法进行缩写。仅仅是一个简洁表达的语法糖。</li>
+</ul>
+</li>
+</ul>
+<h5 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h5><ul>
+<li>整除运算符：<code>~/</code>，将相除后的结果取整返回。</li>
+<li>类型判定运算符：<ul>
+<li><code>as</code>：类型转换<ul>
+<li>无法转换会抛出异常，注意判断类型</li>
+</ul>
+</li>
+<li><code>is</code>：对象是指定类型</li>
+<li><code>is!</code>：对象不是指定类型</li>
+</ul>
+</li>
+<li>三元表达式：<ul>
+<li><code>condition ? expr1 : expr2</code></li>
+</ul>
+</li>
+<li>判空<ul>
+<li><code>expr1?? expr2</code>：expr1不为空，取自己值；为空，则取expr2的值。</li>
+</ul>
+</li>
+<li>级联运算符<ul>
+<li><code>..</code>：可以在同一个对象上连续滴啊用多个方法以及访问成员变量。可以避免创建临时变量。</li>
+</ul>
+</li>
+<li>条件成员访问符<ul>
+<li><code>?.</code>：如果左边的对象为null，则直接返回null</li>
+</ul>
+</li>
+</ul>
+<h5 id="分支与循环"><a href="#分支与循环" class="headerlink" title="分支与循环"></a>分支与循环</h5><ul>
+<li>switch中的case可以使用整数、字符串、枚举类型和编译时常量。</li>
+<li>循环支持for循环、while循环，do-while循环</li>
+<li>List的遍历：<ul>
+<li>for…in…循环</li>
+<li>forEach循环：<code>list.forEach((var it){ print(it);});</code></li>
+<li>箭头函数简写：<code>list.forEach((it) =&gt; print(it));</code></li>
+</ul>
+</li>
+<li>Map的遍历<ul>
+<li>for…in…：<code>for(var k in map.keys){ }</code></li>
+<li>forEach：<code>map.forEach((k,v) =&gt; print());</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="类和对象"><a href="#类和对象" class="headerlink" title="类和对象"></a>类和对象</h4><ul>
+<li><p>没有<code>private</code>、p<code>ublic</code>等成员访问修饰符，类私有成员，前面加<code>_</code>变为私有</p>
+</li>
+<li><p>没有构造方法的重载，不能写两个同名的构造方法</p>
+</li>
+<li><p>所有的类中都包含隐式的getter方法；所有非final修饰的成员都包含隐式的setter方法。</p>
+</li>
+<li><p>setter、getter方法不仅仅是赋值和访问，而是为了一些额外的处理的时候，需要在方法名前添加set/get关键字</p>
+</li>
+<li><p>命名构造方法：</p>
+<ul>
+<li><code>className.fromData(String data){this.data = data}</code></li>
+<li>可以为一个类实现多个构造方法，更清晰表明意图</li>
+</ul>
+</li>
+<li><p>常量构造方法：</p>
+<ul>
+<li>编译时常量对象：状态永远不变的对象，节省开销。<ul>
+<li>使用const修饰构造方法：<code>const Class(this.x,this.y);</code></li>
+<li>使用const创建对象：<code>static final Class class = const Class(0,0)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>工厂构造方法：</p>
+<ul>
+<li>创建一个新的对象或者从缓存中取一个对象的时候使用</li>
+<li><code>factory Class(String name){ if(_cache.containsKey(name)){ return _cacheInstance;} else { return newInstance;}}</code></li>
+</ul>
+</li>
+<li><p>构造方法重定向</p>
+<ul>
+<li>命名构造方法重定向到同名构造方法，中间使用一个冒号：<code>Class.fromData(string test):this(test,0);</code></li>
+</ul>
+</li>
+<li><p>类的初始化列表：</p>
+<ul>
+<li>普通构造方法：<code>类名(){}</code></li>
+<li>带初始化列表的构造方法：<code>类名():赋值语句{}</code></li>
+</ul>
+</li>
+<li><p>运算符重载：</p>
+<ul>
+<li>即为类重载运算符的操作：<code>Point operator +(Point p){ return new Point(xxx)};</code></li>
+</ul>
+</li>
+<li><p>类的继承</p>
+<ul>
+<li>使用关键字<code>extends</code>，使用<code>super</code>引用父类</li>
+<li>可以使用<code>with</code>实现多继承<ul>
+<li><code>class Son extends father1 with father2,father3</code></li>
+<li><code>class Son with father1,father2,father3</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Dart不支持interface，只有<code>abstract</code></p>
+</li>
+<li><p>隐式接口</p>
+<ul>
+<li>每个类都隐式的定义了一个包含所有势力成员的接口，并且该类实现了这个接口。</li>
+<li>可以使用<code>implements</code>关键字实现某个接口又不用继承。</li>
+</ul>
+</li>
+</ul>
+<h4 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h4><ul>
+<li>异常的两种处理方式：<ul>
+<li>关心异常，针对不同异常进行不同处理：<code>try...in</code>处理异常，<code>finally</code>可选，用于最后的处理</li>
+<li>不关心异常，只捕获，避免异常继续传递：<code>try...catch</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="库与导入"><a href="#库与导入" class="headerlink" title="库与导入"></a>库与导入</h4><ul>
+<li>使用<code>import</code>语句用来导入一个库</li>
+<li>使用<code>as</code>给库起别名，避免命名空间冲突</li>
+<li>使用<code>show</code>/<code>hide</code>控制库中成员的可见性</li>
+<li>使用<code>deffered as</code>延迟导入</li>
+</ul>
+<h4 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h4><ul>
+<li><p>单线程模型，所有代码都只在一个线程上运行，但是Dart代码可以运行在多个isolate上，isolate由虚拟机调度，isolate之间没有共享内存，因此它们之间没有竞争，不需要锁，不用担心死锁。isolate之间唯一的通知只能通过Port进行，而且Dart中的消息传递也是一部的。</p>
+</li>
+<li><p>使用Future对象进行异步编程的两种方式：</p>
+<ul>
+<li>使用<code>async</code>和<code>await</code></li>
+<li>使用Future api</li>
+</ul>
+</li>
+<li><p>Dart是事件驱动的体系结构，这种结构基于具有单个事件循环和两个对立的单线程执行模型</p>
+<ul>
+<li>Dart的两个队列：<ul>
+<li>MicroTask queue 微任务队列<ul>
+<li>添加任务到MicroTask队列的方法：<ul>
+<li><code>scheduleMicrotask(myTask);</code></li>
+<li><code>Future.microtask(myTask);</code></li>
+</ul>
+</li>
+<li>添加任务到Event队列<ul>
+<li><code>new Future(myTask)</code> </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Event queue 事件队列</li>
+</ul>
+</li>
+<li>当事件循环在处理MicroTask队列时，Event队列会被卡住，应用程序无法处理鼠标单击、I/O消息等等事件</li>
+</ul>
+</li>
+<li><p>延时任务：</p>
+<ul>
+<li>使用<code>Future.delayed</code>方法，将任务加入到Event队列</li>
+</ul>
+</li>
+<li><p>Future</p>
+<ul>
+<li>Future类是对未来结果的一个代理，返回的并不是被调用的任务的返回值</li>
+<li>创建方法：<ul>
+<li><code>Future()</code></li>
+<li><code>Future.microtask()</code></li>
+<li><code>Future.sync()</code>：同步方法，任务会被立即执行</li>
+<li><code>Future.value()</code></li>
+<li><code>Future.delayed()</code></li>
+<li><code>Future.error()</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>当Future中的任务完成后，可以使用<code>then</code>注册回调，这个回调会立即执行，不会被添加到事件队列</p>
+</li>
+<li><p>可以使用<code>catchError</code>处理异常</p>
+</li>
+<li><p>可以使用静态方法<code>wait</code>等待多个任务全部完成后回调</p>
+</li>
+<li><p>async和await</p>
+<ul>
+<li>async<ul>
+<li>被修饰的方法会将一个Future对象作为返回值</li>
+<li>该方法会同步执行其中的方法代码知道第一个await关键字，然后它暂停该方法其他部分的执行</li>
+<li>当await关键字引用的Future任务执行完成，await的下一行代码将立即执行。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Isolate</p>
+<ul>
+<li>可以理解为微线程，不能共享内存，不存在锁竞争，两个Isolate完全是两条独立的执行线，每个Isolate都有自己的事件循环，它们之间只能通过发送消息通信。</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/mLixin.github.io/tags/Flutter/" rel="tag"># Flutter</a>
+              <a href="/mLixin.github.io/tags/Dart/" rel="tag"># Dart</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mLixin.github.io/2020/04/09/miniprogram-guide/" rel="prev" title="微信小程序-开发指南-学习笔记">
+      <i class="fa fa-chevron-left"></i> 微信小程序-开发指南-学习笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基础语法"><span class="nav-number">2.</span> <span class="nav-text">基础语法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#内置数据类型"><span class="nav-number">2.1.</span> <span class="nav-text">内置数据类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#变量与常量"><span class="nav-number">2.2.</span> <span class="nav-text">变量与常量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内置类型的常用操作"><span class="nav-number">2.3.</span> <span class="nav-text">内置类型的常用操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#函数"><span class="nav-number">2.4.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运算符"><span class="nav-number">2.5.</span> <span class="nav-text">运算符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分支与循环"><span class="nav-number">2.6.</span> <span class="nav-text">分支与循环</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类和对象"><span class="nav-number">3.</span> <span class="nav-text">类和对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常处理"><span class="nav-number">4.</span> <span class="nav-text">异常处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#库与导入"><span class="nav-number">5.</span> <span class="nav-text">库与导入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异步编程"><span class="nav-number">6.</span> <span class="nav-text">异步编程</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mLiXin</p>
+  <div class="site-description" itemprop="description">Be true to yourself.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/mLixin.github.io/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/mLixin.github.io/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/mLixin.github.io/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/mLixin.github.io/lib/anime.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/mLixin.github.io/js/utils.js"></script>
+
+<script src="/mLixin.github.io/js/motion.js"></script>
+
+
+<script src="/mLixin.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/mLixin.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
