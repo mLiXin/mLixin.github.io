@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mlixin.com","root":"/mLixin.github.io/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false,"padding":18},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"save":"auto","color":"#222"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要YouTube上Flutter-Widget of week提到的所有组件一览">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter Widget-of-Week">
+<meta property="og:url" content="http://mlixin.com/2020/04/14/flutter-widget-of-week/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="摘要YouTube上Flutter-Widget of week提到的所有组件一览">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-expanded.png">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-wrap.png">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-animation-animatedcontainer.png">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-painting-opacity.png">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-async-futurebuilder.png">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-animation-fadetransition.png">
+<meta property="article:published_time" content="2020-04-14T10:21:11.000Z">
+<meta property="article:modified_time" content="2020-04-14T10:22:59.986Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="Dart">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-expanded.png">
+
+<link rel="canonical" href="http://mlixin.com/2020/04/14/flutter-widget-of-week/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Flutter Widget-of-Week | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/mLixin.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">mLiXin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">The truth conquers all.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/mLixin.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/mLixin.github.io/archives/" rel="section"><i class="fa fa-fw fa-calendar"></i>时间线</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/mLixin.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/mLixin.github.io/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section"><i class="fa fa-fw fa-heartbeat"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-tips">
+
+    <a href="/mLixin.github.io/tips/" rel="section"><i class="fa fa-fw fa-heart"></i>说说</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/mLixin.github.io/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2020/04/14/flutter-widget-of-week/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flutter Widget-of-Week
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 18:21:11" itemprop="dateCreated datePublished" datetime="2020-04-14T18:21:11+08:00">2020-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>YouTube上Flutter-Widget of week提到的所有组件一览</p>
+<a id="more"></a>
+<h4 id="001-SafeArea"><a href="#001-SafeArea" class="headerlink" title="001 SafeArea"></a>001 SafeArea</h4><ul>
+<li><a href="https://www.youtube.com/watch?v=lkF0TQJO0bA&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=2" target="_blank" rel="noopener">YouTube</a></li>
+<li>适用MediaQuery来检测屏幕尺寸，使应用程序的大小能与屏幕匹配</li>
+<li>外部包裹SafeArea即可</li>
+</ul>
+<h4 id="002-Expanded"><a href="#002-Expanded" class="headerlink" title="002 Expanded"></a>002 Expanded</h4><ul>
+<li><a href="https://www.youtube.com/watch?v=_rnZaagadyo&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=3" target="_blank" rel="noopener">YouTube</a></li>
+<li><img src="/images/flutter-guide/flutter-layout-expanded.png" alt="Layout-&gt;Expanded"></li>
+<li>tips<ul>
+<li>Row、Column中，使其中一个child伸展并填补额外的空间。当Row和Column布置它的子项的时候，会首先执行不灵活的子项，然后将剩余空间划分给灵活的子项，如Expanded。</li>
+<li>可以设置灵活因子<code>flex:2</code>防止竞争，类似Android里面的weight</li>
+</ul>
+</li>
+</ul>
+<h4 id="003-Wrap"><a href="#003-Wrap" class="headerlink" title="003 Wrap"></a>003 Wrap</h4><ul>
+<li><a href="https://www.youtube.com/watch?v=z5iw2SeFx2M&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=4" target="_blank" rel="noopener">YouTube</a></li>
+<li><img src="/images/flutter-guide/flutter-layout-wrap.png" alt="Layout-&gt;Wrap"></li>
+<li>tips<ul>
+<li>当Row或者Column一行放不下的时候，就会溢出屏幕，就可以使用wrap替换，当一行放不下的时候，自动新增一行。</li>
+<li><code>direction</code>：配置横向还是纵向</li>
+<li><code>spacing</code>:横向padding</li>
+<li><code>runspacing</code>：纵向padding</li>
+</ul>
+</li>
+</ul>
+<h4 id="004-AnimatedContainer"><a href="#004-AnimatedContainer" class="headerlink" title="004 AnimatedContainer"></a>004 AnimatedContainer</h4><ul>
+<li><a href="https://www.youtube.com/watch?v=yI-8QHpGIP4&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=5" target="_blank" rel="noopener">YouTube</a></li>
+<li><img src="/images/flutter-guide/flutter-animation-animatedcontainer.png" alt="Animation-&gt;AnimatedContainer"></li>
+<li>tips<ul>
+<li>对color、borders、border-radius、background-image、shadows、gradients等等实施线性插值法进行动画变化，</li>
+<li><code>duration</code>：配置动画持续时间</li>
+</ul>
+</li>
+</ul>
+<h4 id="005-Opacity-透明度"><a href="#005-Opacity-透明度" class="headerlink" title="005 Opacity 透明度"></a>005 Opacity 透明度</h4><ul>
+<li><a href="https://www.youtube.com/watch?v=9hltevOHQBw&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=6" target="_blank" rel="noopener">YouTube</a></li>
+<li><img src="/images/flutter-guide/flutter-painting-opacity.png" alt="Painting-&gt;Opacity"></li>
+<li>tips<ul>
+<li>可以理解为控制透明度</li>
+<li>不显示某个部件，但是又保留它的位置</li>
+<li>将两个部件重叠，同时设置AnimatedOpacity，可以创建动画</li>
+</ul>
+</li>
+</ul>
+<h4 id="006-FutureBuilder"><a href="#006-FutureBuilder" class="headerlink" title="006 FutureBuilder"></a>006 FutureBuilder</h4><ul>
+<li><a href="https://www.youtube.com/watch?v=ek8ZPdWj4Qo&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=7" target="_blank" rel="noopener">YouTube</a></li>
+<li><img src="/images/flutter-guide/flutter-async-futurebuilder.png" alt="Async-&gt;Futurebuilder"></li>
+<li>tips<ul>
+<li>异步获取数据后构建widget</li>
+<li>注意对snapshot数据状态进行判断</li>
+</ul>
+</li>
+</ul>
+<h4 id="007-FadeTransition"><a href="#007-FadeTransition" class="headerlink" title="007 FadeTransition"></a>007 FadeTransition</h4><ul>
+<li><a href="https://www.youtube.com/watch?v=rLwWVbv3xDQ&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=8" target="_blank" rel="noopener">YouTube</a></li>
+<li><img src="/images/flutter-guide/flutter-animation-fadetransition.png" alt="Animation-&gt;FadeTransition"></li>
+<li>tips<ul>
+<li>淡入淡出动画的简单版</li>
+<li>需要controller，注意回收</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/mLixin.github.io/tags/Flutter/" rel="tag"># Flutter</a>
+              <a href="/mLixin.github.io/tags/Dart/" rel="tag"># Dart</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mLixin.github.io/2020/04/14/leetcode-interview-53-II/" rel="prev" title="LeetCode.面试题53-II-0～n-1中缺失的数字">
+      <i class="fa fa-chevron-left"></i> LeetCode.面试题53-II-0～n-1中缺失的数字
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#001-SafeArea"><span class="nav-number">2.</span> <span class="nav-text">001 SafeArea</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#002-Expanded"><span class="nav-number">3.</span> <span class="nav-text">002 Expanded</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#003-Wrap"><span class="nav-number">4.</span> <span class="nav-text">003 Wrap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#004-AnimatedContainer"><span class="nav-number">5.</span> <span class="nav-text">004 AnimatedContainer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#005-Opacity-透明度"><span class="nav-number">6.</span> <span class="nav-text">005 Opacity 透明度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#006-FutureBuilder"><span class="nav-number">7.</span> <span class="nav-text">006 FutureBuilder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#007-FadeTransition"><span class="nav-number">8.</span> <span class="nav-text">007 FadeTransition</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mLiXin</p>
+  <div class="site-description" itemprop="description">Be true to yourself.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/mLixin.github.io/archives/">
+        
+          <span class="site-state-item-count">127</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/mLixin.github.io/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/mLixin.github.io/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/mLixin.github.io/lib/anime.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/mLixin.github.io/js/utils.js"></script>
+
+<script src="/mLixin.github.io/js/motion.js"></script>
+
+
+<script src="/mLixin.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/mLixin.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
