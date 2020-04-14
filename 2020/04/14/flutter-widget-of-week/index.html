@@ -26,19 +26,19 @@
 <meta property="og:url" content="http://mlixin.com/2020/04/14/flutter-widget-of-week/index.html">
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
 <meta property="og:description" content="摘要YouTube上Flutter-Widget of week提到的所有组件一览">
-<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-expanded.png">
-<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-wrap.png">
-<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-animation-animatedcontainer.png">
-<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-painting-opacity.png">
-<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-async-futurebuilder.png">
-<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-animation-fadetransition.png">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-expanded.gif">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-wrap.gif">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-animation-animatedcontainer.gif">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-painting-opacity.gif">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-async-futurebuilder.gif">
+<meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-animation-fadetransition.gif">
 <meta property="article:published_time" content="2020-04-14T10:21:11.000Z">
-<meta property="article:modified_time" content="2020-04-14T10:22:59.986Z">
+<meta property="article:modified_time" content="2020-04-14T10:27:53.628Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Flutter">
 <meta property="article:tag" content="Dart">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-expanded.png">
+<meta name="twitter:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-expanded.gif">
 
 <link rel="canonical" href="http://mlixin.com/2020/04/14/flutter-widget-of-week/">
 
@@ -242,7 +242,8 @@
 </ul>
 <h4 id="002-Expanded"><a href="#002-Expanded" class="headerlink" title="002 Expanded"></a>002 Expanded</h4><ul>
 <li><a href="https://www.youtube.com/watch?v=_rnZaagadyo&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=3" target="_blank" rel="noopener">YouTube</a></li>
-<li><img src="/images/flutter-guide/flutter-layout-expanded.png" alt="Layout-&gt;Expanded"></li>
+<li><img src="/images/flutter-guide/flutter-layout-expanded.gif" alt="Layout-&gt;Expanded"></li>
+<li><iframe src="/images/flutter-guide/flutter-layout-expanded.gif" width="100%" height="300" frameborder="0" loading="lazy" allowfullscreen></iframe></li>
 <li>tips<ul>
 <li>Row、Column中，使其中一个child伸展并填补额外的空间。当Row和Column布置它的子项的时候，会首先执行不灵活的子项，然后将剩余空间划分给灵活的子项，如Expanded。</li>
 <li>可以设置灵活因子<code>flex:2</code>防止竞争，类似Android里面的weight</li>
@@ -251,7 +252,7 @@
 </ul>
 <h4 id="003-Wrap"><a href="#003-Wrap" class="headerlink" title="003 Wrap"></a>003 Wrap</h4><ul>
 <li><a href="https://www.youtube.com/watch?v=z5iw2SeFx2M&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=4" target="_blank" rel="noopener">YouTube</a></li>
-<li><img src="/images/flutter-guide/flutter-layout-wrap.png" alt="Layout-&gt;Wrap"></li>
+<li><img src="/images/flutter-guide/flutter-layout-wrap.gif" alt="Layout-&gt;Wrap"></li>
 <li>tips<ul>
 <li>当Row或者Column一行放不下的时候，就会溢出屏幕，就可以使用wrap替换，当一行放不下的时候，自动新增一行。</li>
 <li><code>direction</code>：配置横向还是纵向</li>
@@ -262,7 +263,7 @@
 </ul>
 <h4 id="004-AnimatedContainer"><a href="#004-AnimatedContainer" class="headerlink" title="004 AnimatedContainer"></a>004 AnimatedContainer</h4><ul>
 <li><a href="https://www.youtube.com/watch?v=yI-8QHpGIP4&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=5" target="_blank" rel="noopener">YouTube</a></li>
-<li><img src="/images/flutter-guide/flutter-animation-animatedcontainer.png" alt="Animation-&gt;AnimatedContainer"></li>
+<li><img src="/images/flutter-guide/flutter-animation-animatedcontainer.gif" alt="Animation-&gt;AnimatedContainer"></li>
 <li>tips<ul>
 <li>对color、borders、border-radius、background-image、shadows、gradients等等实施线性插值法进行动画变化，</li>
 <li><code>duration</code>：配置动画持续时间</li>
@@ -271,7 +272,7 @@
 </ul>
 <h4 id="005-Opacity-透明度"><a href="#005-Opacity-透明度" class="headerlink" title="005 Opacity 透明度"></a>005 Opacity 透明度</h4><ul>
 <li><a href="https://www.youtube.com/watch?v=9hltevOHQBw&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=6" target="_blank" rel="noopener">YouTube</a></li>
-<li><img src="/images/flutter-guide/flutter-painting-opacity.png" alt="Painting-&gt;Opacity"></li>
+<li><img src="/images/flutter-guide/flutter-painting-opacity.gif" alt="Painting-&gt;Opacity"></li>
 <li>tips<ul>
 <li>可以理解为控制透明度</li>
 <li>不显示某个部件，但是又保留它的位置</li>
@@ -281,7 +282,7 @@
 </ul>
 <h4 id="006-FutureBuilder"><a href="#006-FutureBuilder" class="headerlink" title="006 FutureBuilder"></a>006 FutureBuilder</h4><ul>
 <li><a href="https://www.youtube.com/watch?v=ek8ZPdWj4Qo&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=7" target="_blank" rel="noopener">YouTube</a></li>
-<li><img src="/images/flutter-guide/flutter-async-futurebuilder.png" alt="Async-&gt;Futurebuilder"></li>
+<li><img src="/images/flutter-guide/flutter-async-futurebuilder.gif" alt="Async-&gt;Futurebuilder"></li>
 <li>tips<ul>
 <li>异步获取数据后构建widget</li>
 <li>注意对snapshot数据状态进行判断</li>
@@ -290,7 +291,7 @@
 </ul>
 <h4 id="007-FadeTransition"><a href="#007-FadeTransition" class="headerlink" title="007 FadeTransition"></a>007 FadeTransition</h4><ul>
 <li><a href="https://www.youtube.com/watch?v=rLwWVbv3xDQ&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=8" target="_blank" rel="noopener">YouTube</a></li>
-<li><img src="/images/flutter-guide/flutter-animation-fadetransition.png" alt="Animation-&gt;FadeTransition"></li>
+<li><img src="/images/flutter-guide/flutter-animation-fadetransition.gif" alt="Animation-&gt;FadeTransition"></li>
 <li>tips<ul>
 <li>淡入淡出动画的简单版</li>
 <li>需要controller，注意回收</li>
