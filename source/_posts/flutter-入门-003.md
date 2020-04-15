@@ -1,0 +1,78 @@
+---
+title: Flutter入门(三) Flutter ThemeData一览
+date: 2020-04-13 15:00:06
+tags:
+- Flutter
+- Dart
+categories:
+- Flutter
+---
+#### 摘要
+
+#### ThemeData
+- `Brightness brightness`
+- `VisualDensity visualDensity`
+- `MaterialColor primarySwatch`
+- `Color primaryColor`
+- `Brightness primaryColorBrightness`
+- `Color primaryColorLight`
+- `Color primaryColorDark`
+- `Color accentColor`
+- `Brightness accentColorBrightness`
+- `Color canvasColor`
+- `Color scaffoldBackgroundColor`
+- `Color bottomAppBarColor`
+- `Color cardColor`
+- `Color dividerColor`
+- `Color focusColor`
+- `Color hoverColor`
+- `Color highlightColor`
+- `Color splashColor`
+- `InteractiveInkFeatureFactory splashFactory`
+- `Color selectedRowColor`
+- `Color unselectedWidgetColor`
+- `Color disabledColor`
+- `Color buttonColor`
+- `ButtonThemeData buttonTheme`
+- `ToggleButtonsThemeData toggleButtonsTheme`
+- `Color secondaryHeaderColor`
+- `Color textSelectionColor`
+- `Color cursorColor`
+- `Color textSelectionHandleColor`
+- `Color backgroundColor`
+- `Color dialogBackgroundColor`
+- `Color indicatorColor`
+- `Color hintColor`
+- `Color errorColor`
+- `Color toggleableActiveColor`
+- `String fontFamily`
+- `TextTheme textTheme`
+- `TextTheme primaryTextTheme`
+- `TextTheme accentTextTheme`
+- `InputDecorationTheme inputDecorationTheme`
+- `IconThemeData iconTheme`
+- `IconThemeData primaryIconTheme`
+- `IconThemeData accentIconTheme`
+- `SliderThemeData sliderTheme`
+- `TabBarTheme tabBarTheme`
+- `TooltipThemeData tooltipTheme`
+- `CardTheme cardTheme`
+- `ChipThemeData chipTheme`
+- `TargetPlatform platform`
+- `MaterialTapTargetSize materialTapTargetSize`
+- `bool applyElevationOverlayColor`
+- `PageTransitionsTheme pageTransitionsTheme`
+- `AppBarTheme appBarTheme`
+- `BottomAppBarTheme bottomAppBarTheme`
+- `ColorScheme colorScheme`
+- `DialogTheme dialogTheme`
+- `FloatingActionButtonThemeData floatingActionButtonTheme`
+- `NavigationRailThemeData navigationRailTheme`
+- `Typography typography`
+- `CupertinoThemeData cupertinoOverrideTheme`
+- `SnackBarThemeData snackBarTheme`
+- `BottomSheetThemeData bottomSheetTheme`
+- `PopupMenuThemeData popupMenuTheme`
+- `MaterialBannerThemeData bannerTheme`
+- `DividerThemeData dividerTheme`
+- `ButtonBarThemeData buttonBarTheme`

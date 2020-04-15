@@ -8,9 +8,9 @@ categories:
 - Flutter
 ---
 #### 摘要
-总结Flutter都提供哪些原生组件，具体每个组件有什么参数、每个参数有什么作用都可以直接去看源码，这里不特别注明。开发中遇到坑，再来这里提交说明。
+Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46)
 
-youtube上Flutter有个系列：Widget of the week，基本上每个小部件都会有说明，可以参考。地址：[需要搭梯子](https://www.youtube.com/watch?v=b_sQ9bMltGU&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG)
+YouTube上Flutter有个系列：Widget of the week，基本上每个小部件都会有说明，可以参考。地址：[需要搭梯子](https://www.youtube.com/watch?v=b_sQ9bMltGU&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG)
 
 Flutter现在支持Android、Ios、MacOS、Windows、Linux、Web，真香。
 
