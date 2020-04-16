@@ -3452,11 +3452,10 @@
 <li>一个Activity里面启动一个新的Flutter View</li>
 <li>只用一个FlutterView，跳转的时候复用这个FlutterView<ul>
 <li>Flutter Framework中FlutterView是绑定Activity使用的，必须attach一个Activity，为了避免Activity泄露，可以在detach的时候传入mainActivity，因为运行过程中mainActivity是会一直存在的。</li>
+<li>复用FlutterView的时候会有问题，比如Activity切换的时候，就不得不将当前FlutterView detach掉给后面新建的Activity使用，会有空白闪动。</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><p>复用FlutterView的时候会有问题，比如Activity切换的时候，就不得不将当前FlutterView detach掉给后面新建的Activity使用，会有空白闪动。</p>
 </li>
 <li><p>Flutter首帧渲染耗时较高，优化思路是，预先将要使用的FlutterView加载好首帧，这样在真正使用的时候就很快了。</p>
 </li>

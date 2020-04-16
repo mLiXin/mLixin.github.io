@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
 <meta property="og:description" content="Android Flutter内存初探主要关注Dart VM内存分配和回收相关的部分  Dart的线程是不共享内存的，各自的堆和栈都是隔离的，彼此通过消息通道来通信。Dart天然不存在数据竞争和变量状态同步的问题，整个Flutter Framework Widget的渲染过程都运行在一个isolate中。  Dart VM将内存管理分为新生代和老年代  新生代(New Generation) 初次">
 <meta property="article:published_time" content="2018-05-10T09:23:05.000Z">
-<meta property="article:modified_time" content="2019-11-27T02:54:12.686Z">
+<meta property="article:modified_time" content="2020-04-16T03:23:50.085Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Flutter">
 <meta property="article:tag" content="学习笔记">
@@ -255,11 +255,10 @@
 <li>一个Activity里面启动一个新的Flutter View</li>
 <li>只用一个FlutterView，跳转的时候复用这个FlutterView<ul>
 <li>Flutter Framework中FlutterView是绑定Activity使用的，必须attach一个Activity，为了避免Activity泄露，可以在detach的时候传入mainActivity，因为运行过程中mainActivity是会一直存在的。</li>
+<li>复用FlutterView的时候会有问题，比如Activity切换的时候，就不得不将当前FlutterView detach掉给后面新建的Activity使用，会有空白闪动。</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><p>复用FlutterView的时候会有问题，比如Activity切换的时候，就不得不将当前FlutterView detach掉给后面新建的Activity使用，会有空白闪动。</p>
 </li>
 <li><p>Flutter首帧渲染耗时较高，优化思路是，预先将要使用的FlutterView加载好首帧，这样在真正使用的时候就很快了。</p>
 </li>
