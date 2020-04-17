@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
 <meta property="og:description" content="Tips啃不啃C++，这是个问题。">
 <meta property="article:published_time" content="2019-09-11T06:04:24.000Z">
-<meta property="article:modified_time" content="2020-04-16T09:08:54.493Z">
+<meta property="article:modified_time" content="2020-04-17T05:55:19.123Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Flutter">
 <meta property="article:tag" content="Pub">
@@ -474,6 +474,167 @@
 <li><p>TickerPRovider两个子类区别是，是否支持创建多个TickerProvider</p>
 </li>
 </ul>
+<h4 id="深入理解Flutter消息机制-这里看的不是很了解，然后大部分都是C-代码，有疑问"><a href="#深入理解Flutter消息机制-这里看的不是很了解，然后大部分都是C-代码，有疑问" class="headerlink" title="深入理解Flutter消息机制 - 这里看的不是很了解，然后大部分都是C++代码，有疑问"></a><a href="http://gityuan.com/2019/07/20/flutter_message_loop/" target="_blank" rel="noopener">深入理解Flutter消息机制 - 这里看的不是很了解，然后大部分都是C++代码，有疑问</a></h4><ul>
+<li><p>MessageLoop在什么时候启动的？</p>
+<ul>
+<li>FLutter引擎启动阶段会创建AndroidShellHolder对象，在该过程会执行ThreadHost初始化，MessageLoop便是在这个阶段启动的。</li>
+</ul>
+</li>
+<li><p>Fluter引擎启动过程会创建哪些线程？</p>
+<ul>
+<li>UI/GPU/IO</li>
+</ul>
+</li>
+<li><p>MessageLoop的消息循环过程， 会同时消费Dart层的Microtask和引擎层Task</p>
+</li>
+<li><p>Flutter引擎启动过程，会创建UI/GPU/IO这三个线程，并且会为每个线程一次创建MessageLoop对象，启动后处于epoll_wait等待状态。(这里说明每个线程都会有自己的MessageLoop对象。)</p>
+</li>
+<li><p>在引擎中每次消费任务时调用FlushTasks()方法，遍历整个延迟任务队列，将到期的任务加入invocations，然后会遍历执行FlushMicrotaskNow()来消费所有的微任务。</p>
+</li>
+</ul>
+<h4 id="深入理解Flutter异步Future机制"><a href="#深入理解Flutter异步Future机制" class="headerlink" title="深入理解Flutter异步Future机制"></a><a href="http://gityuan.com/2019/07/21/flutter_future/" target="_blank" rel="noopener">深入理解Flutter异步Future机制</a></h4><ul>
+<li><p>Dart是单线程执行模型，Dart应用在其主isolate执行应用的main()方法时开始运行，当main()执行完成后，主isolate所在的线程再逐个处理队列中的任务，包括但不限于通过Future所创建的任务，但整个过程都运行在同一个单线程。</p>
+</li>
+<li><p>Dart的并行操作需要isolate或者worker</p>
+</li>
+<li><p>Future创建过程</p>
+<ul>
+<li>创建Timer，并将_timer._handleMessage()放入到_handlerMap</li>
+<li>对于无延迟的Future则会将该Timer加入到ZeroTimer链表尾部</li>
+<li>创建的新端口号port和回调handler一起记录到一条的entry，再把该entry加入到map的第port槽位</li>
+<li>创建ReceivePort和SendPort对象</li>
+</ul>
+</li>
+<li><p>Future处理过程</p>
+<ul>
+<li>任务发送过程<ul>
+<li>通过message记录的port值从map中找到handler，再通过该handler找到的MessageHandler来发送消息</li>
+<li>根据message优先级，如果是普通消息，则加入到queue队列；如果是OOB消息，则加入到oob_queue队列</li>
+<li>通过PostTask来向UI线程发送任务</li>
+</ul>
+</li>
+<li>任务接收过程<ul>
+<li>先从oob_queue队列中取出头部的消息，当该消息为空且接收到待处理的优先级别为普通消息，则从queue队列取出头部消息</li>
+<li>通过port从_handlerMap中找到Dart层回调方法_timer._handleMessage()</li>
+<li>再从ZeroTImer链表中添加所有时间已过期的消息以及无延迟的消息</li>
+<li>然后回调执行真正的future中定义的业务逻辑代码</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Future操作只是异步执行，不会阻塞本次在UI线程的执行，但是其执行关键点中通过TaskRunner::PostTask()将Task放入UI线程，意味着如果Future中存在耗时操作，依然是影响UI线程的后续渲染绘制流畅度，所以不能在Future中做耗时操作。为保证应用的即时响应，应该将任务放到独立线程的isolate或者worker中。</p>
+</li>
+</ul>
+<h4 id="深入理解Flutter的Isolate创建过程"><a href="#深入理解Flutter的Isolate创建过程" class="headerlink" title="深入理解Flutter的Isolate创建过程"></a><a href="http://gityuan.com/2019/07/27/flutter-isolate/" target="_blank" rel="noopener">深入理解Flutter的Isolate创建过程</a></h4><ul>
+<li><p>Root isolate负责UI渲染以及用户交互操作，需要即时响应，当存在耗时操作的时候，必须创建新的isolate，否则UI渲染会被阻塞。</p>
+</li>
+<li><p>创建isolate的方法便是isolate.spawn()。</p>
+</li>
+<li><p>Isolate创建流程</p>
+<ul>
+<li>创建IsolateSpawnState对象、SpawnIsolateTask对象</li>
+<li>Dart虚拟机创建过程会初始化线程池ThreadPool，从该线程池中查找worker<ul>
+<li>存在空闲状态的worker，则调用Notify唤醒该worker处理刚创建的SpawnIsolateTask对象</li>
+<li>没有空闲状态的worker，则新建worker并创建响应的线程，该线程停留在worker的loop()过程</li>
+</ul>
+</li>
+<li>对于worker的loop过程说明：<ul>
+<li>当线程池ThreadPool关闭，则会退出该worker的loop()过程</li>
+<li>当连续等待超过5秒，则释放并退出该worker的loop()过程</li>
+<li>除以上两种情况外，当收到MonitorLocker的Notify过程，则会继续开始处理task，task可以是SpawnIsolateTask、MessageHandlerTask、ParallelMarkTask等Task</li>
+</ul>
+</li>
+<li>创建isolate对象</li>
+<li>调用worker-&gt;setTask()向worker中添加task，worker的loop()过程取出并执行  </li>
+</ul>
+</li>
+<li><p>耗时操作需要创建新的isolate，isolate采用的是同一进程内的多线程间内存不共享的设计方案。</p>
+<ul>
+<li>避免线程竞争出现。</li>
+<li>因为isolate之间无法共享内存数据，因此设计了SendPort/ReveivePort的Port端口通信机制，让各isolate间彼此独立，但又可以相互的通信。Port通信的实现原理是异步消息机制</li>
+<li>Dart的isolate是由Dart VM管理的，Flutter引擎无法直接访问。</li>
+</ul>
+</li>
+<li><p>每次创建新的isolate的同时会通过pthread_create()来创建一个OSThread线程，isolate的工作便是在该线程中运行，可以理解为isolate是一种内存不共享的线程，isolate只是在系统现在线程基础之上做了一层份额改装而已。可通过Dart_CreateIsolate和Dart_ShutdownIsolate分别对应isolate的创建和关闭。</p>
+</li>
+</ul>
+<h4 id="搭建Flutter-Engine源码编译环境"><a href="#搭建Flutter-Engine源码编译环境" class="headerlink" title="搭建Flutter Engine源码编译环境"></a><a href="http://gityuan.com/2019/08/03/flutter_engine_setup/" target="_blank" rel="noopener">搭建Flutter Engine源码编译环境</a></h4><h4 id="搭建Flutter-Framework开发环境"><a href="#搭建Flutter-Framework开发环境" class="headerlink" title="搭建Flutter Framework开发环境"></a><a href="http://gityuan.com/2019/08/04/flutter_framework_setup/" target="_blank" rel="noopener">搭建Flutter Framework开发环境</a></h4><h4 id="深入理解Flutter的Platform-Channel机制"><a href="#深入理解Flutter的Platform-Channel机制" class="headerlink" title="深入理解Flutter的Platform Channel机制"></a><a href="http://gityuan.com/2019/08/10/flutter_channel/" target="_blank" rel="noopener">深入理解Flutter的Platform Channel机制</a></h4><ul>
+<li><p>核心原理</p>
+<ul>
+<li>Flutter应用通过Platform Channel将传递的数据编码成消息的形式，跨线程发送到该应用缩在的宿主</li>
+<li>宿主接收到Platform Channel的消息后，调用相应平台的API，也就是原生编程语言来执行相应方法</li>
+<li>执行完成后将结果数据通过同样的方式原路返回给应用程序的Flutter部分。</li>
+<li>整个过程的消息和响应是异步的，所以不会阻塞用户界面。</li>
+</ul>
+</li>
+<li><p>Flutter提供的三种不同的Channel</p>
+<ul>
+<li>BasicMessageChannel：传递字符串和半结构化数据</li>
+<li>MethodChannel：方法调用</li>
+<li>EventChannel：数据流的通信</li>
+</ul>
+</li>
+<li><p>MethodChannel的执行流程涉及到主线程和UI线程的交互，代码从Dart到C++再到Java层，执行完相应逻辑后原路返回，从Java层到C++层再到Dart层</p>
+</li>
+</ul>
+<h4 id="源码解读Flutter-tools机制"><a href="#源码解读Flutter-tools机制" class="headerlink" title="源码解读Flutter tools机制"></a><a href="http://gityuan.com/2019/09/01/flutter_tool/" target="_blank" rel="noopener">源码解读Flutter tools机制</a></h4><h4 id="源码解读Flutter-run机制"><a href="#源码解读Flutter-run机制" class="headerlink" title="源码解读Flutter run机制"></a><a href="http://gityuan.com/2019/09/07/flutter_run/" target="_blank" rel="noopener">源码解读Flutter run机制</a></h4><h4 id="Flutter前端编译frontend-server"><a href="#Flutter前端编译frontend-server" class="headerlink" title="Flutter前端编译frontend_server"></a><a href="http://gityuan.com/2019/09/14/flutter_frontend_server/" target="_blank" rel="noopener">Flutter前端编译frontend_server</a></h4><h4 id="Flutter机器码生成gen-snapshot"><a href="#Flutter机器码生成gen-snapshot" class="headerlink" title="Flutter机器码生成gen_snapshot"></a><a href="http://gityuan.com/2019/09/21/flutter_gen_snapshot/" target="_blank" rel="noopener">Flutter机器码生成gen_snapshot</a></h4><h4 id="解读Dart虚拟机的参数列表"><a href="#解读Dart虚拟机的参数列表" class="headerlink" title="解读Dart虚拟机的参数列表"></a><a href="http://gityuan.com/2019/09/22/dartvm_flags/" target="_blank" rel="noopener">解读Dart虚拟机的参数列表</a></h4><h4 id="Dart虚拟机运行原理"><a href="#Dart虚拟机运行原理" class="headerlink" title="Dart虚拟机运行原理"></a><a href="http://gityuan.com/2019/10/05/dart_vm/" target="_blank" rel="noopener">Dart虚拟机运行原理</a></h4><ul>
+<li><p>Dart VM为高级编程语言Dart提供执行环境，但是Dart在虚拟机上执行时，不仅仅可以采用解释执行或者JIT编译，还可以使用Dart虚拟机的AOT管道将Dart代码编译为机器代码，然后运行在Dart虚拟机的精简版环境，称之为预编译运行时环境，环境不包含任何编译器组件，且无法动态加载Dart源代码</p>
+</li>
+<li><p>Dart VM执行代码的方式：</p>
+<ul>
+<li>源码或者Kernel二进制(JIT)</li>
+<li>snapshot<ul>
+<li>AOT snapshot</li>
+<li>APPJIT snapshot</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Isolate组成</p>
+<ul>
+<li>Isolate中的Heap管理GC内存中所有对象的内存存储分配</li>
+<li>vm isolate是一个伪isolate，里面包含不可变对象，如null/true/false等</li>
+<li>Isolate中的Heap能引用vm isolate Heap中的对象的，但是vm isolate不能引用Isolate中的Heap</li>
+<li>Isolate彼此之间不能相互引用</li>
+<li>每个Isolate都有一个执行Dart代码的Mutator Thread，还有很多的Hepler Thread用来处理虚拟机内部任务，如GC、JIT等</li>
+</ul>
+</li>
+<li><p>Isolate拥有内存Heap和控制线程，虚拟机中可以有很多Isolate，但是彼此之间不能直接通信，只能通过Dart特有的端口通信。</p>
+</li>
+<li><p>Isolate拥有一个Mutator控制线程，还有一些Hepler线程：</p>
+<ul>
+<li>后台JIT编译线程</li>
+<li>GC清理线程</li>
+<li>GC编发标记线程</li>
+</ul>
+</li>
+<li><p>线程和Isolate的关系</p>
+<ul>
+<li>同一个线程在同一时间只能进入一个Isolate，当需要进入另一个Isolate则必须先退出当前Isolate</li>
+<li>一次只能有一个Mutator线程关联对应的Isolate，Mutator线程是执行Dart代码并使用虚拟机的公共C语言API的线程。</li>
+</ul>
+</li>
+<li><p>虚拟机采用线程池的方式来管理线程</p>
+<ul>
+<li>核心变量<ul>
+<li>all_workers_：记录所有的workers</li>
+<li>idle_workers_：记录所有空闲的workers</li>
+<li>count_started_：记录该线程池的历史累计启动workers个数</li>
+<li>count_stopped_：记录该线程池的历史累计关闭workers个数</li>
+<li>count_running_：记录该线程池当前正在运行的worker个数</li>
+<li>count_idle_：记录该线程池当前处于空闲的worker个数，也就是idle_workers的长度</li>
+</ul>
+</li>
+<li>核心方法<ul>
+<li>Run(Task*)</li>
+<li>Shutdown()</li>
+<li>SetIdleLocked(Worker*)</li>
+<li>ReleaseIdleWorker(Worker*)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
     </div>
 
@@ -559,7 +720,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Tips"><span class="nav-number">1.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flutter渲染机制-UI线程"><span class="nav-number">2.</span> <span class="nav-text">Flutter渲染机制-UI线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flutter渲染机制—GPU线程"><span class="nav-number">3.</span> <span class="nav-text">Flutter渲染机制—GPU线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter引擎启动"><span class="nav-number">4.</span> <span class="nav-text">深入理解Flutter引擎启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Dart虚拟机启动"><span class="nav-number">5.</span> <span class="nav-text">深入理解Dart虚拟机启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter应用启动"><span class="nav-number">6.</span> <span class="nav-text">深入理解Flutter应用启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解setState更新机制"><span class="nav-number">7.</span> <span class="nav-text">深入理解setState更新机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter动画原理"><span class="nav-number">8.</span> <span class="nav-text">深入理解Flutter动画原理</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Tips"><span class="nav-number">1.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flutter渲染机制-UI线程"><span class="nav-number">2.</span> <span class="nav-text">Flutter渲染机制-UI线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flutter渲染机制—GPU线程"><span class="nav-number">3.</span> <span class="nav-text">Flutter渲染机制—GPU线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter引擎启动"><span class="nav-number">4.</span> <span class="nav-text">深入理解Flutter引擎启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Dart虚拟机启动"><span class="nav-number">5.</span> <span class="nav-text">深入理解Dart虚拟机启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter应用启动"><span class="nav-number">6.</span> <span class="nav-text">深入理解Flutter应用启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解setState更新机制"><span class="nav-number">7.</span> <span class="nav-text">深入理解setState更新机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter动画原理"><span class="nav-number">8.</span> <span class="nav-text">深入理解Flutter动画原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter消息机制-这里看的不是很了解，然后大部分都是C-代码，有疑问"><span class="nav-number">9.</span> <span class="nav-text">深入理解Flutter消息机制 - 这里看的不是很了解，然后大部分都是C++代码，有疑问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter异步Future机制"><span class="nav-number">10.</span> <span class="nav-text">深入理解Flutter异步Future机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter的Isolate创建过程"><span class="nav-number">11.</span> <span class="nav-text">深入理解Flutter的Isolate创建过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搭建Flutter-Engine源码编译环境"><span class="nav-number">12.</span> <span class="nav-text">搭建Flutter Engine源码编译环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搭建Flutter-Framework开发环境"><span class="nav-number">13.</span> <span class="nav-text">搭建Flutter Framework开发环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解Flutter的Platform-Channel机制"><span class="nav-number">14.</span> <span class="nav-text">深入理解Flutter的Platform Channel机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#源码解读Flutter-tools机制"><span class="nav-number">15.</span> <span class="nav-text">源码解读Flutter tools机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#源码解读Flutter-run机制"><span class="nav-number">16.</span> <span class="nav-text">源码解读Flutter run机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flutter前端编译frontend-server"><span class="nav-number">17.</span> <span class="nav-text">Flutter前端编译frontend_server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flutter机器码生成gen-snapshot"><span class="nav-number">18.</span> <span class="nav-text">Flutter机器码生成gen_snapshot</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解读Dart虚拟机的参数列表"><span class="nav-number">19.</span> <span class="nav-text">解读Dart虚拟机的参数列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dart虚拟机运行原理"><span class="nav-number">20.</span> <span class="nav-text">Dart虚拟机运行原理</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
