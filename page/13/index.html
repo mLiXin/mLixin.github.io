@@ -174,6 +174,516 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/05/09/book-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3ART/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/mLixin.github.io/2019/05/09/book-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3ART/" class="post-title-link" itemprop="url">深入理解Android:Java虚拟机ART 学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-09 14:39:43" itemprop="dateCreated datePublished" datetime="2019-05-09T14:39:43+08:00">2019-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>暂时大概了解，深入太难，等我哪天C++写溜了再来。Done for now.</p>
+<h4 id="第2章-深入理解Class文件格式"><a href="#第2章-深入理解Class文件格式" class="headerlink" title="第2章 深入理解Class文件格式"></a>第2章 深入理解Class文件格式</h4><ol start="0">
+<li><p>扩展阅读</p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/specs/jvms/se7/html/index.html" target="_blank" rel="noopener">Java vm官方规范</a><ul>
+<li>Class文件格式在第4章</li>
+<li>Java指令码的内容在第6、7章</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Class文件是什么？</p>
+<ul>
+<li>Java源代码经Java编译器编译后得到的Java字节码文件，可以看做是Java虚拟机的可执行文件。</li>
+</ul>
+</li>
+<li><p>Class文件</p>
+<ol>
+<li>u4:magic<ul>
+<li>取值必须是0xCAFEBABE</li>
+</ul>
+</li>
+<li>u2:minor_version<ul>
+<li>class文件版本的小版本信息</li>
+</ul>
+</li>
+<li>u2:major_version<ul>
+<li>class文件版本的大版本信息</li>
+</ul>
+</li>
+<li>u2:constant_pool_count<ul>
+<li>常量池数组中元素的个数</li>
+</ul>
+</li>
+<li>cp_info:constant_pool[constant_pool_count-1]<ul>
+<li>大小为constant_pool_count决定，是一个存储cp_info信息的数组。每个Class文件都包含一个常量池。常量池在代码中对应为一个数组，数组元素类型就是cp_info。注意数组索引从1开始。</li>
+</ul>
+</li>
+<li>u2:access_flags<ul>
+<li>表明该类的访问权限，public、private之类</li>
+</ul>
+</li>
+<li>u2:this_class<ul>
+<li>存储的是指向常量池数组元素的索引，通过这个索引和常量池对应元素的内容，可以知道本类的类名(只是类名，不包含包名，类名最终用字符串描述)</li>
+</ul>
+</li>
+<li>u2:super_class<ul>
+<li>存储的是指向常量池数组元素的索引，通过这个索引和常量池对应元素的内容，可以知道父类的类名(只是类名，不包含包名，类名最终用字符串描述)</li>
+</ul>
+</li>
+<li>u2:interfaces_count<ul>
+<li>存储的是指向常量池数组里的索引，通过这个索引可以知道该类实现了多少个接口</li>
+</ul>
+</li>
+<li>u2:interface[interfaces_count]<ul>
+<li>存储的是指向常量池数组里的索引，通过这个索引可以知道接口类的类名</li>
+</ul>
+</li>
+<li>u2:fields_count<ul>
+<li>成员变量的数量</li>
+</ul>
+</li>
+<li>field_info:fields[fields_count]<ul>
+<li>成员变量的信息</li>
+</ul>
+</li>
+<li>u2:methods_count<ul>
+<li>成员函数的数量</li>
+</ul>
+</li>
+<li>method_info:methods[methods_count]<ul>
+<li>成员函数的信息</li>
+</ul>
+</li>
+<li>u2:attributes_count<ul>
+<li>属性信息数量</li>
+</ul>
+</li>
+<li>attribute_info:attributes[attributes_Count]<ul>
+<li>属性信息(调试信息就记录了某局代码对应源文件哪一行、函数对应的Java字节码也属于属性信息的一种。另外源文件中的注解也属于属性。)</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>常量池及相关内容</p>
+<ul>
+<li>常量池对应的就是一个类型为cp_info的数组，每一个cp_info存储了一个常量项，每一个常量项的第一个字节用于表明常量项的类型，后面才是具体的常量项内容。<ul>
+<li>具体常量类型可见章节底部表格。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>为什么要单独分一个CONSTANT_UTF8类型出来存储字符串？</p>
+<ul>
+<li>CONSTANT_Class/Fieldref/String/Method/Methodref等等最后包含的内容都是字符串，这样可以节省Class文件的空间。</li>
+<li>Android的dex文件在 Class文件基础上做了进一步的优化以节省空间。</li>
+</ul>
+</li>
+<li><p>如何用字符串来描述成员变量、成员函数？</p>
+<ul>
+<li>数据类型的描述规则<ul>
+<li>原始数据类型B/C/D/F/I/J/S/Z分别对应byte/char/double/float/int/long/short/boolean</li>
+<li>引用数据类型<code>LClassName</code>(ClassName为对应类的全路径名 ),如<code>Ljava/lang/String</code>，表示String类型</li>
+<li>数组也是引用类型，用<code>[其他类型的描述名</code>来表示，如int数组表示为<code>[I</code>,字符串数组表示为<code>[java/lang/String</code>，二维数组表示为<code>[[I</code></li>
+</ul>
+</li>
+<li>成员变量的描述规则(Field Descriptor)<ul>
+<li>FieldDescriptor：只包含FieldType一种信息</li>
+<li>FieldType：<ul>
+<li>BaseType：B|C|D|F|I|J|S|Z</li>
+<li>ObjectType: L ClassName</li>
+<li>ArrayType:[ ComponentType(ComponentType由上面的FieldType构成)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>成员函数的描述规则(Method Descriptor)<ul>
+<li>MethodDescriptor的描述需要包含返回值及参数的数据类型</li>
+<li>MethodDescriptor</li>
+<li>ParamterDescriptor：FieldType</li>
+<li>ReturnDescriptor：Field|VoidDescriptor</li>
+<li>举例<ul>
+<li><code>System.out.println(String str)</code>对应Method Descriptor为<code>(Ljava/lang/String；)V</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>acess_flags介绍</p>
+<ul>
+<li>Class的特殊access_flags取值<ul>
+<li>ACC_SUPER：用于invokespecial指令</li>
+<li>ACC_SYNTHETIC：表明该类由编译器根据情况生成，源码里无法显示定义这样的类。</li>
+</ul>
+</li>
+<li>Field的access_flag取值<ul>
+<li>ACC_TRANSIENT：说明该成员不能被串行化</li>
+<li>ACC_SYNTHETIC：说明该成员由编译器根据情况生成的，源码里无法显示定义这样的成员</li>
+</ul>
+</li>
+<li>Method的access_flag<ul>
+<li>ACC_SYNCHRONIZED：synchronized函数</li>
+<li>ACC_BRIDGE：桥接方法，由编译器根据情况生成</li>
+<li>ACC_VARARGS：可变参数个数的函数</li>
+<li>ACC_STRICT：strictfp函数(strict float point,精确浮点)</li>
+<li>ACC_SYNTHETIC：表明该成员由编译器根据情况生成的，源码里无法直接定义这样的成员。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>属性包括哪些？</p>
+<ul>
+<li>attribute_name_index:属性名称，指向常量池UTF8常量项的索引<ul>
+<li>ConstantValue：fieldInfo中出现，描述一个常量成员域</li>
+<li>Code：methodInfo中出现，用于描述一个函数的内容，即源码中该函数内容编译后得到的虚拟机指令</li>
+<li>Exceptions：一个函数抛出异常或错误，methodInfo中会有此属性</li>
+<li>SourceFile：包含一个指向utf8常量项的树荫，包含此Class对应的源码文件名</li>
+<li>LocalVariableTable：属性还可以包含属性，改属性就是包含在Code属性中的，用来描述一个函数的本地变量相关信息，比如这个变量的名字，这个变量在源码哪一行定义的。</li>
+</ul>
+</li>
+<li>attribute_length：该属性具体内容的长度，即下面info数组的长度</li>
+<li>info[attribute_length]：属性具体内容</li>
+</ul>
+</li>
+<li><p>code属性都包括哪些内容？</p>
+<ul>
+<li>函数的内容(这个函数的源码转换后得到的Java字节码)就存储在Code属性中。</li>
+<li>主要包括：<ul>
+<li>attribute_name_index：指向内容为”code”的utf8_info常量项</li>
+<li>max_stack、max_locals：JVM执行指令的时候，操作数存储在操作数栈中，没一个操作数占用一个或者两个栈顶。max_stack说明这个函数在执行过程中，需要最深多少栈空间。max_locals表示该函数包括最多几个局部变量</li>
+<li>code_length和code：函数对应的指令内容也就是这个函数的源码经过编译器转换后得到的Java指令码存储在code数组中，长度由code_length表明</li>
+<li>exception_table_length和exception_table：一个函数可以包含多个try/catch语句，一个try/catch语句对应exception_table数组中的一项。<ul>
+<li>包括stact_pc、end_pc、handler_pc、cache_type</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>LineNumberTable属性包括哪些内容？</p>
+<ul>
+<li>用于Java的调试，可指明某条指令对应于源码哪一行。</li>
+<li>主要包括：<ul>
+<li>start_pc：指向Code_attribute中code数组某处指令</li>
+<li>line_number：说明start_pc位于源码的哪一行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>LocalVariableTable属性包括哪些内容？</p>
+<ul>
+<li>用于描述一个函数具备变量相关的信息</li>
+<li>主要包括：<ul>
+<li>start_pc和length：局部变量在code数组中的有效范围</li>
+<li>name_index：局部变量的名字</li>
+<li>descriptor_index：局部变量的类型</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Java指令码介绍(了解即可)</p>
+<ul>
+<li>Java指令码长度为一个字节，指令码后面跟0或多个参数<ul>
+<li>JVM规范第6章：介绍每个指令码的格式、所带参数、功能及使用场景</li>
+<li>JVM规范第7张：指令码的取值和对应的助记符</li>
+</ul>
+</li>
+<li>指令码<ul>
+<li>invokevirtual指令</li>
+<li>dup_x1指令：栈顶v1、v2，使用这个指令以后，编程栈顶v1、v2、v1 </li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>常量项类型</th>
+<th>tag取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CONSTANT_Class</td>
+<td>7</td>
+<td>代表类或接口的信息</td>
+</tr>
+<tr>
+<td>CONSTANT_Fieldref</td>
+<td>9</td>
+<td>成员变量信息，包括所属类的类名、变量和函数名、函数参数、返回值类型等。</td>
+</tr>
+<tr>
+<td>CONSTANT_Methodref</td>
+<td>10</td>
+<td>成员函数信息，包括所属类的类名、变量和函数名、函数参数、返回值类型等。</td>
+</tr>
+<tr>
+<td>CONSTANT_InterfaceMethodref</td>
+<td>11</td>
+<td>接口函数信息，包括所属类的类名、变量和函数名、函数参数、返回值类型等。</td>
+</tr>
+<tr>
+<td>CONSTANT_String</td>
+<td>8</td>
+<td>代表一个字符串，本身不存储字符串的内容，只存储一个索引值</td>
+</tr>
+<tr>
+<td>CONSTANT_Integer</td>
+<td>3</td>
+<td>4个字节，int型数据的信息</td>
+</tr>
+<tr>
+<td>CONSTANT_Float</td>
+<td>4</td>
+<td>4个字节，float型数据的信息</td>
+</tr>
+<tr>
+<td>CONSTANT_Long</td>
+<td>5</td>
+<td>8个字节，long型数据的信息</td>
+</tr>
+<tr>
+<td>CONSTANT_Double</td>
+<td>6</td>
+<td>8个字节，double型数据的信息</td>
+</tr>
+<tr>
+<td>CONSTANT_NameAndType</td>
+<td>12</td>
+<td>描述类的成员域或成员函数相关的信息</td>
+</tr>
+<tr>
+<td>CONSTANT_Utf8</td>
+<td>1</td>
+<td>存储字符串的常量项，真正包含了字符串的内容。CONSTANT_String只存储了一个指向这里的索引</td>
+</tr>
+<tr>
+<td>CONSTANT_MethodHandle</td>
+<td>15</td>
+<td>描述MethodHandle信息，MethodHandle和反射有关系</td>
+</tr>
+<tr>
+<td>CONSTANT_MethodType</td>
+<td>16</td>
+<td>描述一个成员函数的信息，只包括函数的参数类型和返回值类型，不包含函数名和所属类的类名</td>
+</tr>
+<tr>
+<td>CONSTANT_InvokeDynamic</td>
+<td>18</td>
+<td>用于invokeDynamic指令。invokeDynamic和Java平台上实现了一些动态语言相类似的有关功能</td>
+</tr>
+</tbody></table>
+<h4 id="第3章-深入理解Dex文件格式"><a href="#第3章-深入理解Dex文件格式" class="headerlink" title="第3章 深入理解Dex文件格式"></a>第3章 深入理解Dex文件格式</h4><ol>
+<li><p>为什么不直接使用Class文件，而用Dex？</p>
+<ul>
+<li>Dex核心内容和Class文件类似，可以和Class文件相互转化，但是Android虚拟机只能识别Dex文件</li>
+<li>移动设备内存、存储空间小，主要使用ARM的CPU，通用寄存器较多。</li>
+</ul>
+</li>
+<li><p>Dex和Class文件格式的区别？</p>
+<ul>
+<li>字节码文件的创建<ul>
+<li>一个Class文件对应一个Java源码文件，而一个Dex文件可对应多个Java源码文件。</li>
+<li>Android里面的Java源文件会先编译成多个.class文件，然后再合并到classes.dex文件中<ul>
+<li>class文件之间存在重复字符串等信息，而classes.dex由于包含了多个Class文件的内容，可以进一步去除其中的重复信息。</li>
+<li>如果一个class文件依赖另一个class文件，则虚拟机处理的时候，需要读取另外一个class文件的内容，这可能导致CPU和存储设备进行更多的I/O操作，而classes.dex由于一个文件就包含了所有的信息，相对而言会减少I/O操作的次数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>字节序<ul>
+<li>Java平台字节序是Big Endian，所以class文件也是采用的Big Endian字节序来组织内容的。而Android平台上的Dex文件默认的字节序是Little Endian<ul>
+<li>大端字节序（big endian）：高位字节在前，低位字节在后，这是人类读写数值的方法。</li>
+<li>小端字节序（little endian）：低位字节在前，高位字节在后，即以0x1122形式储存。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>新增LEB128数据类型<ul>
+<li>Dex文件定义了一种名为LEB128的数据类型(Little Endian Based 128),唯一的功能就是用于表示32位比特位长度的数据。</li>
+</ul>
+</li>
+<li>信息描述规则<ul>
+<li>数据类型描述没有区别 </li>
+<li>简短描述<ul>
+<li>Dex文件格式中，简短描述用来描述函数的参数和返回值信息，类似Class文件格式的MEthodDescriptor，不过省略了很多字符。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Dex文件都包括哪些内容？</p>
+<ul>
+<li>概括来说：header_item(header)、string_ids、type_ids(类型相关)、proto_ids、field_ids(成员变量)、method_ids(成员函数)、class_defs(类的信息)、data(重要的数据内容)、link_data(预留区域)</li>
+<li>header_item<ul>
+<li>Dex文件头结构的类型，主要包括<ul>
+<li>magic：取值固定</li>
+<li>checksum：文件内容的校验和，不包括magic和自己，用于检查文件是否损坏</li>
+<li>signature：签名信息，不包括magic、checksum和自己，用于检查文件是否被篡改</li>
+<li>file_size：整个文件的长度</li>
+<li>header_size：默认是0x70个字节</li>
+<li>endian_tag：表示文件内容应该按什么字节序来处理，默认Little Endian</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>xxx_id_item(xxx_ids)<ul>
+<li>string_id_item</li>
+<li>type_id_item</li>
+<li>proto_id_item</li>
+<li>field_id_item</li>
+<li>method_id_item</li>
+</ul>
+</li>
+<li>class_def</li>
+<li>code_item </li>
+</ul>
+</li>
+<li><p>Dex指令码和Java指令码的区别？</p>
+<ul>
+<li>Dex文件中存储函数内容的insns数组比Class文件中存储函数内容的code数组解析起来要有难度。<ul>
+<li>Andorid虚拟机在执行指令码的时候不需要操作数栈，所有参数要么和Class指令码一样直接跟在指令码后面，要么就存储在寄存器中。这样指令码就需要携带一些信息来表示该指令执行的时候需要操作哪些寄存器。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="第4章-深入理解ELF文件格式"><a href="#第4章-深入理解ELF文件格式" class="headerlink" title="第4章 深入理解ELF文件格式"></a>第4章 深入理解ELF文件格式</h4><ol start="0">
+<li>了解即可，应用层面不用理解太多。</li>
+<li>Java虚拟机的可执行文件是.class文件，Dalvik虚拟机的可执行文件是.dex文件，而ART虚拟机的可执行文件是.oat文件</li>
+<li>.oat是一种定制化的ELF文件，所以ELF文件是oat文件的基础。</li>
+<li>ELF文件的两个特性？<ul>
+<li>Executable：可执行。ELF文件将参与程序的执行工作。包括二进制程序的运行以及动态库.so文件的加载</li>
+<li>Linkable：可链接。ELF文件是编译链接工作的重要参与者</li>
+</ul>
+</li>
+<li>ELF文件包括哪些内容？<ul>
+<li>头结构</li>
+<li>Linking View：链接视图，从编译链接的角度来观察一个ELF文件应该包含哪些内容</li>
+<li>Execution View：执行视图，从执行的角度来观察一个ELF文件应该包含什么信息</li>
+</ul>
+</li>
+</ol>
+<h4 id="第14章-ART中的GC"><a href="#第14章-ART中的GC" class="headerlink" title="第14章 ART中的GC"></a>第14章 ART中的GC</h4><ol>
+<li><p>Mark-Sweep Collection原理</p>
+<ul>
+<li>Mark阶段：搜索内存中的Java对象(对ART虚拟机而言，就是从root set遍历Object对象)，对那些能搜到的对象进行标记</li>
+<li>Sweep阶段：释放那些没有被标记的对象所占据的内存。</li>
+</ul>
+</li>
+<li><p>Copying Collection原理</p>
+<ul>
+<li>将堆分为大小相同的两个空间，fromspace、tospace。对象的内存分配只使用tospace</li>
+<li>tospace空间不够用的时候将触发GC。GC的第一个工作就是将指向这两个空间的变量进行互换</li>
+<li>从root set开始遍历，将遍历过程中访问到的对象从fromspace拷贝到tospace中。</li>
+<li>当fromspace中活对象全部拷贝完后，该空间的内存就可以整体释放。</li>
+<li>tips：还有另外一种Copying的实现方式，是分了三块内存去处理</li>
+</ul>
+</li>
+<li><p>Mark-Compact Collection原理</p>
+<ul>
+<li>Mark阶段，从root set触发遍历对象以标记存活的对象，没有被标记的则认为是垃圾对象</li>
+<li>压缩阶段，将存活对象挪到一起去。</li>
+</ul>
+</li>
+<li><p>其他的重要概念</p>
+<ul>
+<li>mutator和collector<ul>
+<li>collector表示内存回收相关的功能模块，mutator代表应用程序中除collector之外的其他部分</li>
+</ul>
+</li>
+<li>Incremental Collection(增量回收)<ul>
+<li>分代GC是增量回收的一种实现方式，heap被划分为新生代、老年代等部分，而GC往往只针对其中某一代，符合增量式回收的定义。</li>
+<li>早期GC实现中，垃圾回收会扫描全部的堆内存，需要暂停所有其他非GC线程的运行才能执行一次GC，对程序运行的影响非常大，而增量式回收可以每次只针对heap的一部分做GC，从而大幅度减少停顿时间。</li>
+</ul>
+</li>
+<li>Parallel Collection(并行回收)<ul>
+<li>程序中有多个垃圾回收线程，它们可以同时执行回收工作中的某些任务。比如Mark-Sweep算法而言，可以使用多个线程来做标记工作。</li>
+</ul>
+</li>
+<li>Concurrent Collection(并发回收)<ul>
+<li>程序中垃圾回收线程虽然只有一个，但是在回收工作的某个阶段，回收线程可以和其他非回收线程(mutator)同时运行，这样对程序运行的影响更小。相反，不适用concurrent collection的话，回收线程在工作的时候可能就需要暂停mutator线程的执行，也就是stop-the-world的情况，对程序影响较大。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>通过Runtime VisitRoots函数可知，root set包含的内容大致可从下面几个方面获取？(不是通过其他Object对象的引用型成员来找到的，而只能由虚拟机根据其实现的特点来确定)</p>
+<ul>
+<li>每一个Thread对象的VisitRoots函数</li>
+<li>JavaVmExt的VisitRoots</li>
+<li>Runtime成员变量sentinel、pre_allocated_OutOfMemoryError_和pre_allocated_NoClassDefFoundError_。这三个变量代表Java层的三个对象，由虚拟机直接持有，所以它们对应的root类型为kRootVMInternal</li>
+<li>RegTypeCache VisitStaticRoots函数</li>
+<li>InternTable VisitRoots函数</li>
+<li>ClassLinker VisitRoots函数</li>
+<li>Runtime VisitConstantRoots函数</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://mlixin.com/2019/01/03/GeekBang-Android%E5%BC%80%E5%8F%91%E9%AB%98%E6%89%8B%E8%AF%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3370,254 +3880,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2018/05/10/pub-flutter-%E9%97%B2%E9%B1%BC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
-      <meta itemprop="name" content="mLiXin">
-      <meta itemprop="description" content="Be true to yourself.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mLiXin's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mLixin.github.io/2018/05/10/pub-flutter-%E9%97%B2%E9%B1%BC/" class="post-title-link" itemprop="url">Flutter学习笔记 - 闲鱼公众号</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-05-10 17:23:05" itemprop="dateCreated datePublished" datetime="2018-05-10T17:23:05+08:00">2018-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/mLixin.github.io/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="Android-Flutter内存初探"><a href="#Android-Flutter内存初探" class="headerlink" title="Android Flutter内存初探"></a><a href="https://mp.weixin.qq.com/s/efKCpCtvvHDHUiAsizobBQ" target="_blank" rel="noopener">Android Flutter内存初探</a></h4><p>主要关注Dart VM内存分配和回收相关的部分</p>
-<ul>
-<li><p>Dart的线程是不共享内存的，各自的堆和栈都是隔离的，彼此通过消息通道来通信。Dart天然不存在数据竞争和变量状态同步的问题，整个Flutter Framework Widget的渲染过程都运行在一个isolate中。</p>
-</li>
-<li><p>Dart VM将内存管理分为新生代和老年代</p>
-<ul>
-<li>新生代(New Generation)<ul>
-<li>初次分配的对象的都位于新生代中，该区域主要存放内存较小并且生命周期较短的对象，比如局部变量。</li>
-<li>新生代会频繁执行内存回收(GC)，回收采用“复制-清除”算法，将内存分为两块，运行时每次只使用其中一块，另一块备用，当发生GC的时候，当前内存使用的内存块中存活的对象拷贝到备用内存块中，然后清除当前使用内存块，最后交互两块内存的角色。</li>
-</ul>
-</li>
-<li>老年代(Old Generation)<ul>
-<li>新生代GC留下的对象会被转移到老年代中(这里可能还是和JVM一样会有年龄限制的，不是每次GC留下的对象都会马上转移到老年代中)。老年代存放生命力周期较长，内存较大的对象。</li>
-<li>老年代GC采用<code>标记-清除</code>算法，分成标记和清除两个阶段。标记阶段，所有线程参与并发的完成对回收对象的标记，降低标记阶段耗时；清除阶段，由GC线程负责清理回收对象，和应用线程同时执行，不影响应用运行。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Android和Flutter加载图片使用的内存有什么区别？</p>
-<ul>
-<li>Android原生的ImageView在6.0和7.0版本使用的是Java虚拟机内存，而在Android8.0是使用的Native内存</li>
-<li>Flutter中的Image Widget使用的内存是Graphics(图形缓冲区队列向屏幕显示像素所使用的内存，这是CPU共享的内存，不是CPU专用内存)，不懂，反正不是Java虚拟机内存，不会出现OOM</li>
-</ul>
-</li>
-<li><p>Flutter和原生混合开发的是时候，有两种方案可以实现：</p>
-<ul>
-<li>一个Activity里面启动一个新的Flutter View</li>
-<li>只用一个FlutterView，跳转的时候复用这个FlutterView<ul>
-<li>Flutter Framework中FlutterView是绑定Activity使用的，必须attach一个Activity，为了避免Activity泄露，可以在detach的时候传入mainActivity，因为运行过程中mainActivity是会一直存在的。</li>
-<li>复用FlutterView的时候会有问题，比如Activity切换的时候，就不得不将当前FlutterView detach掉给后面新建的Activity使用，会有空白闪动。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Flutter首帧渲染耗时较高，优化思路是，预先将要使用的FlutterView加载好首帧，这样在真正使用的时候就很快了。</p>
-</li>
-</ul>
-<h4 id="深入了解Flutter界面开发"><a href="#深入了解Flutter界面开发" class="headerlink" title="深入了解Flutter界面开发"></a><a href="https://mp.weixin.qq.com/s/z2r2OmnY7r7dQrkO8ndkFQ" target="_blank" rel="noopener">深入了解Flutter界面开发</a></h4><ol>
-<li><p>Flutter框架</p>
-<ul>
-<li>FrameWork<ul>
-<li>Material/Cupertino</li>
-<li>Widgets</li>
-<li>Rendering</li>
-<li>Animationg/Painting/Gestures</li>
-<li>Foundation</li>
-</ul>
-</li>
-<li>Engine<ul>
-<li>Skia/Dart/Text</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Rendering Pipeline</p>
-<ul>
-<li>GPU发出Vsync信号，会经过四个阶段到达Layer Tree<ul>
-<li>Animate：Tick animations to change widget state</li>
-<li>Build：Rebuild widgets to account for state changes</li>
-<li>Layout：Update size and position of render objects</li>
-<li>Paint：Record display lists for composited layers</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>三种视图树</p>
-<ul>
-<li>组合型：Composer角色，将其他widget进行拼装组合成一个新的widget<ul>
-<li>StatelessWidgt</li>
-<li>StatefuleWidget/State</li>
-</ul>
-</li>
-<li>代理型：数据传递<ul>
-<li>ProxyWidget</li>
-</ul>
-</li>
-<li>展示型：具有实际展示内容的视图<ul>
-<li>RenderObjectWidget</li>
-<li>SingleChildRenderObjectWidget</li>
-<li>LeafRenderObjectWidget</li>
-<li>MultiChildRenderObjectWidget</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>创建树的过程</p>
-<ul>
-<li>创建Widget树</li>
-<li>调用runApp(rootWidget)，将rootWidget传给rootElement，作为rootElement的子节点，生成Element树，再由Element树生成Render树<ul>
-<li>Widget树：存放渲染内容、视图布局信息，widget的属性最好是immutable不变的。</li>
-<li>Element树：存放上下文，通过Element遍历视图树，Element同时持有Widget和RenderObject</li>
-<li>RenderObject树：根据Widget的布局属性进行layout，paint Widget传入的内容</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>为什么widget都是immutable不可变的？</p>
-<ul>
-<li>flutter界面开发是一种响应式编程，主张simple is fast，flutter设计的初衷希望数据变更时发送通知到对应的可变更节点，由上到下重新create widget树进行刷新，思路简单，不用关心数据变更会影响到哪些节点。</li>
-</ul>
-</li>
-<li><p>widget重新创建，element数和renderObject树是否也重新创建？</p>
-<ul>
-<li>不会，widget只是一个配置数据结构，创建非常轻量，官方对widget的创建和销毁做了优化，不用担心整个widget树重新创建所带来的性能问题，但是renderObject涉及到layout、paint等复杂操作，是一个真正渲染的view，整个view树重新创建开销就比较大</li>
-</ul>
-</li>
-<li><p>树的更新规则</p>
-<ol>
-<li>找到widget对应的element节点，设置element为dirty，触发drawFrame，drawFrame会调用element的performRebuild()进行树重建</li>
-<li>widget.build() == null，deactive element.child，删除子树，流程结束</li>
-<li>element.child.widget == null，mount新子树，流程结束</li>
-<li>element.child.widget == widget.build()，无需重建，否则进入流程5</li>
-<li>widget.canUpdate(element.child.widget,newWidget) == true，更新child的slot，element.child.update(newWidget)(如果child还有子节点，则递归上面的流程进行子树更新),流程结束，否则转6</li>
-<li>Widget.canUpdate(element.child.widget, newWidget) != true（widget的classtype 或者 key 不相等），deactivew element.child，mount新子树</li>
-</ol>
-</li>
-<li><p>如何触发树的更新？</p>
-<ul>
-<li>全局更新：调用runApp(rootWidget)，flutter启动时候调用后不会再调用</li>
-<li>局部子树更新：将该子树做StatefulWidget的一个子widget，并创建对应的State类实例，通过调用state.setState() 触发该子树的刷新</li>
-</ul>
-</li>
-<li><p>StatefuleWidget和StatelessWidget的区别？</p>
-<ul>
-<li>StatelessWidget：<ul>
-<li>无中间状态变化的widget，需要更新展示内容就得通过重新new，flutter推荐尽量使用StatelessWidget</li>
-</ul>
-</li>
-<li>StatefulWidget：<ul>
-<li>存在中间状态变化，引入state的类用于存放中间态，通过调用state.setState()进行此节点及以下的整个子树更新</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>State生命周期</p>
-<ul>
-<li>initState()<ul>
-<li>state create之后被insert到tree的时候调用的</li>
-</ul>
-</li>
-<li>didUpdateWidget(newWidget)<ul>
-<li>祖先节点rebuild widget时调用</li>
-</ul>
-</li>
-<li>deactivate()<ul>
-<li>widget被remove的时候调用</li>
-<li>一个widget从tree中remove掉，可以在dispose接口被调用前，重新instert到一个新tree中</li>
-</ul>
-</li>
-<li>didChangeDependencies()<ul>
-<li>初始化时，在initState()之后理科调用</li>
-<li>当依赖的InheritedWidget rebuild会触发此接口被调用</li>
-</ul>
-</li>
-<li>build()<ul>
-<li>initState之后会被调用</li>
-<li>didUpdateWidget之后被调用</li>
-<li>setState之后</li>
-<li>依赖的State对象改变之后</li>
-<li>deactivate之后</li>
-</ul>
-</li>
-<li>dispose()<ul>
-<li>Widget彻底销毁时调用</li>
-</ul>
-</li>
-<li>reassemble()<ul>
-<li>hot reload调用</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>生命周期注意事项</p>
-<ul>
-<li>A页面push一个新的B页面，A页面的widget树中所有state会依次调用deactivate、didUpdateWidget、build</li>
-<li>当ListView中的item滚动出可现实区域的时候，item会被从树中remove掉，此item子树中所有的state都会被dispose，state记录的数据都会销毁，item滚动回可显示区域时，会重新创建全新的state、element、renderobject</li>
-<li>使用hot reload功能的时候，state实例没有重新创建，如果该state中存在一些复杂的资源更新需要重新加载才能生效，那么需要在reassemble()添加处理</li>
-</ul>
-</li>
-</ol>
-<h4 id="深入理解flutter的编译原理与优化"><a href="#深入理解flutter的编译原理与优化" class="headerlink" title="深入理解flutter的编译原理与优化"></a><a href="https://mp.weixin.qq.com/s/vlHt8jxbdzBqJZDobpsFVw" target="_blank" rel="noopener">深入理解flutter的编译原理与优化</a></h4><h4 id="深入理解Flutter引擎线程模式"><a href="#深入理解Flutter引擎线程模式" class="headerlink" title="深入理解Flutter引擎线程模式"></a><a href="https://mp.weixin.qq.com/s/hZ5PUvPpMlEYBAJggGnJsw" target="_blank" rel="noopener">深入理解Flutter引擎线程模式</a></h4><h4 id="Flutter-Plugin调用Native-APIs"><a href="#Flutter-Plugin调用Native-APIs" class="headerlink" title="Flutter Plugin调用Native APIs"></a><a href="https://mp.weixin.qq.com/s/WORru3f5rfABFMoxQ_2nYw" target="_blank" rel="noopener">Flutter Plugin调用Native APIs</a></h4><h4 id="Flutter混合工程改造实践"><a href="#Flutter混合工程改造实践" class="headerlink" title="Flutter混合工程改造实践"></a><a href="https://mp.weixin.qq.com/s/Q1z6Mal2pZbequxk5I5UYA" target="_blank" rel="noopener">Flutter混合工程改造实践</a></h4><h4 id="Release-Flutter的最后一公里"><a href="#Release-Flutter的最后一公里" class="headerlink" title="Release Flutter的最后一公里"></a><a href="https://mp.weixin.qq.com/s/xV-FGR9o2ODLFJFq4YwnKg" target="_blank" rel="noopener">Release Flutter的最后一公里</a></h4><h4 id="Flutter-React编程范式实践"><a href="#Flutter-React编程范式实践" class="headerlink" title="Flutter React编程范式实践"></a><a href="https://mp.weixin.qq.com/s/GRHvM0BHe2D9Qwb_nW0New" target="_blank" rel="noopener">Flutter React编程范式实践</a></h4><h4 id="闲鱼Fultter混合工程持续集成的最佳实践"><a href="#闲鱼Fultter混合工程持续集成的最佳实践" class="headerlink" title="闲鱼Fultter混合工程持续集成的最佳实践"></a><a href="https://mp.weixin.qq.com/s/5opwrgVr48e0YDYtEWFXZQ" target="_blank" rel="noopener">闲鱼Fultter混合工程持续集成的最佳实践</a></h4><h4 id="Flutter新锐专家之路：工程研发体系篇"><a href="#Flutter新锐专家之路：工程研发体系篇" class="headerlink" title="Flutter新锐专家之路：工程研发体系篇"></a><a href="https://mp.weixin.qq.com/s/YMnzLGrUdjd1PFlkZdFMqQ" target="_blank" rel="noopener">Flutter新锐专家之路：工程研发体系篇</a></h4><h4 id="Flutter新锐专家之路：混合开发篇"><a href="#Flutter新锐专家之路：混合开发篇" class="headerlink" title="Flutter新锐专家之路：混合开发篇"></a><a href="https://mp.weixin.qq.com/s/1AMvmuckg9bEODqhULVhPQ" target="_blank" rel="noopener">Flutter新锐专家之路：混合开发篇</a></h4><h4 id="万万没想到-Flutter这样外接纹理"><a href="#万万没想到-Flutter这样外接纹理" class="headerlink" title="万万没想到-Flutter这样外接纹理"></a><a href="https://mp.weixin.qq.com/s/KkCsBvnRayvpXdI35J3fnw" target="_blank" rel="noopener">万万没想到-Flutter这样外接纹理</a></h4><h4 id="深入理解Flutter-Platform-Channel"><a href="#深入理解Flutter-Platform-Channel" class="headerlink" title="深入理解Flutter Platform Channel"></a><a href="https://mp.weixin.qq.com/s/FT7UFbee1AtxmKt3iJgvyg" target="_blank" rel="noopener">深入理解Flutter Platform Channel</a></h4><h4 id="Flutter快速上车之Widget"><a href="#Flutter快速上车之Widget" class="headerlink" title="Flutter快速上车之Widget"></a><a href="https://mp.weixin.qq.com/s/kAWPj97w5NfiqAYEpi3zVA" target="_blank" rel="noopener">Flutter快速上车之Widget</a></h4><h4 id="Flutter之禅-内存优化篇"><a href="#Flutter之禅-内存优化篇" class="headerlink" title="Flutter之禅 内存优化篇"></a><a href="https://mp.weixin.qq.com/s/mHBz56OWKBB_g9YavVKTbQ" target="_blank" rel="noopener">Flutter之禅 内存优化篇</a></h4><h4 id="揭秘Flutter-Hot-Reload（基础篇）"><a href="#揭秘Flutter-Hot-Reload（基础篇）" class="headerlink" title="揭秘Flutter Hot Reload（基础篇）"></a><a href="https://mp.weixin.qq.com/s/Z9QPUJ3dZy2btBOlhSfyQw" target="_blank" rel="noopener">揭秘Flutter Hot Reload（基础篇）</a></h4><h4 id="Flutter瘦身大作战"><a href="#Flutter瘦身大作战" class="headerlink" title="Flutter瘦身大作战"></a><a href="https://mp.weixin.qq.com/s/IIoaY2uw6Bqzc9XWI91YFw" target="_blank" rel="noopener">Flutter瘦身大作战</a></h4><h4 id="Flutter中嵌入Native组件的正确姿势是…"><a href="#Flutter中嵌入Native组件的正确姿势是…" class="headerlink" title="Flutter中嵌入Native组件的正确姿势是…"></a><a href="https://mp.weixin.qq.com/s/JM_AB0vVH0uOY7v0ToDamw" target="_blank" rel="noopener">Flutter中嵌入Native组件的正确姿势是…</a></h4><h4 id="关于Flutter初始化，我必须告诉你的是…（干货）"><a href="#关于Flutter初始化，我必须告诉你的是…（干货）" class="headerlink" title="关于Flutter初始化，我必须告诉你的是…（干货）"></a><a href="https://mp.weixin.qq.com/s/5JYzHWmczimYy3QMlLUJ4w" target="_blank" rel="noopener">关于Flutter初始化，我必须告诉你的是…（干货）</a></h4><h4 id="做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现"><a href="#做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现" class="headerlink" title="做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现"></a><a href="https://mp.weixin.qq.com/s/N5ih-DY5TuKyn_a0P2mz0Q" target="_blank" rel="noopener">做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现</a></h4><h4 id="Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）"><a href="#Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）" class="headerlink" title="Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）"></a><a href="https://mp.weixin.qq.com/s/YgE9lwEHb31WOWyraHL35w" target="_blank" rel="noopener">Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）</a></h4><h4 id="Flutter-Exception降到万分之几的秘密"><a href="#Flutter-Exception降到万分之几的秘密" class="headerlink" title="Flutter Exception降到万分之几的秘密"></a><a href="https://mp.weixin.qq.com/s/JiJ3XwIq_ADM457M6CBSxA" target="_blank" rel="noopener">Flutter Exception降到万分之几的秘密</a></h4><h4 id="如何在Flutter上优雅地序列化一个对象（实用）"><a href="#如何在Flutter上优雅地序列化一个对象（实用）" class="headerlink" title="如何在Flutter上优雅地序列化一个对象（实用）"></a><a href="https://mp.weixin.qq.com/s/W5kQBe0vlnkG7VwIVAmnRA" target="_blank" rel="noopener">如何在Flutter上优雅地序列化一个对象（实用）</a></h4><h4 id="已开源-码上用它开始Flutter混合开发——FlutterBoost"><a href="#已开源-码上用它开始Flutter混合开发——FlutterBoost" class="headerlink" title="已开源|码上用它开始Flutter混合开发——FlutterBoost"></a><a href="https://mp.weixin.qq.com/s/v-wwruadJntX1n-YuMPC7g" target="_blank" rel="noopener">已开源|码上用它开始Flutter混合开发——FlutterBoost</a></h4><h4 id="打通前后端逻辑，客户端Flutter代码一天上线"><a href="#打通前后端逻辑，客户端Flutter代码一天上线" class="headerlink" title="打通前后端逻辑，客户端Flutter代码一天上线"></a><a href="https://mp.weixin.qq.com/s/hFdBtDQo1TvvxBGHLV3Stw" target="_blank" rel="noopener">打通前后端逻辑，客户端Flutter代码一天上线</a></h4><h4 id="燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件"><a href="#燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件" class="headerlink" title="燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件"></a><a href="https://mp.weixin.qq.com/s/QwNMm0P2z7RGJ_xzhto1RQ" target="_blank" rel="noopener">燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件</a></h4><h4 id="Fish-Redux中的Dispatch是怎么实现的？"><a href="#Fish-Redux中的Dispatch是怎么实现的？" class="headerlink" title="Fish Redux中的Dispatch是怎么实现的？"></a><a href="https://mp.weixin.qq.com/s/4hJzGPH8OQ6hkthRFuisBQ" target="_blank" rel="noopener">Fish Redux中的Dispatch是怎么实现的？</a></h4><h4 id="走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相"><a href="#走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相" class="headerlink" title="走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相"></a><a href="https://mp.weixin.qq.com/s/26kY9rvRxVDkml2UeBnQfw" target="_blank" rel="noopener">走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相</a></h4><h4 id="在闲鱼，我们如何用Dart做高效后端开发？"><a href="#在闲鱼，我们如何用Dart做高效后端开发？" class="headerlink" title="在闲鱼，我们如何用Dart做高效后端开发？"></a><a href="https://mp.weixin.qq.com/s/jAD3hacFMVcOv9GnAfCFOw" target="_blank" rel="noopener">在闲鱼，我们如何用Dart做高效后端开发？</a></h4><h4 id="Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！"><a href="#Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！" class="headerlink" title="Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！"></a><a href="https://mp.weixin.qq.com/s/hw24XYmMDNj1iWZ2GAxMiQ" target="_blank" rel="noopener">Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！</a></h4><h4 id="一个优秀的可定制化Flutter相册组件，看这一篇就够了"><a href="#一个优秀的可定制化Flutter相册组件，看这一篇就够了" class="headerlink" title="一个优秀的可定制化Flutter相册组件，看这一篇就够了"></a><a href="https://mp.weixin.qq.com/s/ARKAvDn52irJmyw5tEeD0w" target="_blank" rel="noopener">一个优秀的可定制化Flutter相册组件，看这一篇就够了</a></h4><h4 id="揭秘！一个高准确率的Flutter埋点框架如何设计"><a href="#揭秘！一个高准确率的Flutter埋点框架如何设计" class="headerlink" title="揭秘！一个高准确率的Flutter埋点框架如何设计"></a><a href="https://mp.weixin.qq.com/s/CMYi-f0-6nwZ4ZyV5K_lKA" target="_blank" rel="noopener">揭秘！一个高准确率的Flutter埋点框架如何设计</a></h4><h4 id="如何低成本实现Flutter富文本，看着一篇就够了！"><a href="#如何低成本实现Flutter富文本，看着一篇就够了！" class="headerlink" title="如何低成本实现Flutter富文本，看着一篇就够了！"></a><a href="https://mp.weixin.qq.com/s/CGMwDXQbv_YbwEzblwGqRQ" target="_blank" rel="noopener">如何低成本实现Flutter富文本，看着一篇就够了！</a></h4><h4 id="编程界的“二向箔”——Dart元编程"><a href="#编程界的“二向箔”——Dart元编程" class="headerlink" title="编程界的“二向箔”——Dart元编程"></a><a href="https://mp.weixin.qq.com/s/-vEha279U54piV8PGKDzbA" target="_blank" rel="noopener">编程界的“二向箔”——Dart元编程</a></h4><h4 id="如何在Flutter上实现高性能的动态模板渲染"><a href="#如何在Flutter上实现高性能的动态模板渲染" class="headerlink" title="如何在Flutter上实现高性能的动态模板渲染"></a><a href="https://mp.weixin.qq.com/s/fX6DtXYtKw0hFqf7t---eA" target="_blank" rel="noopener">如何在Flutter上实现高性能的动态模板渲染</a></h4><h4 id="重磅-庖丁解牛之——Flutter-for-Web"><a href="#重磅-庖丁解牛之——Flutter-for-Web" class="headerlink" title="重磅|庖丁解牛之——Flutter for Web"></a><a href="https://mp.weixin.qq.com/s/krR2XsDXvakMlZWbV-VvSg" target="_blank" rel="noopener">重磅|庖丁解牛之——Flutter for Web</a></h4><h4 id="闲鱼公开多年Flutter武功秘籍（又又又开源了！）"><a href="#闲鱼公开多年Flutter武功秘籍（又又又开源了！）" class="headerlink" title="闲鱼公开多年Flutter武功秘籍（又又又开源了！）"></a><a href="https://mp.weixin.qq.com/s/8xOW0jh7sKCw19AZzI9QEw" target="_blank" rel="noopener">闲鱼公开多年Flutter武功秘籍（又又又开源了！）</a></h4><h4 id="即将开源-Flutter页面线上性能数据不再是谜"><a href="#即将开源-Flutter页面线上性能数据不再是谜" class="headerlink" title="即将开源|Flutter页面线上性能数据不再是谜"></a><a href="https://mp.weixin.qq.com/s/L_Hn8kdQsn4eRgrGGgTVJw" target="_blank" rel="noopener">即将开源|Flutter页面线上性能数据不再是谜</a></h4><h4 id="做一个高一致性、高性能的Flutter动态渲染，真的很难么？"><a href="#做一个高一致性、高性能的Flutter动态渲染，真的很难么？" class="headerlink" title="做一个高一致性、高性能的Flutter动态渲染，真的很难么？"></a><a href="https://mp.weixin.qq.com/s/R6IxJqawwbmlWvlwb3ZXww" target="_blank" rel="noopener">做一个高一致性、高性能的Flutter动态渲染，真的很难么？</a></h4><h4 id="怎样的Flutter-Engine定制流程，才能实现真正“开箱即用”？"><a href="#怎样的Flutter-Engine定制流程，才能实现真正“开箱即用”？" class="headerlink" title="怎样的Flutter Engine定制流程，才能实现真正“开箱即用”？"></a><a href="https://mp.weixin.qq.com/s/SB6p4fZuKCOvwtKvSzV1DA" target="_blank" rel="noopener">怎样的Flutter Engine定制流程，才能实现真正“开箱即用”？</a></h4><h4 id="Flutter-Serverless端到端研发架构实践"><a href="#Flutter-Serverless端到端研发架构实践" class="headerlink" title="Flutter+Serverless端到端研发架构实践"></a><a href="https://mp.weixin.qq.com/s/JHqHmb00JEMPSAQbau2FIw" target="_blank" rel="noopener">Flutter+Serverless端到端研发架构实践</a></h4><h4 id="闲鱼Flutter互动引擎系列——整体设计篇"><a href="#闲鱼Flutter互动引擎系列——整体设计篇" class="headerlink" title="闲鱼Flutter互动引擎系列——整体设计篇"></a><a href="https://mp.weixin.qq.com/s/oa-XUzWhhsz37Mj-Y6WkzA" target="_blank" rel="noopener">闲鱼Flutter互动引擎系列——整体设计篇</a></h4><h4 id="基于Flutter-FaaS的业务框架思考与实践"><a href="#基于Flutter-FaaS的业务框架思考与实践" class="headerlink" title="基于Flutter+FaaS的业务框架思考与实践"></a><a href="https://mp.weixin.qq.com/s/yvrz8zMD4q_ngk54-PWK8A" target="_blank" rel="noopener">基于Flutter+FaaS的业务框架思考与实践</a></h4><h4 id="闲鱼Flutter互动引擎系列——骨骼动画篇"><a href="#闲鱼Flutter互动引擎系列——骨骼动画篇" class="headerlink" title="闲鱼Flutter互动引擎系列——骨骼动画篇"></a><a href="https://mp.weixin.qq.com/s/mpfnA3vcnbaJPtoTdZNJ6g" target="_blank" rel="noopener">闲鱼Flutter互动引擎系列——骨骼动画篇</a></h4><h4 id="FlutterBoost1-0到2-0，我一共做了这几件事…"><a href="#FlutterBoost1-0到2-0，我一共做了这几件事…" class="headerlink" title="FlutterBoost1.0到2.0，我一共做了这几件事…"></a><a href="https://mp.weixin.qq.com/s/cNtyeyIAPB_1TkvMS69znA" target="_blank" rel="noopener">FlutterBoost1.0到2.0，我一共做了这几件事…</a></h4><h4 id="闲鱼Flutter图片框架架构演进（超详细）"><a href="#闲鱼Flutter图片框架架构演进（超详细）" class="headerlink" title="闲鱼Flutter图片框架架构演进（超详细）"></a><a href="https://mp.weixin.qq.com/s/98BxqW5QDHXLKMwHX_E7EQ" target="_blank" rel="noopener">闲鱼Flutter图片框架架构演进（超详细）</a></h4><h4 id="一个易迁移、兼容性高的-Flutter-富文本方案"><a href="#一个易迁移、兼容性高的-Flutter-富文本方案" class="headerlink" title="一个易迁移、兼容性高的 Flutter 富文本方案"></a><a href="https://mp.weixin.qq.com/s/uqxLb5ToMdi9sqL6gDRW_g" target="_blank" rel="noopener">一个易迁移、兼容性高的 Flutter 富文本方案</a></h4>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -3688,7 +3950,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/mLixin.github.io/archives/">
         
-          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-count">135</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

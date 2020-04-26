@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
 <meta property="og:description" content="摘要View的绘制流程主要包括三个过程：measure过程计算View的宽高，layout过程计算View的四个顶点的左边和实际的View的宽高，draw过程绘制View，只有draw方法完成以后，view的内容才会呈现在屏幕上。">
 <meta property="article:published_time" content="2018-09-04T06:56:33.000Z">
-<meta property="article:modified_time" content="2019-09-06T13:45:01.340Z">
+<meta property="article:modified_time" content="2020-04-26T03:37:56.782Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="TODO">
@@ -261,43 +261,19 @@
 <td>AT_MOST+parentSize</td>
 <td>UNSPECIFIED+0</td>
 </tr>
-<tr>
-<td>1. 一句话总结Measure过程</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>- View的measure过程：如果是at_most和exactly两种模式，测量的大小就是MeasureSpec中的specSize；如果是另外的模式，则还和这个View设置的背景有关</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>- ViewGroup的measure过程：除了完成自己的measure过程外，还会遍历去调用子元素的measure方法，各个子元素再递归去执行这个过程。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>2. View的MeasureSpec由什么决定？</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>- DecorView的MeasureSpec由窗口的尺寸和自己的LayoutParams决定</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>- 子View的MeasureSpec由父容器的MeasureSpec和自身的LayoutParams决定</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody></table>
+<ol>
+<li>一句话总结Measure过程<ul>
+<li>View的measure过程：如果是at_most和exactly两种模式，测量的大小就是MeasureSpec中的specSize；如果是另外的模式，则还和这个View设置的背景有关</li>
+<li>ViewGroup的measure过程：除了完成自己的measure过程外，还会遍历去调用子元素的measure方法，各个子元素再递归去执行这个过程。</li>
+</ul>
+</li>
+<li>View的MeasureSpec由什么决定？<ul>
+<li>DecorView的MeasureSpec由窗口的尺寸和自己的LayoutParams决定</li>
+<li>子View的MeasureSpec由父容器的MeasureSpec和自身的LayoutParams决定</li>
+</ul>
+</li>
+</ol>
 <h4 id="Layout过程"><a href="#Layout过程" class="headerlink" title="Layout过程"></a>Layout过程</h4><ol>
 <li>一句话总结Layout过程<ul>
 <li>首先通过setFrame方法来设定View的四个顶点的位置，这样View在父容器中的位置也就确定了，接着调用onLayout方法，这样父容器就能确定子元素的位置了。</li>
@@ -419,7 +395,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/mLixin.github.io/archives/">
         
-          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-count">135</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
