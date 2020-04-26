@@ -7,6 +7,9 @@ tags:
 categories:
 - Flutter
 ---
+#### 摘要
+闲鱼技术 公众号Flutter相关文章学习笔记
+<!--more-->
 #### [Android Flutter内存初探](https://mp.weixin.qq.com/s/efKCpCtvvHDHUiAsizobBQ)
 主要关注Dart VM内存分配和回收相关的部分
 
@@ -27,99 +30,11 @@ categories:
     - 一个Activity里面启动一个新的Flutter View
     - 只用一个FlutterView，跳转的时候复用这个FlutterView
         - Flutter Framework中FlutterView是绑定Activity使用的，必须attach一个Activity，为了避免Activity泄露，可以在detach的时候传入mainActivity，因为运行过程中mainActivity是会一直存在的。
-
-- 复用FlutterView的时候会有问题，比如Activity切换的时候，就不得不将当前FlutterView detach掉给后面新建的Activity使用，会有空白闪动。
+		- 复用FlutterView的时候会有问题，比如Activity切换的时候，就不得不将当前FlutterView detach掉给后面新建的Activity使用，会有空白闪动。
 
 - Flutter首帧渲染耗时较高，优化思路是，预先将要使用的FlutterView加载好首帧，这样在真正使用的时候就很快了。
 
 #### [深入了解Flutter界面开发](https://mp.weixin.qq.com/s/z2r2OmnY7r7dQrkO8ndkFQ)
-1. Flutter框架
-    - FrameWork
-        - Material/Cupertino
-        - Widgets
-        - Rendering
-        - Animationg/Painting/Gestures
-        - Foundation
-    - Engine
-        - Skia/Dart/Text
-
-2. Rendering Pipeline
-    - GPU发出Vsync信号，会经过四个阶段到达Layer Tree
-        - Animate：Tick animations to change widget state
-        - Build：Rebuild widgets to account for state changes
-        - Layout：Update size and position of render objects
-        - Paint：Record display lists for composited layers
-
-3. 三种视图树
-    - 组合型：Composer角色，将其他widget进行拼装组合成一个新的widget
-        - StatelessWidgt
-        - StatefuleWidget/State
-    - 代理型：数据传递
-        - ProxyWidget
-    - 展示型：具有实际展示内容的视图
-        - RenderObjectWidget
-        - SingleChildRenderObjectWidget
-        - LeafRenderObjectWidget
-        - MultiChildRenderObjectWidget
-
-4. 创建树的过程
-    - 创建Widget树
-    - 调用runApp(rootWidget)，将rootWidget传给rootElement，作为rootElement的子节点，生成Element树，再由Element树生成Render树
-        - Widget树：存放渲染内容、视图布局信息，widget的属性最好是immutable不变的。
-        - Element树：存放上下文，通过Element遍历视图树，Element同时持有Widget和RenderObject
-        - RenderObject树：根据Widget的布局属性进行layout，paint Widget传入的内容
-
-5. 为什么widget都是immutable不可变的？
-    - flutter界面开发是一种响应式编程，主张simple is fast，flutter设计的初衷希望数据变更时发送通知到对应的可变更节点，由上到下重新create widget树进行刷新，思路简单，不用关心数据变更会影响到哪些节点。
-
-6. widget重新创建，element数和renderObject树是否也重新创建？
-    - 不会，widget只是一个配置数据结构，创建非常轻量，官方对widget的创建和销毁做了优化，不用担心整个widget树重新创建所带来的性能问题，但是renderObject涉及到layout、paint等复杂操作，是一个真正渲染的view，整个view树重新创建开销就比较大
-
-7. 树的更新规则
-    1. 找到widget对应的element节点，设置element为dirty，触发drawFrame，drawFrame会调用element的performRebuild()进行树重建
-    2. widget.build() == null，deactive element.child，删除子树，流程结束
-    3. element.child.widget == null，mount新子树，流程结束
-    4. element.child.widget == widget.build()，无需重建，否则进入流程5
-    5. widget.canUpdate(element.child.widget,newWidget) == true，更新child的slot，element.child.update(newWidget)(如果child还有子节点，则递归上面的流程进行子树更新),流程结束，否则转6
-    6. Widget.canUpdate(element.child.widget, newWidget) != true（widget的classtype 或者 key 不相等），deactivew element.child，mount新子树
-
-8. 如何触发树的更新？
-    - 全局更新：调用runApp(rootWidget)，flutter启动时候调用后不会再调用
-    - 局部子树更新：将该子树做StatefulWidget的一个子widget，并创建对应的State类实例，通过调用state.setState() 触发该子树的刷新
-
-9. StatefuleWidget和StatelessWidget的区别？
-    - StatelessWidget：
-        - 无中间状态变化的widget，需要更新展示内容就得通过重新new，flutter推荐尽量使用StatelessWidget
-    - StatefulWidget：
-        - 存在中间状态变化，引入state的类用于存放中间态，通过调用state.setState()进行此节点及以下的整个子树更新
-
-10. State生命周期
-    - initState()
-        - state create之后被insert到tree的时候调用的
-    - didUpdateWidget(newWidget)
-        - 祖先节点rebuild widget时调用
-    - deactivate()
-        - widget被remove的时候调用
-        - 一个widget从tree中remove掉，可以在dispose接口被调用前，重新instert到一个新tree中
-    - didChangeDependencies()
-        - 初始化时，在initState()之后理科调用
-        - 当依赖的InheritedWidget rebuild会触发此接口被调用
-    - build()
-        - initState之后会被调用
-        - didUpdateWidget之后被调用
-        - setState之后
-        - 依赖的State对象改变之后
-        - deactivate之后
-    - dispose()
-        - Widget彻底销毁时调用
-    - reassemble()
-        - hot reload调用
-
-11. 生命周期注意事项
-    - A页面push一个新的B页面，A页面的widget树中所有state会依次调用deactivate、didUpdateWidget、build
-    - 当ListView中的item滚动出可现实区域的时候，item会被从树中remove掉，此item子树中所有的state都会被dispose，state记录的数据都会销毁，item滚动回可显示区域时，会重新创建全新的state、element、renderobject
-    - 使用hot reload功能的时候，state实例没有重新创建，如果该state中存在一些复杂的资源更新需要重新加载才能生效，那么需要在reassemble()添加处理
-
 #### [深入理解flutter的编译原理与优化](https://mp.weixin.qq.com/s/vlHt8jxbdzBqJZDobpsFVw)
 #### [深入理解Flutter引擎线程模式](https://mp.weixin.qq.com/s/hZ5PUvPpMlEYBAJggGnJsw)
 #### [Flutter Plugin调用Native APIs](https://mp.weixin.qq.com/s/WORru3f5rfABFMoxQ_2nYw)
@@ -152,5 +67,17 @@ categories:
 #### [揭秘！一个高准确率的Flutter埋点框架如何设计](https://mp.weixin.qq.com/s/CMYi-f0-6nwZ4ZyV5K_lKA)
 #### [如何低成本实现Flutter富文本，看着一篇就够了！](https://mp.weixin.qq.com/s/CGMwDXQbv_YbwEzblwGqRQ)
 #### [编程界的“二向箔”——Dart元编程](https://mp.weixin.qq.com/s/-vEha279U54piV8PGKDzbA)
-
-
+#### [如何在Flutter上实现高性能的动态模板渲染](https://mp.weixin.qq.com/s/fX6DtXYtKw0hFqf7t---eA)
+#### [重磅|庖丁解牛之——Flutter for Web](https://mp.weixin.qq.com/s/krR2XsDXvakMlZWbV-VvSg)
+#### [闲鱼公开多年Flutter武功秘籍（又又又开源了！）](https://mp.weixin.qq.com/s/8xOW0jh7sKCw19AZzI9QEw)
+#### [即将开源|Flutter页面线上性能数据不再是谜](https://mp.weixin.qq.com/s/L_Hn8kdQsn4eRgrGGgTVJw)
+#### [做一个高一致性、高性能的Flutter动态渲染，真的很难么？](https://mp.weixin.qq.com/s/R6IxJqawwbmlWvlwb3ZXww)
+#### [怎样的Flutter Engine定制流程，才能实现真正“开箱即用”？](https://mp.weixin.qq.com/s/SB6p4fZuKCOvwtKvSzV1DA)
+#### [Flutter+Serverless端到端研发架构实践](https://mp.weixin.qq.com/s/JHqHmb00JEMPSAQbau2FIw)
+#### [闲鱼Flutter互动引擎系列——整体设计篇](https://mp.weixin.qq.com/s/oa-XUzWhhsz37Mj-Y6WkzA)
+#### [基于Flutter+FaaS的业务框架思考与实践](https://mp.weixin.qq.com/s/yvrz8zMD4q_ngk54-PWK8A)
+#### [闲鱼Flutter互动引擎系列——骨骼动画篇](https://mp.weixin.qq.com/s/mpfnA3vcnbaJPtoTdZNJ6g)
+#### [FlutterBoost1.0到2.0，我一共做了这几件事...](https://mp.weixin.qq.com/s/cNtyeyIAPB_1TkvMS69znA)
+#### [闲鱼Flutter图片框架架构演进（超详细）](https://mp.weixin.qq.com/s/98BxqW5QDHXLKMwHX_E7EQ)
+#### [一个易迁移、兼容性高的 Flutter 富文本方案](https://mp.weixin.qq.com/s/uqxLb5ToMdi9sqL6gDRW_g)
+#### [复杂业务如何保证Flutter的高性能高流畅度？](https://mp.weixin.qq.com/s/iXFa9C68gUHr7PL8NHnZUA)

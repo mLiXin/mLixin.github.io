@@ -13,7 +13,7 @@ No one will give you anything in this life,You must earn it.
 #### 计算机基础
 1. 数据结构与算法
 	- [<font color=#A9A9A9>极客时间 - 数据结构与算法之美 -- Done</font>](https://time.geekbang.org/column/intro/126) 
-		- {% post_link GeekBang-数据结构与算法之美 <font color=#A9A9A9> 学习笔记 -- Done</font> %}
+		- {% post_link GeekBang-数据结构与算法之美 学习笔记 -- Done %}
 	- LeetCode
 		- {% post_link leetcode-total LeetCode 热题 %}
 		- {% post_link leetcode-interview-total LeetCode 剑指Offer %}
@@ -28,7 +28,7 @@ No one will give you anything in this life,You must earn it.
 	- [极客时间 - 趣谈Linux操作系统](https://time.geekbang.org/column/intro/164)
 4. 计算机网络
 	- <font color=#A9A9A9>《图解HTTP》 -- Done</font>
-		- {% post_link book-图解HTTP <font color=#A9A9A9>学习笔记 -- Done</font>%} 	
+		- {% post_link book-图解HTTP 学习笔记 -- Done%} 	
 	- [极客时间 - 趣谈网络协议](https://time.geekbang.org/column/intro/85) 
 		- {% post_link GeekBang-趣谈网络协议 学习笔记%}
 	- 《Web 性能权威指南》 
@@ -49,9 +49,9 @@ No one will give you anything in this life,You must earn it.
 	- 《垃圾回收算法手册》
 	- 《码出高效：Java开发手册》
 	- <font color=#999999>《深入了解Java虚拟机》-- Done for now</font>
-		- {% post_link book-深入了解Java虚拟机 <font color=#999999>学习笔记 -- Done for now</font>%} 
+		- {% post_link book-深入了解Java虚拟机 学习笔记 -- Done for now%} 
 	- <font color=#999999>《Java并发编程的艺术》-- Done</font>
-		- {% post_link book-Java并发编程的艺术 <font color=#999999>学习笔记 -- Done</font>%}
+		- {% post_link book-Java并发编程的艺术 学习笔记 -- Done%}
 2. Kotlin
 	- 《Kotlin in action》
 3. Dart
@@ -63,22 +63,22 @@ No one will give you anything in this life,You must earn it.
 #### 方向
 ##### Android
 - Android 各种机制
-	- {% post_link android-handler <font color=#A9A9A9>Handler机制 - Done</font>%}
-	- {% post_link android-component-activity <font color=#A9A9A9>Activity启动流程 - Done</font>%}
-	- {% post_link android-view-draw <font color=#A9A9A9>View绘制流程 - Done</font>%}
-	- {% post_link android-event-dispatch <font color=#A9A9A9>View事件分发流程 - Done</font>%}
+	- {% post_link android-handler Handler机制 - Done%} 
+	- {% post_link android-component-activity Activity启动流程 - Done%}
+	- {% post_link android-view-draw View绘制流程 - Done%}
+	- {% post_link android-event-dispatch View事件分发流程 - Done%}
 	- SharedPreferences[可参考这里](https://juejin.im/entry/597446ed6fb9a06bac5bc630)
 	- LruCache原理
 	- RecyclerView源码解析及优化技巧
 	- SharedPreference源码解析及使用技巧
-	- {% post_link android-jsbridge <font color=#A9A9A9>Webview Hybrid交互 - Done</font>%}
+	- {% post_link android-jsbridge Webview Hybrid交互 - Done%}
 	- 组件化
 	- 系统打包流程
 	- Binder机制
 	- MVC/MVP/MVVM
 	- 性能优化
 - 第三方库源码解析
-	- {% post_link android-third-EventBus <font color=#A9A9A9>EventBus - Done</font>%}
+	- {% post_link android-third-EventBus EventBus - Done%}
 	- Glide
 	- OkHttp
 	- Retrofit
@@ -91,13 +91,13 @@ No one will give you anything in this life,You must earn it.
 	- <font color=#A9A9A9>《App研发录》 -- Done</font>
 	- <font color=#A9A9A9>《Android开发艺术探索》 -- Done</font>
 	- <font color=#A9A9A9>《深入理解Android:Java虚拟机ART》 -- Done for now</font>
-		- {% post_link book-深入理解ART <font color=#A9A9A9>读书笔记 -- Done for now</font>%}
+		- {% post_link book-深入理解ART 读书笔记 -- Done for now%}
 - 其他
 	- [<font color=#A9A9A9>极客时间 - Android开发高手课 -- Done for now</font>](https://time.geekbang.org/column/intro/142)
-		- {% post_link GeekBang-Android开发高手课 <font color=#A9A9A9>学习笔记 -- Done for now</font>%}   
+		- {% post_link GeekBang-Android开发高手课 学习笔记 -- Done for now%}   
 
 ##### Flutter
-- Flutter入门相关
+- Flutter-个人总结
 	- {% post_link flutter-入门-001 Dart基础 %}
 	- {% post_link flutter-入门-002 Widget一览 %}
 - 闲鱼技术公众号
@@ -105,6 +105,7 @@ No one will give you anything in this life,You must earn it.
 - GitYuan技术博客(主要讲源码、机制)
 	- {% post_link pub-flutter-gityuan 学习笔记 - 持续更新%} 
 - [Flutter in action](https://developer.aliyun.com/article/720790?utm_content=g_1000111061) 
+- [Flutter技术解析与实战](https://yq.aliyun.com/download/4020?spm=a2c6h.12873639.0.0.279d55cbteloWf&do=login&accounttraceid=3ce76d38b2694cd1b58a779b7140dcd0srzs)
 
 
 ##### 微信小程序

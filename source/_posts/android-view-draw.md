@@ -28,6 +28,7 @@ TODO tag - 要花时间把源码分析过程记录下来
 |dp/dx|EXACTLY+childSize|EXACTLY+childSize|EXACTLY+childSize|
 |match_parent|EXACTLY+parentSize|AT_MOST+parentSize|UNSPECIFIED+0|
 |wrap_content|AT_MOST+parentSize|AT_MOST+parentSize|UNSPECIFIED+0|
+
 1. 一句话总结Measure过程
 	- View的measure过程：如果是at_most和exactly两种模式，测量的大小就是MeasureSpec中的specSize；如果是另外的模式，则还和这个View设置的背景有关
 	- ViewGroup的measure过程：除了完成自己的measure过程外，还会遍历去调用子元素的measure方法，各个子元素再递归去执行这个过程。
