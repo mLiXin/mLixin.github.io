@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mlixin.com","root":"/mLixin.github.io/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false,"padding":18},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"save":"auto","color":"#222"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要version: Channel dev, v1.18.0-8.0.pre 从源码角度来分析Flutter应用启动过程，Android平台都做了哪些工作？熟悉Android开发的同学都知道，Android启动后会调用Application和Activity的onCreate方法，本文即从这两个方法入口去分析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutter-rtfsc-app-start-01">
+<meta property="og:url" content="http://mlixin.com/2020/04/26/flutter-rtfsc-app-start-01/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="摘要version: Channel dev, v1.18.0-8.0.pre 从源码角度来分析Flutter应用启动过程，Android平台都做了哪些工作？熟悉Android开发的同学都知道，Android启动后会调用Application和Activity的onCreate方法，本文即从这两个方法入口去分析。">
+<meta property="article:published_time" content="2020-04-26T09:51:32.000Z">
+<meta property="article:modified_time" content="2020-04-26T10:07:04.436Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="TODO">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="RTFSC">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mlixin.com/2020/04/26/flutter-rtfsc-app-start-01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>flutter-rtfsc-app-start-01 | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/mLixin.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">mLiXin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">The truth conquers all.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/mLixin.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/mLixin.github.io/archives/" rel="section"><i class="fa fa-fw fa-calendar"></i>时间线</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/mLixin.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/mLixin.github.io/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section"><i class="fa fa-fw fa-heartbeat"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-tips">
+
+    <a href="/mLixin.github.io/tips/" rel="section"><i class="fa fa-fw fa-heart"></i>说说</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/mLixin.github.io/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2020/04/26/flutter-rtfsc-app-start-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          flutter-rtfsc-app-start-01
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-26 17:51:32" itemprop="dateCreated datePublished" datetime="2020-04-26T17:51:32+08:00">2020-04-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>version: Channel dev, v1.18.0-8.0.pre</p>
+<p>从源码角度来分析Flutter应用启动过程，Android平台都做了哪些工作？熟悉Android开发的同学都知道，Android启动后会调用Application和Activity的onCreate方法，本文即从这两个方法入口去分析。</p>
+<a id="more"></a>
+
+<h4 id="FlutterApplication-onCreate"><a href="#FlutterApplication-onCreate" class="headerlink" title="FlutterApplication#onCreate()"></a>FlutterApplication#onCreate()</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// [FlutterAolication.java#onCreate]</span></span><br><span class="line">public <span class="keyword">void</span> onCreate() &#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate();</span><br><span class="line">    FlutterMain.startInitialization(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// [FlutterMain.java]</span></span><br><span class="line">public <span class="keyword">static</span> <span class="keyword">void</span> startInitialization(<span class="meta">@NonNull</span> Context applicationContext) &#123;</span><br><span class="line">    FlutterLoader.getInstance().startInitialization(applicationContext);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// [FlutterLoader.java]</span></span><br><span class="line">public <span class="keyword">void</span> startInitialization(<span class="meta">@NonNull</span> Context applicationContext) &#123;</span><br><span class="line">    startInitialization(applicationContext, <span class="keyword">new</span> Settings());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public <span class="keyword">void</span> startInitialization(<span class="meta">@NonNull</span> Context applicationContext, <span class="meta">@NonNull</span> Settings settings) &#123;</span><br><span class="line">    <span class="comment">// 保证只会执行一次</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.settings != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 保证在主线程中执行</span></span><br><span class="line">    <span class="keyword">if</span> (Looper.myLooper() != Looper.getMainLooper()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"startInitialization must be called on the main thread"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.settings = settings;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 记录开始执行时间</span></span><br><span class="line">    long initStartTimestampMillis = SystemClock.uptimeMillis();</span><br><span class="line">    <span class="comment">// 从manifest的文件中获取一些值用于Flutter初始化配置</span></span><br><span class="line">    initConfig(applicationContext);</span><br><span class="line">    <span class="comment">// 首先清理因为不正常关闭而导致的无法触及的资源(TODO，剩下的代码都是基于BuildConfig.DEBUG或BuildConfig.JIT_RELEASE的)</span></span><br><span class="line">    initResources(applicationContext);</span><br><span class="line">    <span class="comment">// 加载libflutter.so</span></span><br><span class="line">    System.loadLibrary(<span class="string">"flutter"</span>);</span><br><span class="line">    <span class="comment">// 初始化VsyncWaiter，通过FlutterJNI设置Vsync信号回调和当前display的刷新频率(fps)</span></span><br><span class="line">    VsyncWaiter.getInstance((WindowManager) applicationContext.getSystemService(Context.WINDOW_SERVICE)).init();</span><br><span class="line">    <span class="comment">// 计算获取init执行时长</span></span><br><span class="line">    long initTimeMillis = SystemClock.uptimeMillis() - initStartTimestampMillis;</span><br><span class="line">    <span class="comment">// 通过FlutterJNI记录init执行时长。</span></span><br><span class="line">    FlutterJNI.nativeRecordStartTimestamp(initTimeMillis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="FlutterActivity"><a href="#FlutterActivity" class="headerlink" title="FlutterActivity"></a>FlutterActivity</h4><h5 id="onCreate"><a href="#onCreate" class="headerlink" title="onCreate"></a>onCreate</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// [FlutterActivity.java]</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    switchLaunchThemeForNormalTheme();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 注明生命周期为onCreate lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建代理类实例，将Activity的所有操作都放到代理类去处理，参数this，即当前FlutterActivity实现的Host接口</span></span><br><span class="line">    delegate = <span class="keyword">new</span> FlutterActivityAndFragmentDelegate(<span class="keyword">this</span>);</span><br><span class="line">    delegate.onAttach(<span class="keyword">this</span>);</span><br><span class="line">    delegate.onActivityCreated(savedInstanceState);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果backgroundMode为transparent，将背景设置为透明，这个mode通过intent获取。</span></span><br><span class="line">    configureWindowForTransparency();</span><br><span class="line">    <span class="comment">// 生成FlutterView和FlutterSplashView，并返回FlutterSplashView实例，将其设置为mainActivity的view</span></span><br><span class="line">    setContentView(createFlutterView());</span><br><span class="line">    <span class="comment">// 设置状态栏</span></span><br><span class="line">    configureStatusBarForFullscreenFlutterExperience();</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// [FlutterActivityAndFragmentDelegate]</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">onAttach</span><span class="params">(@NonNull Context context)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 确保当前代理类没有被release</span></span><br><span class="line">    ensureAlive();</span><br><span class="line">    <span class="comment">// 如果flutterEngine为空，初始化FlutterEngine，这里代码细看，可以发现1.如果存在cachedEngineId，则从FlutterEngineCache中获取；2.如果实现了host的provideFutureEngine，则为该Engine；3.根据host提供的参数new一个flutterEngine实例。前两种方式isFlutterEngineFromHost为true，最后这种为false</span></span><br><span class="line">    <span class="keyword">if</span> (flutterEngine == <span class="keyword">null</span>) &#123;</span><br><span class="line">      setupFlutterEngine();</span><br><span class="line">    &#125;</span><br><span class="line">    platformPlugin = host.providePlatformPlugin(host.getActivity(), flutterEngine);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (host.shouldAttachEngineToActivity()) &#123;</span><br><span class="line">      <span class="comment">// 将引擎和这个Activity绑定？TODO 这块先留着</span></span><br><span class="line">      flutterEngine</span><br><span class="line">          .getActivityControlSurface()</span><br><span class="line">          .attachToActivity(host.getActivity(), host.getLifecycle());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 配置Flutter引擎，这里主要是注册pubspec.yaml注册的所有plugins</span></span><br><span class="line">    host.configureFlutterEngine(flutterEngine);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="onStart"><a href="#onStart" class="headerlink" title="onStart()"></a><code>onStart()</code></h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// [FlutterActivityAndFragmentDelegate.java]</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ensureAlive();</span><br><span class="line">    doInitialFlutterViewRun();</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doInitialFlutterViewRun</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果是从缓存中获取的FlutterEngine实例，则不用走走下去。</span></span><br><span class="line">    <span class="keyword">if</span> (host.getCachedEngineId() != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 确保现在没有正在执行Dart代码</span></span><br><span class="line">    <span class="keyword">if</span> (flutterEngine.getDartExecutor().isExecutingDart()) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 设置initialRoute</span></span><br><span class="line">    <span class="keyword">if</span> (host.getInitialRoute() != <span class="keyword">null</span>) &#123;</span><br><span class="line">      flutterEngine.getNavigationChannel().setInitialRoute(host.getInitialRoute());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 执行Dart代码，这里一系列的操作最后应该会执行main.dart中的main()方法</span></span><br><span class="line">    DartExecutor.DartEntrypoint entrypoint =</span><br><span class="line">        <span class="keyword">new</span> DartExecutor.DartEntrypoint(</span><br><span class="line">            host.getAppBundlePath(), host.getDartEntrypointFunctionName());</span><br><span class="line">    flutterEngine.getDartExecutor().executeDartEntrypoint(entrypoint);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Tips：<ul>
+<li>createFlutterView()方法：<ul>
+<li>先根据RenderMode是不是surface决定创建FlutterView是FlutterSurfaceView类型还是FlutterTextureView类型</li>
+<li>添加首帧渲染listener</li>
+<li>创建FlutterSplashView用于首帧渲染出来之前展示的页面</li>
+<li>将FlutterView绑定到FlutterEngine中去。具体细节就不去看了，深挖都是坑。</li>
+</ul>
+</li>
+<li>setupFlutterEngine()方法：<ul>
+<li>三种创建FlutterEngine实例的方法<ul>
+<li>通过cachedId获取</li>
+<li>通过host的<code>provideFlutterEngine</code>获取</li>
+<li>根据配置new</li>
+</ul>
+</li>
+<li>这里第二种方法配置可能是为了混合开发的时候可以指定FlutterEngine？TODO </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><h5 id="FlutterApplication"><a href="#FlutterApplication" class="headerlink" title="FlutterApplication"></a>FlutterApplication</h5><ol>
+<li>从manifest的文件中获取一些值用于Flutter初始化配置</li>
+<li>提取Assets中的资源</li>
+<li>加载libflutter.so</li>
+<li>设置Vsync回调和刷新的fps</li>
+</ol>
+<h5 id="FlutterActivity-1"><a href="#FlutterActivity-1" class="headerlink" title="FlutterActivity"></a>FlutterActivity</h5><ol>
+<li>创建代理类实例</li>
+<li>创建FlutterEngine实例并进行相关的初始化操作，如绑定所有的pubspec.yaml中配置的第三方plugins等。</li>
+<li>初始化app的背景、状态栏等</li>
+<li>创建FlutterView</li>
+<li>创建FlutterSplashView用于首帧渲染前显示</li>
+<li>配置initRoute，并开始执行Dart代码。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/mLixin.github.io/tags/TODO/" rel="tag"># TODO</a>
+              <a href="/mLixin.github.io/tags/Flutter/" rel="tag"># Flutter</a>
+              <a href="/mLixin.github.io/tags/RTFSC/" rel="tag"># RTFSC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mLixin.github.io/2020/04/26/flutter-rtfsc-app-start-03/" rel="prev" title="flutter-rtfsc-app-start-03">
+      <i class="fa fa-chevron-left"></i> flutter-rtfsc-app-start-03
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FlutterApplication-onCreate"><span class="nav-number">2.</span> <span class="nav-text">FlutterApplication#onCreate()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FlutterActivity"><span class="nav-number">3.</span> <span class="nav-text">FlutterActivity</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#onCreate"><span class="nav-number">3.1.</span> <span class="nav-text">onCreate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#onStart"><span class="nav-number">3.2.</span> <span class="nav-text">onStart()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#FlutterApplication"><span class="nav-number">4.1.</span> <span class="nav-text">FlutterApplication</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FlutterActivity-1"><span class="nav-number">4.2.</span> <span class="nav-text">FlutterActivity</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mLiXin</p>
+  <div class="site-description" itemprop="description">Be true to yourself.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/mLixin.github.io/archives/">
+        
+          <span class="site-state-item-count">137</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/mLixin.github.io/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/mLixin.github.io/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/mLixin.github.io/lib/anime.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/mLixin.github.io/js/utils.js"></script>
+
+<script src="/mLixin.github.io/js/motion.js"></script>
+
+
+<script src="/mLixin.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/mLixin.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
