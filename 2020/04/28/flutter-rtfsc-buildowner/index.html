@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mlixin.com","root":"/mLixin.github.io/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false,"padding":18},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"save":"auto","color":"#222"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要version: Channel dev, v1.18.0-8.0.pre BuildOwner用来管理Element">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter源码浅析 - BuildOwner">
+<meta property="og:url" content="http://mlixin.com/2020/04/28/flutter-rtfsc-buildowner/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="摘要version: Channel dev, v1.18.0-8.0.pre BuildOwner用来管理Element">
+<meta property="article:published_time" content="2020-04-28T09:13:13.000Z">
+<meta property="article:modified_time" content="2020-04-28T09:15:14.766Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="RTFSC">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mlixin.com/2020/04/28/flutter-rtfsc-buildowner/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Flutter源码浅析 - BuildOwner | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/mLixin.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">mLiXin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">The truth conquers all.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/mLixin.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/mLixin.github.io/archives/" rel="section"><i class="fa fa-fw fa-calendar"></i>时间线</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/mLixin.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/mLixin.github.io/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section"><i class="fa fa-fw fa-heartbeat"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-tips">
+
+    <a href="/mLixin.github.io/tips/" rel="section"><i class="fa fa-fw fa-heart"></i>说说</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/mLixin.github.io/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2020/04/28/flutter-rtfsc-buildowner/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flutter源码浅析 - BuildOwner
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-28 17:13:13" itemprop="dateCreated datePublished" datetime="2020-04-28T17:13:13+08:00">2020-04-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>version: Channel dev, v1.18.0-8.0.pre</p>
+<p>BuildOwner用来管理Element</p>
+<a id="more"></a>
+<h4 id="Constructor"><a href="#Constructor" class="headerlink" title="Constructor"></a>Constructor</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BuildOwner(&#123; <span class="keyword">this</span>.onBuildScheduled &#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当第一个可以构建的element被标记为dirty的时候每次build的时候调用</span></span><br><span class="line">VoidCallback onBuildScheduled;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不再活动的Element，内部通过hashSet来实现</span></span><br><span class="line"><span class="keyword">final</span> _InactiveElements _inactiveElements = _InactiveElements();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录dirtyElement的list</span></span><br><span class="line"><span class="keyword">final</span> <span class="built_in">List</span>&lt;<span class="built_in">Element</span>&gt; _dirtyElements = &lt;<span class="built_in">Element</span>&gt;[];</span><br><span class="line"></span><br><span class="line"><span class="built_in">bool</span> _scheduledFlushDirtyElements = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 由于在build期间会有更多的element变为dirty，是否需要再次对_dirtyElements进行排序</span></span><br><span class="line"><span class="built_in">bool</span> _dirtyElementsNeedsResorting;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 负责焦点树的对象</span></span><br><span class="line">FocusManager focusManager = FocusManager();</span><br></pre></td></tr></table></figure>
+
+<h4 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当WidgetsBinding.drawFrame调用buildScope方法的时候，将元素添加到dirtyElement的列表中，从而实现重建</span></span><br><span class="line"><span class="keyword">void</span> scheduleBuildFor(<span class="built_in">Element</span> element)&#123;...;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 建立一个禁止调用[State.setState]的范围，并调用给定的callback</span></span><br><span class="line"><span class="keyword">void</span> lockState(<span class="keyword">void</span> callback())&#123;...;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 建立更新WidgetTree的范围，并调用给定的callback。然后调用[scheduleBuildFor],按照深度顺序，build所有标记为dirty的element</span></span><br><span class="line"><span class="keyword">void</span> buildScope(<span class="built_in">Element</span> context, [ VoidCallback callback ])&#123;...;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 卸载不再活动的element来完成build过程</span></span><br><span class="line"><span class="keyword">void</span> finalizeTree()&#123;...;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重建以给定的Element为根的整个子树，一般用于hot Reload的时候。</span></span><br><span class="line"><span class="comment">// 注意，除了开发调试下，这个方法不要调用。</span></span><br><span class="line"><span class="keyword">void</span> reassemble(<span class="built_in">Element</span> root)&#123;...;&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Method-Impl"><a href="#Method-Impl" class="headerlink" title="Method Impl"></a>Method Impl</h4><h5 id="void-scheduleBuildFor-Element-element"><a href="#void-scheduleBuildFor-Element-element" class="headerlink" title="void scheduleBuildFor(Element element){...;}"></a><code>void scheduleBuildFor(Element element){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> scheduleBuildFor(<span class="built_in">Element</span> element) &#123;</span><br><span class="line">  <span class="keyword">if</span> (element._inDirtyList) &#123;</span><br><span class="line">    _dirtyElementsNeedsResorting = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!_scheduledFlushDirtyElements &amp;&amp; onBuildScheduled != <span class="keyword">null</span>) &#123;</span><br><span class="line">    _scheduledFlushDirtyElements = <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">// WidgetsBinding的initInstances方法中创建BuildOwner并赋值onBuildScheduled = _handleBuildScheduled()，这个handle方法内部调用SchedulerBinding的ensureVisualUpdate();</span></span><br><span class="line">    <span class="comment">// ensureVisualUpdate()方法用于对象还没有生成Frame的时候通过scheduleFrame()方法来计划生成新的Frame</span></span><br><span class="line">    onBuildScheduled();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将该element添加进dirtyElement列表中</span></span><br><span class="line">  _dirtyElements.add(element);</span><br><span class="line">  <span class="comment">// 将该element的_inDirtyList属性置为true</span></span><br><span class="line">  element._inDirtyList = <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-lockState-void-callback"><a href="#void-lockState-void-callback" class="headerlink" title="void lockState(void callback()){...;}"></a><code>void lockState(void callback()){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> lockState(<span class="keyword">void</span> callback()) &#123;</span><br><span class="line">    callback();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-buildScope-Element-context-VoidCallback-callback"><a href="#void-buildScope-Element-context-VoidCallback-callback" class="headerlink" title="void buildScope(Element context, [ VoidCallback callback ]){...;}"></a><code>void buildScope(Element context, [ VoidCallback callback ]){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> buildScope(<span class="built_in">Element</span> context, [ VoidCallback callback ]) &#123;</span><br><span class="line">    <span class="keyword">if</span> (callback == <span class="keyword">null</span> &amp;&amp; _dirtyElements.isEmpty)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    _scheduledFlushDirtyElements = <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">// 执行callback回调</span></span><br><span class="line">    <span class="keyword">if</span> (callback != <span class="keyword">null</span>) &#123;</span><br><span class="line">        _dirtyElementsNeedsResorting = <span class="keyword">false</span>;</span><br><span class="line">        callback();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 对dirtyElement列表进行排序</span></span><br><span class="line">    _dirtyElements.sort(<span class="built_in">Element</span>._sort);</span><br><span class="line">    _dirtyElementsNeedsResorting = <span class="keyword">false</span>;</span><br><span class="line">    <span class="built_in">int</span> dirtyCount = _dirtyElements.length;</span><br><span class="line">    <span class="built_in">int</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (index &lt; dirtyCount) &#123;</span><br><span class="line">      <span class="comment">// 调用每个dirtyElement的rebuild()方法进行重建</span></span><br><span class="line">      _dirtyElements[index].rebuild();</span><br><span class="line">      index += <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (dirtyCount &lt; _dirtyElements.length || _dirtyElementsNeedsResorting) &#123;</span><br><span class="line">        <span class="comment">// 对dirtyElement列表重新进行排序，并获取最新的dirtyCount</span></span><br><span class="line">        _dirtyElements.sort(<span class="built_in">Element</span>._sort);</span><br><span class="line">        _dirtyElementsNeedsResorting = <span class="keyword">false</span>;</span><br><span class="line">        dirtyCount = _dirtyElements.length;</span><br><span class="line">        <span class="comment">// </span></span><br><span class="line">        <span class="keyword">while</span> (index &gt; <span class="number">0</span> &amp;&amp; _dirtyElements[index - <span class="number">1</span>].dirty) &#123;</span><br><span class="line">          index -= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 重建完后，将dirtyElement列表等重置</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">final</span> <span class="built_in">Element</span> element <span class="keyword">in</span> _dirtyElements) &#123;</span><br><span class="line">      element._inDirtyList = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    _dirtyElements.clear();</span><br><span class="line">    _scheduledFlushDirtyElements = <span class="keyword">false</span>;</span><br><span class="line">    _dirtyElementsNeedsResorting = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-finalizeTree"><a href="#void-finalizeTree" class="headerlink" title="void finalizeTree(){...;}"></a><code>void finalizeTree(){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> finalizeTree() &#123;</span><br><span class="line">  lockState(() &#123;</span><br><span class="line">    _inactiveElements._unmountAll(); </span><br><span class="line">  &#125;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-reassemble-Element-root"><a href="#void-reassemble-Element-root" class="headerlink" title="void reassemble(Element root){...;}"></a><code>void reassemble(Element root){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> reassemble(<span class="built_in">Element</span> root) &#123;</span><br><span class="line">    root.reassemble();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/mLixin.github.io/tags/Flutter/" rel="tag"># Flutter</a>
+              <a href="/mLixin.github.io/tags/RTFSC/" rel="tag"># RTFSC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mLixin.github.io/2020/04/27/flutter-rtfsc-app-start-02/" rel="prev" title="源码角度浅析Flutter App启动过程（二） runApp()做了哪些工作？">
+      <i class="fa fa-chevron-left"></i> 源码角度浅析Flutter App启动过程（二） runApp()做了哪些工作？
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Constructor"><span class="nav-number">2.</span> <span class="nav-text">Constructor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Properties"><span class="nav-number">3.</span> <span class="nav-text">Properties</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method"><span class="nav-number">4.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-Impl"><span class="nav-number">5.</span> <span class="nav-text">Method Impl</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#void-scheduleBuildFor-Element-element"><span class="nav-number">5.1.</span> <span class="nav-text">void scheduleBuildFor(Element element){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-lockState-void-callback"><span class="nav-number">5.2.</span> <span class="nav-text">void lockState(void callback()){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-buildScope-Element-context-VoidCallback-callback"><span class="nav-number">5.3.</span> <span class="nav-text">void buildScope(Element context, [ VoidCallback callback ]){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-finalizeTree"><span class="nav-number">5.4.</span> <span class="nav-text">void finalizeTree(){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-reassemble-Element-root"><span class="nav-number">5.5.</span> <span class="nav-text">void reassemble(Element root){...;}</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mLiXin</p>
+  <div class="site-description" itemprop="description">Be true to yourself.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/mLixin.github.io/archives/">
+        
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/mLixin.github.io/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/mLixin.github.io/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/mLixin.github.io/lib/anime.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/mLixin.github.io/js/utils.js"></script>
+
+<script src="/mLixin.github.io/js/motion.js"></script>
+
+
+<script src="/mLixin.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/mLixin.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
