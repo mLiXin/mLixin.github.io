@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mlixin.com","root":"/mLixin.github.io/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false,"padding":18},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"save":"auto","color":"#222"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要version: Channel dev, v1.18.0-8.0.pre 源码解读Element类，忽略try&#x2F;catch、assert、Semantics相关内容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter源码浅析 - Element">
+<meta property="og:url" content="http://mlixin.com/2020/04/29/flutter-rtfsc-element/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="摘要version: Channel dev, v1.18.0-8.0.pre 源码解读Element类，忽略try&#x2F;catch、assert、Semantics相关内容">
+<meta property="article:published_time" content="2020-04-29T02:26:10.000Z">
+<meta property="article:modified_time" content="2020-04-29T07:32:17.188Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="TODO">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="RTFSC">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mlixin.com/2020/04/29/flutter-rtfsc-element/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Flutter源码浅析 - Element | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/mLixin.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">mLiXin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">The truth conquers all.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/mLixin.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/mLixin.github.io/archives/" rel="section"><i class="fa fa-fw fa-calendar"></i>时间线</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/mLixin.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/mLixin.github.io/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section"><i class="fa fa-fw fa-heartbeat"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-tips">
+
+    <a href="/mLixin.github.io/tips/" rel="section"><i class="fa fa-fw fa-heart"></i>说说</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/mLixin.github.io/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2020/04/29/flutter-rtfsc-element/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flutter源码浅析 - Element
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-29 10:26:10" itemprop="dateCreated datePublished" datetime="2020-04-29T10:26:10+08:00">2020-04-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>version: Channel dev, v1.18.0-8.0.pre</p>
+<p>源码解读Element类，忽略try/catch、assert、Semantics相关内容</p>
+<a id="more"></a>
+
+<h4 id="Constructor"><a href="#Constructor" class="headerlink" title="Constructor"></a>Constructor</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Element</span>(Widget widget)</span><br><span class="line">  : <span class="keyword">assert</span>(widget != <span class="keyword">null</span>),</span><br><span class="line">    _widget = widget;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Element</span> _parent;</span><br><span class="line"><span class="built_in">int</span> <span class="keyword">get</span> hashCode =&gt; _cachedHash;</span><br><span class="line"><span class="keyword">final</span> <span class="built_in">int</span> _cachedHash = _nextHashCode = (_nextHashCode + <span class="number">1</span>) % <span class="number">0xffffff</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="built_in">int</span> _nextHashCode = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// parent设置的信息，用来定义该child在父类childList中的合适位置</span></span><br><span class="line"><span class="built_in">dynamic</span> <span class="keyword">get</span> slot =&gt; _slot;</span><br><span class="line"><span class="built_in">dynamic</span> _slot;</span><br><span class="line"></span><br><span class="line"><span class="built_in">int</span> <span class="keyword">get</span> depth =&gt; _depth;</span><br><span class="line"><span class="built_in">int</span> _depth;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对应的widget，element的配置信息</span></span><br><span class="line">Widget <span class="keyword">get</span> widget =&gt; _widget;</span><br><span class="line">Widget _widget;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 管理element生命周期的对象</span></span><br><span class="line">BuildOwner <span class="keyword">get</span> owner =&gt; _owner;</span><br><span class="line">BuildOwner _owner;</span><br><span class="line"></span><br><span class="line"><span class="built_in">bool</span> _active = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">RenderObject findRenderObject() =&gt; renderObject;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Map</span>&lt;<span class="built_in">Type</span>, InheritedElement&gt; _inheritedWidgets;</span><br><span class="line"><span class="built_in">Set</span>&lt;InheritedElement&gt; _dependencies;</span><br><span class="line"><span class="built_in">bool</span> _hadUnsatisfiedDependencies = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">bool</span> <span class="keyword">get</span> dirty =&gt; _dirty;</span><br><span class="line"><span class="built_in">bool</span> _dirty = <span class="keyword">true</span>;</span><br><span class="line"><span class="built_in">bool</span> _inDirtyList = <span class="keyword">false</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h4><ul>
+<li><a href="#sort"><code>static int _sort(Element a, Element b){...;}</code></a><ul>
+<li>将两个element根据depth从小到大，dirty从false到true的顺序排序</li>
+</ul>
+</li>
+<li><a href="#reassemble"><code>void reassemble(){...;}</code></a><ul>
+<li>只能在调试阶段调用，刷新整棵树</li>
+</ul>
+</li>
+<li><a href="#visitChildren"><code>void visitChildren(ElementVisitor visitor) { }</code></a><ul>
+<li>Element中空实现，注释中标注其子类必须实现该方法</li>
+</ul>
+</li>
+<li><a href="#visitChildElements"><code>void visitChildElements(ElementVisitor visitor){...;}</code></a><ul>
+<li>BuildContext的visitChildren的包装</li>
+</ul>
+</li>
+<li><a href="#updateChild"><code>Element updateChild(Element child, Widget newWidget, dynamic newSlot){...;}</code></a><ul>
+<li>更改用于配置当前element的widget</li>
+</ul>
+</li>
+<li><a href="#mount"><code>void mount(Element parent, dynamic newSlot){...;}</code></a><ul>
+<li>将当前Element根据parent给定的slot添加到树中</li>
+</ul>
+</li>
+<li><a href="#update"><code>void update(covariant Widget newWidget){...;}</code></a><ul>
+<li>更新当前Element对应的widget对象</li>
+</ul>
+</li>
+<li><a href="#updateSlotForChild"><code>void updateSlotForChild(Element child, dynamic newSlot){...}</code></a><ul>
+<li>更新child的slot</li>
+</ul>
+</li>
+<li><a href="#updateSlot"><code>void _updateSlot(dynamic newSlot){...;}</code></a><ul>
+<li>更新当前Element的slot</li>
+</ul>
+</li>
+<li><a href="#updateDepth"><code>void _updateDepth(int parentDepth){...;}</code></a><ul>
+<li>根据给定的parentDepth更新当前element的depth</li>
+</ul>
+</li>
+<li><a href="#detachRenderObject"><code>void detachRenderObject(){...;}</code></a><ul>
+<li>从RenderTree中移除renderObject</li>
+</ul>
+</li>
+<li><a href="#attachRenderObject"><code>void attachRenderObject(dynamic newSlot){...;}</code></a><ul>
+<li>将renderObject通过_slot添加到renderTree指定的位置</li>
+</ul>
+</li>
+<li><a href="#retakeInactiveElement"><code>Element _retakeInactiveElement(GlobalKey key, Widget newWidget){...;}</code></a><ul>
+<li>TODO 猜测可能是复用，通过key重新获取widget对应的element</li>
+</ul>
+</li>
+<li><a href="#inflateWidget"><code>Element inflateWidget(Widget newWidget, dynamic newSlot){...;}</code></a><ul>
+<li>根据给定的widget生成对应的element，并根据给定的slot将该element插入到指定的位置</li>
+</ul>
+</li>
+<li><a href="#deactivateChild"><code>void deactivateChild(Element child){...;}</code></a><ul>
+<li>将该元素从element移至inactiveElements列表中，并将其对应的renderObject从renderTree中移除</li>
+</ul>
+</li>
+<li><a href="#activateWithParent"><code>void _activateWithParent(Element parent, dynamic newSlot){...;}</code></a><ul>
+<li>active给定的parent及其child</li>
+</ul>
+</li>
+<li><a href="#activateRecursively"><code>static void _activateRecursively(Element element){...;}</code></a><ul>
+<li>递归active给定的element及其child</li>
+</ul>
+</li>
+<li><a href="#activate"><code>void activate(){...;}</code></a><ul>
+<li>将当前element从inactive状态改为active状态</li>
+</ul>
+</li>
+<li><a href="#deactivate"><code>void deactivate(){...;}</code></a><ul>
+<li>将当前element从active状态改为inactive</li>
+</ul>
+</li>
+<li><a href="#getSize"><code>Size get size{...;}</code></a><ul>
+<li>返回该element对应renderObject的size，只有是RenderBox的时候才有效，否则返回null</li>
+</ul>
+</li>
+<li><a href="#dependOnInheritedElement"><code>InheritedWidget dependOnInheritedElement(InheritedElement ancestor, { Object aspect }) {...;}</code></a><ul>
+<li>TODO denpendencies还没清楚有什么作用</li>
+</ul>
+</li>
+<li><a href="#dependOnInheritedWidgetOfExactType"><code>T dependOnInheritedWidgetOfExactType&lt;T extends InheritedWidget&gt;({Object aspect}) {...;}</code></a><ul>
+<li>TODO denpendencies还没清楚有什么作用</li>
+</ul>
+</li>
+<li><a href="#getElementForInheritedWidgetOfExactType"><code>InheritedElement getElementForInheritedWidgetOfExactType&lt;T extends InheritedWidget&gt;() {...;}</code></a><ul>
+<li>TODO</li>
+</ul>
+</li>
+<li><a href="#updateInheritance"><code>void _updateInheritance() {...;}</code></a><ul>
+<li>TODO</li>
+</ul>
+</li>
+<li><a href="#findAncestorWidgetOfExactType"><code>T findAncestorWidgetOfExactType&lt;T extends Widget&gt;() {...;}</code></a><ul>
+<li>TODO</li>
+</ul>
+</li>
+<li><a href="#findAncestorStateOfType"><code>T findAncestorStateOfType&lt;T extends State&lt;StatefulWidget&gt;&gt;() {...;}</code></a><ul>
+<li>寻找当前element最近的StatefulElement祖先，并返回其State</li>
+</ul>
+</li>
+<li><a href="#findRootAncestorStateOfType"><code>T findRootAncestorStateOfType&lt;T extends State&lt;StatefulWidget&gt;&gt;() {...;}</code></a><ul>
+<li>寻找根祖先，并返回其state</li>
+</ul>
+</li>
+<li><a href="#findAncestorRenderObjectOfType"><code>T findAncestorRenderObjectOfType&lt;T extends RenderObject&gt;() {...;}</code></a><ul>
+<li>寻找并返回最近祖先节点的renderObject</li>
+</ul>
+</li>
+<li><a href="#visitAncestorElements"><code>void visitAncestorElements(bool visitor(Element element)) {...;}</code></a><ul>
+<li>遍历祖先element，并执行visitor方法</li>
+</ul>
+</li>
+<li><a href="#didChangeDependencies"><code>void didChangeDependencies() {...;}</code></a><ul>
+<li>当dependency改变的时候会被调用</li>
+</ul>
+</li>
+<li><a href="#markNeedsBuild"><code>void markNeedsBuild() {...;}</code></a><ul>
+<li>标记需要重新build的element</li>
+</ul>
+</li>
+<li><a href="#rebuild"><code>void rebuild() {...;}</code></a><ul>
+<li>调用子类实现的performRebuild方法进行rebuild</li>
+<li>当buildOwner已经标记当前element为dirty后被buildOwner调用；或当前element第一次build的mount方法之后；或widget有变化的update方法之后</li>
+</ul>
+</li>
+<li><a href="#performRebuild"><code>void performRebuild();</code></a><ul>
+<li>抽象方法，Element并没有实现，所有子类必须实现的方法。</li>
+</ul>
+</li>
+</ul>
+<h4 id="MethodImple"><a href="#MethodImple" class="headerlink" title="MethodImple"></a>MethodImple</h4><h5 id="static-int-sort-Element-a-Element-b"><a href="#static-int-sort-Element-a-Element-b" class="headerlink" title="static int _sort(Element a, Element b){...;}"></a><a name="sort"/><code>static int _sort(Element a, Element b){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 优先depth从小到大，其实dirty为false、true</span></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">int</span> _sort(<span class="built_in">Element</span> a, <span class="built_in">Element</span> b) &#123;</span><br><span class="line">    <span class="keyword">if</span> (a.depth &lt; b.depth)</span><br><span class="line">      <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span> (b.depth &lt; a.depth)</span><br><span class="line">      <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (b.dirty &amp;&amp; !a.dirty)</span><br><span class="line">      <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span> (a.dirty &amp;&amp; !b.dirty)</span><br><span class="line">      <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;&lt;u&gt;&lt;/u&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-reassemble"><a href="#void-reassemble" class="headerlink" title="void reassemble(){...;}"></a><a name="reassemble"/><code>void reassemble(){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只能在debug的时候调用</span></span><br><span class="line"><span class="keyword">void</span> reassemble() &#123;</span><br><span class="line">    markNeedsBuild();</span><br><span class="line">    visitChildren((<span class="built_in">Element</span> child) &#123;</span><br><span class="line">      child.reassemble();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="RenderObject-get-renderObject"><a href="#RenderObject-get-renderObject" class="headerlink" title="RenderObject get renderObject{...;}"></a><a name="getRenderObject"/><code>RenderObject get renderObject{...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TODO</span></span><br><span class="line">RenderObject <span class="keyword">get</span> renderObject &#123;</span><br><span class="line">    RenderObject result;</span><br><span class="line">    <span class="keyword">void</span> visit(<span class="built_in">Element</span> element) &#123;</span><br><span class="line">      <span class="keyword">if</span> (element <span class="keyword">is</span> RenderObjectElement)</span><br><span class="line">        result = element.renderObject;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        element.visitChildren(visit);</span><br><span class="line">    &#125;</span><br><span class="line">    visit(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-visitChildren-ElementVisitor-visitor"><a href="#void-visitChildren-ElementVisitor-visitor" class="headerlink" title="void visitChildren(ElementVisitor visitor) { }"></a><a name="visitChildren"/><code>void visitChildren(ElementVisitor visitor) { }</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 未实现，子类必须实现该方法  TODO，为什么这么写？</span></span><br><span class="line"><span class="keyword">void</span> visitChildren(ElementVisitor visitor) &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="void-visitChildElements-ElementVisitor-visitor"><a href="#void-visitChildElements-ElementVisitor-visitor" class="headerlink" title="void visitChildElements(ElementVisitor visitor){...;}"></a><a name="visitChildElements"/><code>void visitChildElements(ElementVisitor visitor){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BuildContext的visitChildren的包装</span></span><br><span class="line"><span class="keyword">void</span> visitChildElements(ElementVisitor visitor) &#123;</span><br><span class="line">    visitChildren(visitor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Element-updateChild-Element-child-Widget-newWidget-dynamic-newSlot"><a href="#Element-updateChild-Element-child-Widget-newWidget-dynamic-newSlot" class="headerlink" title="Element updateChild(Element child, Widget newWidget, dynamic newSlot){...;}"></a><a name="updateChild"/><code>Element updateChild(Element child, Widget newWidget, dynamic newSlot){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更改用于配置当前element的widget</span></span><br><span class="line"><span class="built_in">Element</span> updateChild(<span class="built_in">Element</span> child, Widget newWidget, <span class="built_in">dynamic</span> newSlot) &#123;</span><br><span class="line">    <span class="keyword">if</span> (newWidget == <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="comment">// 如果newWidget为空，child不为空，则直接deactivateChild给定的child</span></span><br><span class="line">      <span class="keyword">if</span> (child != <span class="keyword">null</span>)</span><br><span class="line">        deactivateChild(child);</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Element</span> newChild;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (child != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="comment">// 如果newWidget不为空，child不为空</span></span><br><span class="line">      <span class="built_in">bool</span> hasSameSuperclass = <span class="keyword">true</span>; </span><br><span class="line">      <span class="comment">// assert(()&#123; hasSameSuperclass = oldElementClass == newWidgetClass;&#125;)</span></span><br><span class="line">      <span class="keyword">if</span> (hasSameSuperclass &amp;&amp; child.widget == newWidget) &#123;</span><br><span class="line">        <span class="comment">// 如果child对应的widget对象等于newWidget对象，</span></span><br><span class="line">        <span class="keyword">if</span> (child.slot != newSlot)</span><br><span class="line">          <span class="comment">// 新旧slot不一致，更新slot，并将newChild指向当前child</span></span><br><span class="line">          updateSlotForChild(child, newSlot);</span><br><span class="line">        newChild = child;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (hasSameSuperclass &amp;&amp; Widget.canUpdate(child.widget, newWidget)) &#123; </span><br><span class="line">        <span class="keyword">if</span> (child.slot != newSlot)</span><br><span class="line">          <span class="comment">// 新旧widget对象不相等，但是两个widget的runtimeType和key一致，slot不一致，则更新slot</span></span><br><span class="line">          updateSlotForChild(child, newSlot);</span><br><span class="line">        <span class="comment">// 更新当前childElement对应的widget为newWidget  </span></span><br><span class="line">        child.update(newWidget);</span><br><span class="line">        <span class="comment">// 将newChild指向当前child</span></span><br><span class="line">        newChild = child;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        deactivateChild(child);</span><br><span class="line">        newChild = inflateWidget(newWidget, newSlot);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// newWidget为空，child为空，直接通过inflateWidget生成newChildElement</span></span><br><span class="line">      newChild = inflateWidget(newWidget, newSlot);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> newChild;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-mount-Element-parent-dynamic-newSlot"><a href="#void-mount-Element-parent-dynamic-newSlot" class="headerlink" title="void mount(Element parent, dynamic newSlot){...;}"></a><a name="mount"/><code>void mount(Element parent, dynamic newSlot){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将当前Element根据parent给定的slot添加到树中</span></span><br><span class="line"><span class="keyword">void</span> mount(<span class="built_in">Element</span> parent, <span class="built_in">dynamic</span> newSlot) &#123;</span><br><span class="line">    _parent = parent;</span><br><span class="line">    _slot = newSlot;</span><br><span class="line">    _depth = _parent != <span class="keyword">null</span> ? _parent.depth + <span class="number">1</span> : <span class="number">1</span>;</span><br><span class="line">    _active = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (parent != <span class="keyword">null</span>) <span class="comment">// Only assign ownership if the parent is non-null</span></span><br><span class="line">      _owner = parent.owner;</span><br><span class="line">    <span class="keyword">final</span> Key key = widget.key;</span><br><span class="line">    <span class="keyword">if</span> (key <span class="keyword">is</span> GlobalKey) &#123;</span><br><span class="line">      key._register(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    _updateInheritance();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-update-covariant-Widget-newWidget"><a href="#void-update-covariant-Widget-newWidget" class="headerlink" title="void update(covariant Widget newWidget){...;}"></a><a name="update"/><code>void update(covariant Widget newWidget){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新当前Element对应的widget对象</span></span><br><span class="line"><span class="keyword">void</span> update(<span class="keyword">covariant</span> Widget newWidget) &#123;</span><br><span class="line">    _widget = newWidget;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-updateSlotForChild-Element-child-dynamic-newSlot"><a href="#void-updateSlotForChild-Element-child-dynamic-newSlot" class="headerlink" title="void updateSlotForChild(Element child, dynamic newSlot){...}"></a><a name="updateSlotForChild"/><code>void updateSlotForChild(Element child, dynamic newSlot){...}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新child的slot</span></span><br><span class="line"><span class="keyword">void</span> updateSlotForChild(<span class="built_in">Element</span> child, <span class="built_in">dynamic</span> newSlot) &#123;</span><br><span class="line">    <span class="keyword">void</span> visit(<span class="built_in">Element</span> element) &#123;</span><br><span class="line">      element._updateSlot(newSlot);</span><br><span class="line">      <span class="keyword">if</span> (element <span class="keyword">is</span>! RenderObjectElement)</span><br><span class="line">        <span class="comment">// 如果当前element不是RenderObjectElement，TODO 访问子类</span></span><br><span class="line">        element.visitChildren(visit);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 更新给定child的slot</span></span><br><span class="line">    visit(child);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="void-updateSlot-dynamic-newSlot"><a href="#void-updateSlot-dynamic-newSlot" class="headerlink" title="void _updateSlot(dynamic newSlot){...;}"></a><a name="updateSlot"/><code>void _updateSlot(dynamic newSlot){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新当前Element的slot</span></span><br><span class="line"><span class="keyword">void</span> _updateSlot(<span class="built_in">dynamic</span> newSlot) &#123;</span><br><span class="line">    _slot = newSlot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-updateDepth-int-parentDepth"><a href="#void-updateDepth-int-parentDepth" class="headerlink" title="void _updateDepth(int parentDepth){...;}"></a><a name="updateDepth"/><code>void _updateDepth(int parentDepth){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据给定的parentDepth更新当前element的depth</span></span><br><span class="line"><span class="keyword">void</span> _updateDepth(<span class="built_in">int</span> parentDepth) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">int</span> expectedDepth = parentDepth + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (_depth &lt; expectedDepth) &#123;</span><br><span class="line">      _depth = expectedDepth;</span><br><span class="line">      <span class="comment">// 遍历访问child，更新每个child的depth</span></span><br><span class="line">      visitChildren((<span class="built_in">Element</span> child) &#123;</span><br><span class="line">        child._updateDepth(expectedDepth);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="void-detachRenderObject"><a href="#void-detachRenderObject" class="headerlink" title="void detachRenderObject(){...;}"></a><a name="detachRenderObject"/><code>void detachRenderObject(){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从RenderTree中移除renderObject</span></span><br><span class="line"><span class="keyword">void</span> detachRenderObject() &#123;</span><br><span class="line">    visitChildren((<span class="built_in">Element</span> child) &#123;</span><br><span class="line">      child.detachRenderObject();</span><br><span class="line">    &#125;);</span><br><span class="line">    _slot = <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-attachRenderObject-dynamic-newSlot"><a href="#void-attachRenderObject-dynamic-newSlot" class="headerlink" title="void attachRenderObject(dynamic newSlot){...;}"></a><a name="attachRenderObject"/><code>void attachRenderObject(dynamic newSlot){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将renderObject通过_slot添加到renderTree指定的位置</span></span><br><span class="line"><span class="keyword">void</span> attachRenderObject(<span class="built_in">dynamic</span> newSlot) &#123;</span><br><span class="line">    visitChildren((<span class="built_in">Element</span> child) &#123;</span><br><span class="line">      child.attachRenderObject(newSlot);</span><br><span class="line">    &#125;);</span><br><span class="line">    _slot = newSlot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Element-retakeInactiveElement-GlobalKey-key-Widget-newWidget"><a href="#Element-retakeInactiveElement-GlobalKey-key-Widget-newWidget" class="headerlink" title="Element _retakeInactiveElement(GlobalKey key, Widget newWidget){...;}"></a><a name="retakeInactiveElement"/><code>Element _retakeInactiveElement(GlobalKey key, Widget newWidget){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TODO 猜测可能是复用，通过key重新获取widget对应的element</span></span><br><span class="line"><span class="built_in">Element</span> _retakeInactiveElement(GlobalKey key, Widget newWidget) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">Element</span> element = key._currentElement;</span><br><span class="line">    <span class="keyword">if</span> (element == <span class="keyword">null</span>)</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (!Widget.canUpdate(element.widget, newWidget))</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将该element从其parent中移除  </span></span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">Element</span> parent = element._parent;</span><br><span class="line">    <span class="keyword">if</span> (parent != <span class="keyword">null</span>) &#123;</span><br><span class="line">      parent.forgetChild(element);</span><br><span class="line">      parent.deactivateChild(element);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 从_inactiveElements列表中移除该element</span></span><br><span class="line">    owner._inactiveElements.remove(element);</span><br><span class="line">    <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Element-inflateWidget-Widget-newWidget-dynamic-newSlot"><a href="#Element-inflateWidget-Widget-newWidget-dynamic-newSlot" class="headerlink" title="Element inflateWidget(Widget newWidget, dynamic newSlot){...;}"></a><a name="inflateWidget"/><code>Element inflateWidget(Widget newWidget, dynamic newSlot){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据给定的widget生成对应的element，并根据给定的slot将该element插入到指定的位置</span></span><br><span class="line"><span class="built_in">Element</span> inflateWidget(Widget newWidget, <span class="built_in">dynamic</span> newSlot) &#123;</span><br><span class="line">    <span class="keyword">final</span> Key key = newWidget.key;</span><br><span class="line">    <span class="keyword">if</span> (key <span class="keyword">is</span> GlobalKey) &#123;</span><br><span class="line">      <span class="comment">// 如果有给widget指定GlobalKey，通过该key拿到widget对应的element</span></span><br><span class="line">      <span class="keyword">final</span> <span class="built_in">Element</span> newChild = _retakeInactiveElement(key, newWidget);</span><br><span class="line">      <span class="keyword">if</span> (newChild != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 如果存在这种element，</span></span><br><span class="line">        newChild._activateWithParent(<span class="keyword">this</span>, newSlot);</span><br><span class="line">        <span class="keyword">final</span> <span class="built_in">Element</span> updatedChild = updateChild(newChild, newWidget, newSlot);</span><br><span class="line">        <span class="keyword">return</span> updatedChild;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果没有指定key，则直接通过createELement生成element</span></span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">Element</span> newChild = newWidget.createElement();</span><br><span class="line">    <span class="comment">// 将生成的element通过newSlot添加到指定的位置</span></span><br><span class="line">    newChild.mount(<span class="keyword">this</span>, newSlot);</span><br><span class="line">    <span class="keyword">return</span> newChild;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-deactivateChild-Element-child"><a href="#void-deactivateChild-Element-child" class="headerlink" title="void deactivateChild(Element child){...;}"></a><a name="deactivateChild"/><code>void deactivateChild(Element child){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将该元素从element移至inactiveElements列表中，并将其对应的renderObject从renderTree中移除</span></span><br><span class="line"><span class="keyword">void</span> deactivateChild(<span class="built_in">Element</span> child) &#123;</span><br><span class="line">    <span class="comment">// 将该element从ElementTree中移除</span></span><br><span class="line">    child._parent = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// 将该element对应的renderObject从RenderObjectTree中移除</span></span><br><span class="line">    child.detachRenderObject();</span><br><span class="line">    <span class="comment">// 将该element添加到_inactiveElements列表中</span></span><br><span class="line">    owner._inactiveElements.add(child); <span class="comment">// this eventually calls child.deactivate()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-activateWithParent-Element-parent-dynamic-newSlot"><a href="#void-activateWithParent-Element-parent-dynamic-newSlot" class="headerlink" title="void _activateWithParent(Element parent, dynamic newSlot){...;}"></a><a name="activateWithParent"/><code>void _activateWithParent(Element parent, dynamic newSlot){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// active给定的parent及其child</span></span><br><span class="line"><span class="keyword">void</span> _activateWithParent(<span class="built_in">Element</span> parent, <span class="built_in">dynamic</span> newSlot) &#123;</span><br><span class="line">    _parent = parent;</span><br><span class="line">    <span class="comment">// 更新depth</span></span><br><span class="line">    _updateDepth(_parent.depth);</span><br><span class="line">    <span class="comment">// 递归active当前element及其child</span></span><br><span class="line">    _activateRecursively(<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">// 将当前元素通过slot添加到renderTree中</span></span><br><span class="line">    attachRenderObject(newSlot);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="static-void-activateRecursively-Element-element"><a href="#static-void-activateRecursively-Element-element" class="headerlink" title="static void _activateRecursively(Element element){...;}"></a><a name="activateRecursively"/><code>static void _activateRecursively(Element element){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 递归active给定的element及其child</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> _activateRecursively(<span class="built_in">Element</span> element) &#123;</span><br><span class="line">    <span class="comment">// 将给定element activate</span></span><br><span class="line">    element.activate();</span><br><span class="line">    <span class="comment">// 将该element的child activate</span></span><br><span class="line">    element.visitChildren(_activateRecursively);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="void-activate"><a href="#void-activate" class="headerlink" title="void activate(){...;}"></a><a name="activate"/><code>void activate(){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将当前element从inactive状态改为active状态</span></span><br><span class="line"><span class="keyword">void</span> activate() &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">bool</span> hadDependencies = (_dependencies != <span class="keyword">null</span> &amp;&amp; _dependencies.isNotEmpty) || _hadUnsatisfiedDependencies;</span><br><span class="line">    _active = <span class="keyword">true</span>;</span><br><span class="line">    _dependencies?.clear();</span><br><span class="line">    _hadUnsatisfiedDependencies = <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// 更新_inheritedWidgets</span></span><br><span class="line">    _updateInheritance();</span><br><span class="line">    <span class="keyword">if</span> (_dirty)</span><br><span class="line">      <span class="comment">// 如果当前element._dirty为true，调用其buildOwner的scheduleBuildFor方法准备重建</span></span><br><span class="line">      owner.scheduleBuildFor(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">if</span> (hadDependencies)</span><br><span class="line">      <span class="comment">// 如果该element存在依赖关系  TODO 这里的依赖关系是如何建立的？</span></span><br><span class="line">      didChangeDependencies();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-deactivate"><a href="#void-deactivate" class="headerlink" title="void deactivate(){...;}"></a><a name="deactivate"/><code>void deactivate(){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将当前element从active状态改为inactive</span></span><br><span class="line"><span class="keyword">void</span> deactivate() &#123;</span><br><span class="line">    <span class="comment">// 移除依赖关系</span></span><br><span class="line">    <span class="keyword">if</span> (_dependencies != <span class="keyword">null</span> &amp;&amp; _dependencies.isNotEmpty) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">final</span> InheritedElement dependency <span class="keyword">in</span> _dependencies)</span><br><span class="line">        dependency._dependents.remove(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将_inheritedWidgets置为空</span></span><br><span class="line">    _inheritedWidgets = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// _active置为false</span></span><br><span class="line">    _active = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="void-unmount"><a href="#void-unmount" class="headerlink" title="void unmount(){...;}"></a><a name="unmount"/><code>void unmount(){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将该element状态从inactive转为defunct</span></span><br><span class="line"><span class="keyword">void</span> unmount() &#123;</span><br><span class="line">    <span class="comment">// 通过key处理？ TODO key到底有什么用？</span></span><br><span class="line">    <span class="keyword">final</span> Key key = _widget.key;</span><br><span class="line">    <span class="keyword">if</span> (key <span class="keyword">is</span> GlobalKey) &#123;</span><br><span class="line">      key._unregister(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Size-get-size"><a href="#Size-get-size" class="headerlink" title="Size get size{...;}"></a><a name="getSize"/><code>Size get size{...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回该element对应renderObject的size，只有是RenderBox的时候才有效，否则返回null</span></span><br><span class="line">Size <span class="keyword">get</span> size &#123;</span><br><span class="line">    <span class="keyword">final</span> RenderObject renderObject = findRenderObject();</span><br><span class="line">    <span class="keyword">if</span> (renderObject <span class="keyword">is</span> RenderBox)</span><br><span class="line">      <span class="keyword">return</span> renderObject.size;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="InheritedWidget-dependOnInheritedElement-InheritedElement-ancestor-Object-aspect"><a href="#InheritedWidget-dependOnInheritedElement-InheritedElement-ancestor-Object-aspect" class="headerlink" title="InheritedWidget dependOnInheritedElement(InheritedElement ancestor, { Object aspect }) {...;}"></a><a name="dependOnInheritedElement"/><code>InheritedWidget dependOnInheritedElement(InheritedElement ancestor, { Object aspect }) {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">InheritedWidget dependOnInheritedElement(InheritedElement ancestor, &#123; <span class="built_in">Object</span> aspect &#125;) &#123;</span><br><span class="line">    _dependencies ??= HashSet&lt;InheritedElement&gt;();</span><br><span class="line">    <span class="comment">// 将给定的InheritedElement添加到_dependencies的set中</span></span><br><span class="line">    _dependencies.add(ancestor);</span><br><span class="line">    <span class="comment">// 更新依赖？TODO</span></span><br><span class="line">    ancestor.updateDependencies(<span class="keyword">this</span>, aspect);</span><br><span class="line">    <span class="keyword">return</span> ancestor.widget;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="T-dependOnInheritedWidgetOfExactType-lt-T-extends-InheritedWidget-gt-Object-aspect"><a href="#T-dependOnInheritedWidgetOfExactType-lt-T-extends-InheritedWidget-gt-Object-aspect" class="headerlink" title="T dependOnInheritedWidgetOfExactType&lt;T extends InheritedWidget&gt;({Object aspect}) {...;}"></a><a name="dependOnInheritedElement"/><code>T dependOnInheritedWidgetOfExactType&lt;T extends InheritedWidget&gt;({Object aspect}) {...;}</code></h5><p>TODO</p>
+<h5 id="InheritedElement-getElementForInheritedWidgetOfExactType-lt-T-extends-InheritedWidget-gt"><a href="#InheritedElement-getElementForInheritedWidgetOfExactType-lt-T-extends-InheritedWidget-gt" class="headerlink" title="InheritedElement getElementForInheritedWidgetOfExactType&lt;T extends InheritedWidget&gt;() {...;}"></a><a name="getElementForInheritedWidgetOfExactType"/><code>InheritedElement getElementForInheritedWidgetOfExactType&lt;T extends InheritedWidget&gt;() {...;}</code></h5><h5 id="void-updateInheritance"><a href="#void-updateInheritance" class="headerlink" title="void _updateInheritance() {...;}"></a><a name="updateInheritance"/><code>void _updateInheritance() {...;}</code></h5><p>TODO</p>
+<h5 id="T-findAncestorWidgetOfExactType-lt-T-extends-Widget-gt"><a href="#T-findAncestorWidgetOfExactType-lt-T-extends-Widget-gt" class="headerlink" title="T findAncestorWidgetOfExactType&lt;T extends Widget&gt;() {...;}"></a><a name="findAncestorWidgetOfExactType"/><code>T findAncestorWidgetOfExactType&lt;T extends Widget&gt;() {...;}</code></h5><p>TODO</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 寻找当前element最近的祖先</span></span><br><span class="line">T findAncestorWidgetOfExactType&lt;T <span class="keyword">extends</span> Widget&gt;() &#123;</span><br><span class="line">    <span class="built_in">Element</span> ancestor = _parent;</span><br><span class="line">    <span class="keyword">while</span> (ancestor != <span class="keyword">null</span> &amp;&amp; ancestor.widget.runtimeType != T)</span><br><span class="line">      ancestor = ancestor._parent;</span><br><span class="line">    <span class="keyword">return</span> ancestor?.widget <span class="keyword">as</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="T-findAncestorStateOfType-lt-T-extends-State-lt-StatefulWidget-gt-gt"><a href="#T-findAncestorStateOfType-lt-T-extends-State-lt-StatefulWidget-gt-gt" class="headerlink" title="T findAncestorStateOfType&lt;T extends State&lt;StatefulWidget&gt;&gt;() {...;}"></a><a name="findAncestorStateOfType"/><code>T findAncestorStateOfType&lt;T extends State&lt;StatefulWidget&gt;&gt;() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 寻找当前element最近的StatefulElement祖先，并返回其State</span></span><br><span class="line">T findAncestorStateOfType&lt;T <span class="keyword">extends</span> State&lt;StatefulWidget&gt;&gt;() &#123;</span><br><span class="line">    <span class="built_in">Element</span> ancestor = _parent;</span><br><span class="line">    <span class="keyword">while</span> (ancestor != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (ancestor <span class="keyword">is</span> StatefulElement &amp;&amp; ancestor.state <span class="keyword">is</span> T)</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      ancestor = ancestor._parent;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">final</span> StatefulElement statefulAncestor = ancestor <span class="keyword">as</span> StatefulElement;</span><br><span class="line">    <span class="keyword">return</span> statefulAncestor?.state <span class="keyword">as</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="T-findRootAncestorStateOfType-lt-T-extends-State-lt-StatefulWidget-gt-gt"><a href="#T-findRootAncestorStateOfType-lt-T-extends-State-lt-StatefulWidget-gt-gt" class="headerlink" title="T findRootAncestorStateOfType&lt;T extends State&lt;StatefulWidget&gt;&gt;() {...;}"></a><a name="findRootAncestorStateOfType"/><code>T findRootAncestorStateOfType&lt;T extends State&lt;StatefulWidget&gt;&gt;() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 寻找根祖先，并返回其state</span></span><br><span class="line">T findRootAncestorStateOfType&lt;T <span class="keyword">extends</span> State&lt;StatefulWidget&gt;&gt;() &#123;</span><br><span class="line">    <span class="built_in">Element</span> ancestor = _parent;</span><br><span class="line">    StatefulElement statefulAncestor;</span><br><span class="line">    <span class="keyword">while</span> (ancestor != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (ancestor <span class="keyword">is</span> StatefulElement &amp;&amp; ancestor.state <span class="keyword">is</span> T)</span><br><span class="line">        statefulAncestor = ancestor;</span><br><span class="line">      ancestor = ancestor._parent;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> statefulAncestor?.state <span class="keyword">as</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="T-findAncestorRenderObjectOfType-lt-T-extends-RenderObject-gt"><a href="#T-findAncestorRenderObjectOfType-lt-T-extends-RenderObject-gt" class="headerlink" title="T findAncestorRenderObjectOfType&lt;T extends RenderObject&gt;() {...;}"></a><a name="findAncestorRenderObjectOfType"/><code>T findAncestorRenderObjectOfType&lt;T extends RenderObject&gt;() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 寻找并返回最近祖先节点的renderObject</span></span><br><span class="line">T findAncestorRenderObjectOfType&lt;T <span class="keyword">extends</span> RenderObject&gt;() &#123;</span><br><span class="line">    <span class="built_in">Element</span> ancestor = _parent;</span><br><span class="line">    <span class="keyword">while</span> (ancestor != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (ancestor <span class="keyword">is</span> RenderObjectElement &amp;&amp; ancestor.renderObject <span class="keyword">is</span> T)</span><br><span class="line">        <span class="keyword">return</span> ancestor.renderObject <span class="keyword">as</span> T;</span><br><span class="line">      ancestor = ancestor._parent;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="void-visitAncestorElements-bool-visitor-Element-element"><a href="#void-visitAncestorElements-bool-visitor-Element-element" class="headerlink" title="void visitAncestorElements(bool visitor(Element element)) {...;}"></a><a name="visitAncestorElements"/><code>void visitAncestorElements(bool visitor(Element element)) {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遍历祖先element，并执行visitor方法</span></span><br><span class="line"><span class="keyword">void</span> visitAncestorElements(<span class="built_in">bool</span> visitor(<span class="built_in">Element</span> element)) &#123;</span><br><span class="line">    <span class="built_in">Element</span> ancestor = _parent;</span><br><span class="line">    <span class="keyword">while</span> (ancestor != <span class="keyword">null</span> &amp;&amp; visitor(ancestor))</span><br><span class="line">      ancestor = ancestor._parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="void-didChangeDependencies"><a href="#void-didChangeDependencies" class="headerlink" title="void didChangeDependencies() {...;}"></a><a name="didChangeDependencies"/><code>void didChangeDependencies() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当dependency改变的时候会被调用</span></span><br><span class="line"><span class="keyword">void</span> didChangeDependencies() &#123;</span><br><span class="line">    <span class="comment">// 标记当前element为dirty，将其添加到widget列表中，在下一帧的时候进行rebuild</span></span><br><span class="line">    markNeedsBuild();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-markNeedsBuild"><a href="#void-markNeedsBuild" class="headerlink" title="void markNeedsBuild() {...;}"></a><a name="markNeedsBuild"/><code>void markNeedsBuild() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 标记需要重新build的element</span></span><br><span class="line"><span class="keyword">void</span> markNeedsBuild() &#123;</span><br><span class="line">    <span class="comment">// 当前element不是active状态</span></span><br><span class="line">    <span class="keyword">if</span> (!_active)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 当前element已被标记为dirty  </span></span><br><span class="line">    <span class="keyword">if</span> (dirty)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 标记当前element的dirty为true  </span></span><br><span class="line">    _dirty = <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">// 通过buildOwner将该element添加到dirtyElement列表中，在下一帧进行rebuild</span></span><br><span class="line">    owner.scheduleBuildFor(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="void-rebuild"><a href="#void-rebuild" class="headerlink" title="void rebuild() {...;}"></a><a name="rebuild"/><code>void rebuild() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用子类实现的performRebuild方法进行rebuild</span></span><br><span class="line"><span class="comment">// 当buildOwner已经标记当前element为dirty后被buildOwner调用；或当前element第一次build的mount方法之后；或widget有变化的update方法之后</span></span><br><span class="line"><span class="keyword">void</span> rebuild() &#123;</span><br><span class="line">    performRebuild();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="void-performRebuild"><a href="#void-performRebuild" class="headerlink" title="void performRebuild();"></a><a name="performRebuild"/><code>void performRebuild();</code></h5><p>抽象方法，由个子类去实现。</p>
+<h4 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h4><ol>
+<li>dependencies有什么用？</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/mLixin.github.io/tags/TODO/" rel="tag"># TODO</a>
+              <a href="/mLixin.github.io/tags/Flutter/" rel="tag"># Flutter</a>
+              <a href="/mLixin.github.io/tags/RTFSC/" rel="tag"># RTFSC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mLixin.github.io/2020/04/28/flutter-rtfsc-pipelineowner/" rel="prev" title="Flutter源码浅析 - PipelineOwner">
+      <i class="fa fa-chevron-left"></i> Flutter源码浅析 - PipelineOwner
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-renderobject/" rel="next" title="Flutter源码浅析 - RenderObject">
+      Flutter源码浅析 - RenderObject <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Constructor"><span class="nav-number">2.</span> <span class="nav-text">Constructor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Properties"><span class="nav-number">3.</span> <span class="nav-text">Properties</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method"><span class="nav-number">4.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MethodImple"><span class="nav-number">5.</span> <span class="nav-text">MethodImple</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#static-int-sort-Element-a-Element-b"><span class="nav-number">5.1.</span> <span class="nav-text">static int _sort(Element a, Element b){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-reassemble"><span class="nav-number">5.2.</span> <span class="nav-text">void reassemble(){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RenderObject-get-renderObject"><span class="nav-number">5.3.</span> <span class="nav-text">RenderObject get renderObject{...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-visitChildren-ElementVisitor-visitor"><span class="nav-number">5.4.</span> <span class="nav-text">void visitChildren(ElementVisitor visitor) { }</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-visitChildElements-ElementVisitor-visitor"><span class="nav-number">5.5.</span> <span class="nav-text">void visitChildElements(ElementVisitor visitor){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Element-updateChild-Element-child-Widget-newWidget-dynamic-newSlot"><span class="nav-number">5.6.</span> <span class="nav-text">Element updateChild(Element child, Widget newWidget, dynamic newSlot){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-mount-Element-parent-dynamic-newSlot"><span class="nav-number">5.7.</span> <span class="nav-text">void mount(Element parent, dynamic newSlot){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-update-covariant-Widget-newWidget"><span class="nav-number">5.8.</span> <span class="nav-text">void update(covariant Widget newWidget){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-updateSlotForChild-Element-child-dynamic-newSlot"><span class="nav-number">5.9.</span> <span class="nav-text">void updateSlotForChild(Element child, dynamic newSlot){...}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-updateSlot-dynamic-newSlot"><span class="nav-number">5.10.</span> <span class="nav-text">void _updateSlot(dynamic newSlot){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-updateDepth-int-parentDepth"><span class="nav-number">5.11.</span> <span class="nav-text">void _updateDepth(int parentDepth){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-detachRenderObject"><span class="nav-number">5.12.</span> <span class="nav-text">void detachRenderObject(){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-attachRenderObject-dynamic-newSlot"><span class="nav-number">5.13.</span> <span class="nav-text">void attachRenderObject(dynamic newSlot){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Element-retakeInactiveElement-GlobalKey-key-Widget-newWidget"><span class="nav-number">5.14.</span> <span class="nav-text">Element _retakeInactiveElement(GlobalKey key, Widget newWidget){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Element-inflateWidget-Widget-newWidget-dynamic-newSlot"><span class="nav-number">5.15.</span> <span class="nav-text">Element inflateWidget(Widget newWidget, dynamic newSlot){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-deactivateChild-Element-child"><span class="nav-number">5.16.</span> <span class="nav-text">void deactivateChild(Element child){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-activateWithParent-Element-parent-dynamic-newSlot"><span class="nav-number">5.17.</span> <span class="nav-text">void _activateWithParent(Element parent, dynamic newSlot){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#static-void-activateRecursively-Element-element"><span class="nav-number">5.18.</span> <span class="nav-text">static void _activateRecursively(Element element){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-activate"><span class="nav-number">5.19.</span> <span class="nav-text">void activate(){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-deactivate"><span class="nav-number">5.20.</span> <span class="nav-text">void deactivate(){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-unmount"><span class="nav-number">5.21.</span> <span class="nav-text">void unmount(){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Size-get-size"><span class="nav-number">5.22.</span> <span class="nav-text">Size get size{...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#InheritedWidget-dependOnInheritedElement-InheritedElement-ancestor-Object-aspect"><span class="nav-number">5.23.</span> <span class="nav-text">InheritedWidget dependOnInheritedElement(InheritedElement ancestor, { Object aspect }) {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#T-dependOnInheritedWidgetOfExactType-lt-T-extends-InheritedWidget-gt-Object-aspect"><span class="nav-number">5.24.</span> <span class="nav-text">T dependOnInheritedWidgetOfExactType&lt;T extends InheritedWidget&gt;({Object aspect}) {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#InheritedElement-getElementForInheritedWidgetOfExactType-lt-T-extends-InheritedWidget-gt"><span class="nav-number">5.25.</span> <span class="nav-text">InheritedElement getElementForInheritedWidgetOfExactType&lt;T extends InheritedWidget&gt;() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-updateInheritance"><span class="nav-number">5.26.</span> <span class="nav-text">void _updateInheritance() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#T-findAncestorWidgetOfExactType-lt-T-extends-Widget-gt"><span class="nav-number">5.27.</span> <span class="nav-text">T findAncestorWidgetOfExactType&lt;T extends Widget&gt;() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#T-findAncestorStateOfType-lt-T-extends-State-lt-StatefulWidget-gt-gt"><span class="nav-number">5.28.</span> <span class="nav-text">T findAncestorStateOfType&lt;T extends State&lt;StatefulWidget&gt;&gt;() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#T-findRootAncestorStateOfType-lt-T-extends-State-lt-StatefulWidget-gt-gt"><span class="nav-number">5.29.</span> <span class="nav-text">T findRootAncestorStateOfType&lt;T extends State&lt;StatefulWidget&gt;&gt;() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#T-findAncestorRenderObjectOfType-lt-T-extends-RenderObject-gt"><span class="nav-number">5.30.</span> <span class="nav-text">T findAncestorRenderObjectOfType&lt;T extends RenderObject&gt;() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-visitAncestorElements-bool-visitor-Element-element"><span class="nav-number">5.31.</span> <span class="nav-text">void visitAncestorElements(bool visitor(Element element)) {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-didChangeDependencies"><span class="nav-number">5.32.</span> <span class="nav-text">void didChangeDependencies() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-markNeedsBuild"><span class="nav-number">5.33.</span> <span class="nav-text">void markNeedsBuild() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-rebuild"><span class="nav-number">5.34.</span> <span class="nav-text">void rebuild() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-performRebuild"><span class="nav-number">5.35.</span> <span class="nav-text">void performRebuild();</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Question"><span class="nav-number">6.</span> <span class="nav-text">Question</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mLiXin</p>
+  <div class="site-description" itemprop="description">Be true to yourself.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/mLixin.github.io/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/mLixin.github.io/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/mLixin.github.io/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/mLixin.github.io/lib/anime.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/mLixin.github.io/js/utils.js"></script>
+
+<script src="/mLixin.github.io/js/motion.js"></script>
+
+
+<script src="/mLixin.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/mLixin.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

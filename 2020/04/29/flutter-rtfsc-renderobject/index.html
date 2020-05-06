@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mlixin.com","root":"/mLixin.github.io/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false,"padding":18},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"save":"auto","color":"#222"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要version: Channel dev, v1.18.0-8.0.pre 源码解读RenderObject类，忽略try&#x2F;catch、assert、Semantics等相关内容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter源码浅析 - RenderObject">
+<meta property="og:url" content="http://mlixin.com/2020/04/29/flutter-rtfsc-renderobject/index.html">
+<meta property="og:site_name" content="mLiXin&#39;s Blog">
+<meta property="og:description" content="摘要version: Channel dev, v1.18.0-8.0.pre 源码解读RenderObject类，忽略try&#x2F;catch、assert、Semantics等相关内容">
+<meta property="article:published_time" content="2020-04-29T09:24:41.000Z">
+<meta property="article:modified_time" content="2020-04-29T09:32:05.037Z">
+<meta property="article:author" content="mLiXin">
+<meta property="article:tag" content="TODO">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="RTFSC">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mlixin.com/2020/04/29/flutter-rtfsc-renderobject/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Flutter源码浅析 - RenderObject | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/mLixin.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">mLiXin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">The truth conquers all.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/mLixin.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/mLixin.github.io/archives/" rel="section"><i class="fa fa-fw fa-calendar"></i>时间线</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/mLixin.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/mLixin.github.io/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section"><i class="fa fa-fw fa-heartbeat"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-tips">
+
+    <a href="/mLixin.github.io/tips/" rel="section"><i class="fa fa-fw fa-heart"></i>说说</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/mLixin.github.io/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2020/04/29/flutter-rtfsc-renderobject/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flutter源码浅析 - RenderObject
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-29 17:24:41" itemprop="dateCreated datePublished" datetime="2020-04-29T17:24:41+08:00">2020-04-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>version: Channel dev, v1.18.0-8.0.pre</p>
+<p>源码解读RenderObject类，忽略try/catch、assert、Semantics等相关内容</p>
+<a id="more"></a>
+
+<h4 id="Constructor"><a href="#Constructor" class="headerlink" title="Constructor"></a>Constructor</h4><h4 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类RenderObject使用</span></span><br><span class="line">ParentData parentData;</span><br><span class="line"></span><br><span class="line"><span class="built_in">bool</span> _needsLayout = <span class="keyword">true</span>;</span><br><span class="line">RenderObject _relayoutBoundary;</span><br><span class="line"><span class="built_in">bool</span> _doingThisLayoutWithCallback = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类给定的布局约束</span></span><br><span class="line">Constraints _constraints;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 该renderObject是否和其parent分开绘制</span></span><br><span class="line"><span class="built_in">bool</span> <span class="keyword">get</span> isRepaintBoundary =&gt; <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 该renderObject是否总是需要合成</span></span><br><span class="line"><span class="built_in">bool</span> <span class="keyword">get</span> alwaysNeedsCompositing =&gt; <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// set to true when a child is added</span></span><br><span class="line"><span class="built_in">bool</span> _needsCompositingBitsUpdate = <span class="keyword">false</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否有compositingLayout</span></span><br><span class="line"><span class="built_in">bool</span> _needsCompositing;</span><br></pre></td></tr></table></figure>
+<h4 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h4><ul>
+<li><p><a href="#reassemble"><code>void reassemble(){...;}</code></a></p>
+<ul>
+<li>刷新整颗RenderTree，主要用在调试时候的HotReload时候调用</li>
+</ul>
+</li>
+<li><p><a href="#setupParentData"><code>void setupParentData(covariant RenderObject child){...;}</code></a></p>
+<ul>
+<li>为给定的child初始化parentData</li>
+</ul>
+</li>
+<li><p><a href="#adoptChild"><code>void adoptChild(RenderObject child){...;}</code></a></p>
+<ul>
+<li>当其子类将一个renderObject作为其child的时候调用</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><a href="#dropChild"><code>void dropChild(RenderObject child){...;}</code></a></p>
+<ul>
+<li>当子类决定该child不再是其child的时候调用</li>
+</ul>
+</li>
+<li><p><a href="#visitChildren"><code>void visitChildren(RenderObjectVisitor visitor) { }</code></a></p>
+<ul>
+<li>调用每个child的visitor</li>
+</ul>
+</li>
+<li><p><a href="#attach"><code>void attach(PipelineOwner owner){...;}</code></a></p>
+<ul>
+<li>将当前RenderObject和给定的pipelineOwner绑定</li>
+<li>根据当前renderOBject的各种属性参数判断是否需要layout、compositingBitsUpdate、paint等操作</li>
+</ul>
+</li>
+<li><p><a href="#markNeedsLayout"><code>void markNeedsLayout() {...;}</code></a></p>
+<ul>
+<li>标记该renderObject的布局信息为dirty，并在下一帧绘制的时候刷新该renderObject</li>
+</ul>
+</li>
+<li><p><a href="#markParentNeedsLayout"><code>void markParentNeedsLayout() {...;}</code></a></p>
+<ul>
+<li>如果子类在layout过程中影响到了父类，则父类renderObject同样需要重新layout</li>
+</ul>
+</li>
+<li><p><a href="#cleanRelayoutBoundary"><code>void _cleanRelayoutBoundary() {...;}</code></a></p>
+<ul>
+<li>清除当前object及其子类的relayoutBoundary</li>
+</ul>
+</li>
+<li><p><a href="#scheduleInitialLayout"><code>void scheduleInitialLayout() {...;}</code></a></p>
+<ul>
+<li>通过规划第一个layout来引导rendering pipeline</li>
+</ul>
+</li>
+<li><p><a href="#layoutWithoutResize"><code>void _layoutWithoutResize() {...;}</code></a></p>
+<ul>
+<li>重新计算并绘制renderObejct</li>
+</ul>
+</li>
+<li><p><a href="#layout"><code>void layout(Constraints constraints, { bool parentUsesSize = false }){...;}</code></a></p>
+<ul>
+<li>计算该renderObject的layout</li>
+<li>这个方法主要用于parents请求child来更新child的layout信息</li>
+</ul>
+</li>
+<li><p><a href="#invokeLayoutCallback"><code>void invokeLayoutCallback&lt;T extends Constraints&gt;(LayoutCallback&lt;T&gt; callback){...;}</code></a></p>
+<ul>
+<li>在进行layout的时候执行给定的callback回调</li>
+</ul>
+</li>
+<li><p><a href="#markNeedsCompositingBitsUpdate"><code>void markNeedsCompositingBitsUpdate() {...;}</code></a></p>
+<ul>
+<li>将该renderObject的compositingState标记为dirty</li>
+</ul>
+</li>
+<li><p><a href="#updateCompositingBits"><code>void _updateCompositingBits() {...;}</code></a></p>
+<ul>
+<li>TODO 这个compositingBits还没看明白是干啥的，等着我。</li>
+</ul>
+</li>
+<li><p><a href="#markNeedsPaint"><code>void markNeedsPaint() {...;}</code></a></p>
+<ul>
+<li>标记该renderObject已经改变其外观</li>
+</ul>
+</li>
+<li><p><a href="#skippedPaintingOnLayer"><code>void _skippedPaintingOnLayer() {...;}</code></a></p>
+<ul>
+<li>当flushPaint()方法试图绘制但是layer已经detached的时候调用</li>
+</ul>
+</li>
+<li><p><a href="#scheduleInitialPaint"><code>void scheduleInitialPaint(ContainerLayer rootLayer) {...;}</code></a></p>
+<ul>
+<li>通过第一次paint来引导renderPipeline</li>
+</ul>
+</li>
+<li><p><a href="#replaceRootLayer"><code>void replaceRootLayer(OffsetLayer rootLayer) {...;}</code></a></p>
+<ul>
+<li>替换layer。只对renderObject的root有效</li>
+<li>可能在设备的像素比改变的时候调用</li>
+</ul>
+</li>
+<li><p><a href="#handleEvent"><code>void handleEvent(PointerEvent event, covariant HitTestEntry entry) { }</code></a></p>
+<ul>
+<li>重写该方法来处理renderObject的pointer event</li>
+</ul>
+</li>
+</ul>
+<h4 id="Method-Imple"><a href="#Method-Imple" class="headerlink" title="Method Imple"></a>Method Imple</h4><h5 id="void-reassemble"><a href="#void-reassemble" class="headerlink" title="void reassemble(){...;}"></a><a name = "reassemble" /><code>void reassemble(){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 刷新整颗RenderTree，主要用在调试时候的HotReload时候调用</span></span><br><span class="line"><span class="keyword">void</span> reassemble() &#123;</span><br><span class="line">    markNeedsLayout();</span><br><span class="line">    markNeedsCompositingBitsUpdate();</span><br><span class="line">    markNeedsPaint();</span><br><span class="line">    markNeedsSemanticsUpdate();</span><br><span class="line">    visitChildren((RenderObject child) &#123;</span><br><span class="line">      child.reassemble();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-setupParentData-covariant-RenderObject-child"><a href="#void-setupParentData-covariant-RenderObject-child" class="headerlink" title="void setupParentData(covariant RenderObject child){...;}"></a><a name="setupParentData" /><code>void setupParentData(covariant RenderObject child){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 为给定的child初始化parentData</span></span><br><span class="line"><span class="keyword">void</span> setupParentData(<span class="keyword">covariant</span> RenderObject child) &#123;</span><br><span class="line">    <span class="keyword">if</span> (child.parentData <span class="keyword">is</span>! ParentData)</span><br><span class="line">      child.parentData = ParentData();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-adoptChild-RenderObject-child"><a href="#void-adoptChild-RenderObject-child" class="headerlink" title="void adoptChild(RenderObject child){...;}"></a><a name="adoptChild" /><code>void adoptChild(RenderObject child){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当其子类将一个renderObject作为其child的时候调用</span></span><br><span class="line"><span class="keyword">void</span> adoptChild(RenderObject child) &#123;</span><br><span class="line">    <span class="comment">// 初始化parentData</span></span><br><span class="line">    setupParentData(child);</span><br><span class="line">    <span class="comment">// TODO</span></span><br><span class="line">    markNeedsLayout();</span><br><span class="line">    <span class="comment">// TODO</span></span><br><span class="line">    markNeedsCompositingBitsUpdate();</span><br><span class="line">    <span class="comment">// TODO </span></span><br><span class="line">    markNeedsSemanticsUpdate();</span><br><span class="line">    <span class="comment">// 调用父类的adoptChild方法</span></span><br><span class="line">    <span class="keyword">super</span>.adoptChild(child);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-dropChild-RenderObject-child"><a href="#void-dropChild-RenderObject-child" class="headerlink" title="void dropChild(RenderObject child){...;}"></a><a name="dropChild" /><code>void dropChild(RenderObject child){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当子类决定该child不再是其child的时候调用</span></span><br><span class="line"><span class="keyword">void</span> dropChild(RenderObject child) &#123;</span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    child._cleanRelayoutBoundary();</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    child.parentData.detach();</span><br><span class="line">    <span class="comment">// 将其parentData置空</span></span><br><span class="line">    child.parentData = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// 调用其父类？？？ TODO</span></span><br><span class="line">    <span class="keyword">super</span>.dropChild(child);</span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    markNeedsLayout();</span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    markNeedsCompositingBitsUpdate();</span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    markNeedsSemanticsUpdate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-visitChildren-RenderObjectVisitor-visitor"><a href="#void-visitChildren-RenderObjectVisitor-visitor" class="headerlink" title="void visitChildren(RenderObjectVisitor visitor) { }"></a><a name="visitChildren" /><code>void visitChildren(RenderObjectVisitor visitor) { }</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用每个child的visitor</span></span><br><span class="line"><span class="keyword">void</span> visitChildren(RenderObjectVisitor visitor) &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-attach-PipelineOwner-owner"><a href="#void-attach-PipelineOwner-owner" class="headerlink" title="void attach(PipelineOwner owner){...;}"></a><a name="attach" /><code>void attach(PipelineOwner owner){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将当前RenderObject和给定的pipelineOwner绑定</span></span><br><span class="line"><span class="comment">// 根据当前renderOBject的各种属性参数判断是否需要layout、compositingBitsUpdate、paint等操作</span></span><br><span class="line"><span class="keyword">void</span> attach(PipelineOwner owner) &#123;</span><br><span class="line">    <span class="keyword">super</span>.attach(owner);</span><br><span class="line">    <span class="keyword">if</span> (_needsLayout &amp;&amp; _relayoutBoundary != <span class="keyword">null</span>) &#123;</span><br><span class="line">      _needsLayout = <span class="keyword">false</span>;</span><br><span class="line">      markNeedsLayout();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_needsCompositingBitsUpdate) &#123;</span><br><span class="line">      _needsCompositingBitsUpdate = <span class="keyword">false</span>;</span><br><span class="line">      markNeedsCompositingBitsUpdate();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_needsPaint &amp;&amp; _layer != <span class="keyword">null</span>) &#123;</span><br><span class="line">      _needsPaint = <span class="keyword">false</span>;</span><br><span class="line">      markNeedsPaint();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_needsSemanticsUpdate &amp;&amp; _semanticsConfiguration.isSemanticBoundary) &#123;</span><br><span class="line">      _needsSemanticsUpdate = <span class="keyword">false</span>;</span><br><span class="line">      markNeedsSemanticsUpdate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-markNeedsLayout"><a href="#void-markNeedsLayout" class="headerlink" title="void markNeedsLayout() {...;}"></a><a name="markNeedsLayout"/><code>void markNeedsLayout() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 标记该renderObject的布局信息为dirty，并在下一帧绘制的时候刷新该renderObject</span></span><br><span class="line"><span class="keyword">void</span> markNeedsLayout() &#123;</span><br><span class="line">    <span class="keyword">if</span> (_needsLayout) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 判断自己是不是relayoutBoundary</span></span><br><span class="line">    <span class="keyword">if</span> (_relayoutBoundary != <span class="keyword">this</span>) &#123;</span><br><span class="line">      <span class="comment">// 不是的话，需要标记父类需要重新layout</span></span><br><span class="line">      markParentNeedsLayout();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 是的话，将自身标记_needsLayout，并将该renderObject添加到pipelineOwner的_nodesNeedingLayout列表中，并调用刷新</span></span><br><span class="line">      _needsLayout = <span class="keyword">true</span>;</span><br><span class="line">      <span class="keyword">if</span> (owner != <span class="keyword">null</span>) &#123;</span><br><span class="line">        owner._nodesNeedingLayout.add(<span class="keyword">this</span>);</span><br><span class="line">        owner.requestVisualUpdate();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-markParentNeedsLayout"><a href="#void-markParentNeedsLayout" class="headerlink" title="void markParentNeedsLayout() {...;}"></a><a name="markParentNeedsLayout"/><code>void markParentNeedsLayout() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果子类在layout过程中影响到了父类，则父类renderObject同样需要重新layout</span></span><br><span class="line"><span class="keyword">void</span> markParentNeedsLayout() &#123;</span><br><span class="line">    _needsLayout = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">final</span> RenderObject parent = <span class="keyword">this</span>.parent <span class="keyword">as</span> RenderObject;</span><br><span class="line">    <span class="keyword">if</span> (!_doingThisLayoutWithCallback) &#123;</span><br><span class="line">      parent.markNeedsLayout();</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-cleanRelayoutBoundary"><a href="#void-cleanRelayoutBoundary" class="headerlink" title="void _cleanRelayoutBoundary() {...;}"></a><a name="cleanRelayoutBoundary"/><code>void _cleanRelayoutBoundary() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 清除当前object及其子类的relayoutBoundary</span></span><br><span class="line"><span class="keyword">void</span> _cleanRelayoutBoundary() &#123;</span><br><span class="line">    <span class="keyword">if</span> (_relayoutBoundary != <span class="keyword">this</span>) &#123;</span><br><span class="line">      _relayoutBoundary = <span class="keyword">null</span>;</span><br><span class="line">      _needsLayout = <span class="keyword">true</span>;</span><br><span class="line">      visitChildren(_cleanChildRelayoutBoundary);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-scheduleInitialLayout"><a href="#void-scheduleInitialLayout" class="headerlink" title="void scheduleInitialLayout() {...;}"></a><a name="scheduleInitialLayout"/><code>void scheduleInitialLayout() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过规划第一个layout来引导rendering pipeline</span></span><br><span class="line"><span class="keyword">void</span> scheduleInitialLayout() &#123;</span><br><span class="line">    <span class="comment">// 将当前renderObject添加到pipelineOwner的_nodesNeedingLayout列表中</span></span><br><span class="line">    owner._nodesNeedingLayout.add(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-layoutWithoutResize"><a href="#void-layoutWithoutResize" class="headerlink" title="void _layoutWithoutResize() {...;}"></a><a name="layoutWithoutResize"/><code>void _layoutWithoutResize() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 重新计算并绘制renderObejct</span></span><br><span class="line"><span class="keyword">void</span> _layoutWithoutResize() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 完成renderObject的layout工作，抽象方法，子类实现</span></span><br><span class="line">    performLayout();</span><br><span class="line">    <span class="comment">// 辅助功能相关的，先忽略</span></span><br><span class="line">    markNeedsSemanticsUpdate();</span><br><span class="line">    <span class="comment">// 将当前renderObject置为不再需要重新layout</span></span><br><span class="line">    _needsLayout = <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// 标记需要重新绘制？ TODO</span></span><br><span class="line">    markNeedsPaint();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-layout-Constraints-constraints-bool-parentUsesSize-false"><a href="#void-layout-Constraints-constraints-bool-parentUsesSize-false" class="headerlink" title="void layout(Constraints constraints, { bool parentUsesSize = false }){...;}"></a><a name="layout"/><code>void layout(Constraints constraints, { bool parentUsesSize = false }){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算该renderObject的layout</span></span><br><span class="line"><span class="comment">// 这个方法主要用于parents请求child来更新child的layout信息</span></span><br><span class="line"><span class="keyword">void</span> layout(Constraints constraints, &#123; <span class="built_in">bool</span> parentUsesSize = <span class="keyword">false</span> &#125;) &#123;</span><br><span class="line"></span><br><span class="line">    RenderObject relayoutBoundary;</span><br><span class="line">    <span class="keyword">if</span> (!parentUsesSize || sizedByParent || constraints.isTight || parent <span class="keyword">is</span>! RenderObject) &#123;</span><br><span class="line">      relayoutBoundary = <span class="keyword">this</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      relayoutBoundary = (parent <span class="keyword">as</span> RenderObject)._relayoutBoundary;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果当前rendeObject不需要重新layout，并且constraints和relayoutBoundary都一直，则不需要重新计算</span></span><br><span class="line">    <span class="keyword">if</span> (!_needsLayout &amp;&amp; constraints == _constraints &amp;&amp; relayoutBoundary == _relayoutBoundary) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _constraints = constraints;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 清除所有child的relayoutBoundary数据</span></span><br><span class="line">    <span class="keyword">if</span> (_relayoutBoundary != <span class="keyword">null</span> &amp;&amp; relayoutBoundary != _relayoutBoundary) &#123;</span><br><span class="line">      visitChildren(_cleanChildRelayoutBoundary);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _relayoutBoundary = relayoutBoundary;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// constraints是不是唯一决定该size的参数</span></span><br><span class="line">    <span class="keyword">if</span> (sizedByParent) &#123;</span><br><span class="line">        <span class="comment">// 子类实现的抽象方法，仅仅根据constraints类更新renderObject的size</span></span><br><span class="line">        performResize();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用子类实现的performLayout计算</span></span><br><span class="line">    performLayout();</span><br><span class="line">    markNeedsSemanticsUpdate();</span><br><span class="line">    _needsLayout = <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// 标记该renderObject需要重新绘制？</span></span><br><span class="line">    markNeedsPaint();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-invokeLayoutCallback-lt-T-extends-Constraints-gt-LayoutCallback-lt-T-gt-callback"><a href="#void-invokeLayoutCallback-lt-T-extends-Constraints-gt-LayoutCallback-lt-T-gt-callback" class="headerlink" title="void invokeLayoutCallback&lt;T extends Constraints&gt;(LayoutCallback&lt;T&gt; callback){...;}"></a><a name="invokeLayoutCallback"/><code>void invokeLayoutCallback&lt;T extends Constraints&gt;(LayoutCallback&lt;T&gt; callback){...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在进行layout的时候执行给定的callback回调</span></span><br><span class="line"><span class="keyword">void</span> invokeLayoutCallback&lt;T <span class="keyword">extends</span> Constraints&gt;(LayoutCallback&lt;T&gt; callback) &#123;</span><br><span class="line">    _doingThisLayoutWithCallback = <span class="keyword">true</span>;</span><br><span class="line">    owner._enableMutationsToDirtySubtrees(() &#123; callback(constraints <span class="keyword">as</span> T); &#125;);</span><br><span class="line">    _doingThisLayoutWithCallback = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-markNeedsCompositingBitsUpdate"><a href="#void-markNeedsCompositingBitsUpdate" class="headerlink" title="void markNeedsCompositingBitsUpdate() {...;}"></a><a name="markNeedsCompositingBitsUpdate"/><code>void markNeedsCompositingBitsUpdate() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将该renderObject的compositingState标记为dirty</span></span><br><span class="line"><span class="keyword">void</span> markNeedsCompositingBitsUpdate() &#123;</span><br><span class="line">    <span class="comment">// 已经标记，则直接return</span></span><br><span class="line">    <span class="keyword">if</span> (_needsCompositingBitsUpdate)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    _needsCompositingBitsUpdate = <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    <span class="keyword">if</span> (parent <span class="keyword">is</span> RenderObject) &#123;</span><br><span class="line">      <span class="keyword">final</span> RenderObject parent = <span class="keyword">this</span>.parent <span class="keyword">as</span> RenderObject;</span><br><span class="line">      <span class="keyword">if</span> (parent._needsCompositingBitsUpdate)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      <span class="comment">// 递归调用，将parent的compositingState也标记为dirty  </span></span><br><span class="line">      <span class="keyword">if</span> (!isRepaintBoundary &amp;&amp; !parent.isRepaintBoundary) &#123;</span><br><span class="line">        parent.markNeedsCompositingBitsUpdate();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 添加到pipelineOwner的对应list中</span></span><br><span class="line">    <span class="keyword">if</span> (owner != <span class="keyword">null</span>)</span><br><span class="line">      owner._nodesNeedingCompositingBitsUpdate.add(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-updateCompositingBits"><a href="#void-updateCompositingBits" class="headerlink" title="void _updateCompositingBits() {...;}"></a><a name="updateCompositingBits"/><code>void _updateCompositingBits() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TODO 这个compositingBits还没看明白是干啥的，等着我。</span></span><br><span class="line"><span class="keyword">void</span> _updateCompositingBits() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!_needsCompositingBitsUpdate)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">bool</span> oldNeedsCompositing = _needsCompositing;</span><br><span class="line">    _needsCompositing = <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// 递归调用child的该方法</span></span><br><span class="line">    visitChildren((RenderObject child) &#123;</span><br><span class="line">      child._updateCompositingBits();</span><br><span class="line">      <span class="keyword">if</span> (child.needsCompositing)</span><br><span class="line">        _needsCompositing = <span class="keyword">true</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isRepaintBoundary || alwaysNeedsCompositing)</span><br><span class="line">      _needsCompositing = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (oldNeedsCompositing != _needsCompositing)</span><br><span class="line">      markNeedsPaint();</span><br><span class="line">    _needsCompositingBitsUpdate = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-markNeedsPaint"><a href="#void-markNeedsPaint" class="headerlink" title="void markNeedsPaint() {...;}"></a><a name="markNeedsPaint"/><code>void markNeedsPaint() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 标记该renderObject已经改变其外观</span></span><br><span class="line"><span class="keyword">void</span> markNeedsPaint() &#123;</span><br><span class="line">    <span class="keyword">if</span> (_needsPaint)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    _needsPaint = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (isRepaintBoundary) &#123;</span><br><span class="line">      <span class="comment">// 该renderObject和其父类分开repaint</span></span><br><span class="line">      <span class="keyword">if</span> (owner != <span class="keyword">null</span>) &#123;</span><br><span class="line">        owner._nodesNeedingPaint.add(<span class="keyword">this</span>);</span><br><span class="line">        owner.requestVisualUpdate();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (parent <span class="keyword">is</span> RenderObject) &#123;</span><br><span class="line">      <span class="comment">// 该object的parent也是renderObject，调用parent的方法进行repaint</span></span><br><span class="line">      <span class="keyword">final</span> RenderObject parent = <span class="keyword">this</span>.parent <span class="keyword">as</span> RenderObject;</span><br><span class="line">      parent.markNeedsPaint();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 直接调用pipelineOwner进行repaint</span></span><br><span class="line">      <span class="keyword">if</span> (owner != <span class="keyword">null</span>)</span><br><span class="line">        owner.requestVisualUpdate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-skippedPaintingOnLayer"><a href="#void-skippedPaintingOnLayer" class="headerlink" title="void _skippedPaintingOnLayer() {...;}"></a><a name="skippedPaintingOnLayer"/><code>void _skippedPaintingOnLayer() {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当flushPaint()方法试图绘制但是layer已经detached的时候调用</span></span><br><span class="line"><span class="keyword">void</span> _skippedPaintingOnLayer() &#123;</span><br><span class="line">    AbstractNode ancestor = parent;</span><br><span class="line">    <span class="keyword">while</span> (ancestor <span class="keyword">is</span> RenderObject) &#123;</span><br><span class="line">      <span class="keyword">final</span> RenderObject node = ancestor <span class="keyword">as</span> RenderObject;</span><br><span class="line">      <span class="keyword">if</span> (node.isRepaintBoundary) &#123;</span><br><span class="line">        <span class="keyword">if</span> (node._layer == <span class="keyword">null</span>)</span><br><span class="line">          <span class="keyword">break</span>; <span class="comment">// looks like the subtree here has never been painted. let it handle itself.</span></span><br><span class="line">        <span class="keyword">if</span> (node._layer.attached)</span><br><span class="line">          <span class="keyword">break</span>; <span class="comment">// it's the one that detached us, so it's the one that will decide to repaint us.</span></span><br><span class="line">        node._needsPaint = <span class="keyword">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      ancestor = node.parent;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-scheduleInitialPaint-ContainerLayer-rootLayer"><a href="#void-scheduleInitialPaint-ContainerLayer-rootLayer" class="headerlink" title="void scheduleInitialPaint(ContainerLayer rootLayer) {...;}"></a><a name="scheduleInitialPaint"/><code>void scheduleInitialPaint(ContainerLayer rootLayer) {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过第一次paint来引导renderPipeline</span></span><br><span class="line"><span class="keyword">void</span> scheduleInitialPaint(ContainerLayer rootLayer) &#123;</span><br><span class="line">    _layer = rootLayer;</span><br><span class="line">    owner._nodesNeedingPaint.add(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-replaceRootLayer-OffsetLayer-rootLayer"><a href="#void-replaceRootLayer-OffsetLayer-rootLayer" class="headerlink" title="void replaceRootLayer(OffsetLayer rootLayer) {...;}"></a><a name="replaceRootLayer"/><code>void replaceRootLayer(OffsetLayer rootLayer) {...;}</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 替换layer。只对renderObject的root有效</span></span><br><span class="line"><span class="comment">// 可能在设备的像素比改变的时候调用</span></span><br><span class="line"><span class="keyword">void</span> replaceRootLayer(OffsetLayer rootLayer) &#123;</span><br><span class="line">    <span class="comment">// detach当前layout</span></span><br><span class="line">    _layer.detach();</span><br><span class="line">    <span class="comment">// 将layer指定为给定的layer</span></span><br><span class="line">    _layer = rootLayer;</span><br><span class="line">    <span class="comment">// 标记需要重新绘制</span></span><br><span class="line">    markNeedsPaint();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="void-handleEvent-PointerEvent-event-covariant-HitTestEntry-entry"><a href="#void-handleEvent-PointerEvent-event-covariant-HitTestEntry-entry" class="headerlink" title="void handleEvent(PointerEvent event, covariant HitTestEntry entry) { }"></a><a name="handleEvent"/><code>void handleEvent(PointerEvent event, covariant HitTestEntry entry) { }</code></h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 重写该方法来处理renderObject的pointer event</span></span><br><span class="line"><span class="keyword">void</span> handleEvent(PointerEvent event, <span class="keyword">covariant</span> HitTestEntry entry) &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h4><ol>
+<li>visitChildren这个用法有点意思，TODO，看完这个类，去熟悉熟悉。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/mLixin.github.io/tags/TODO/" rel="tag"># TODO</a>
+              <a href="/mLixin.github.io/tags/Flutter/" rel="tag"># Flutter</a>
+              <a href="/mLixin.github.io/tags/RTFSC/" rel="tag"># RTFSC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-element/" rel="prev" title="Flutter源码浅析 - Element">
+      <i class="fa fa-chevron-left"></i> Flutter源码浅析 - Element
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Constructor"><span class="nav-number">2.</span> <span class="nav-text">Constructor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Properties"><span class="nav-number">3.</span> <span class="nav-text">Properties</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method"><span class="nav-number">4.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-Imple"><span class="nav-number">5.</span> <span class="nav-text">Method Imple</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#void-reassemble"><span class="nav-number">5.1.</span> <span class="nav-text">void reassemble(){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-setupParentData-covariant-RenderObject-child"><span class="nav-number">5.2.</span> <span class="nav-text">void setupParentData(covariant RenderObject child){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-adoptChild-RenderObject-child"><span class="nav-number">5.3.</span> <span class="nav-text">void adoptChild(RenderObject child){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-dropChild-RenderObject-child"><span class="nav-number">5.4.</span> <span class="nav-text">void dropChild(RenderObject child){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-visitChildren-RenderObjectVisitor-visitor"><span class="nav-number">5.5.</span> <span class="nav-text">void visitChildren(RenderObjectVisitor visitor) { }</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-attach-PipelineOwner-owner"><span class="nav-number">5.6.</span> <span class="nav-text">void attach(PipelineOwner owner){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-markNeedsLayout"><span class="nav-number">5.7.</span> <span class="nav-text">void markNeedsLayout() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-markParentNeedsLayout"><span class="nav-number">5.8.</span> <span class="nav-text">void markParentNeedsLayout() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-cleanRelayoutBoundary"><span class="nav-number">5.9.</span> <span class="nav-text">void _cleanRelayoutBoundary() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-scheduleInitialLayout"><span class="nav-number">5.10.</span> <span class="nav-text">void scheduleInitialLayout() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-layoutWithoutResize"><span class="nav-number">5.11.</span> <span class="nav-text">void _layoutWithoutResize() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-layout-Constraints-constraints-bool-parentUsesSize-false"><span class="nav-number">5.12.</span> <span class="nav-text">void layout(Constraints constraints, { bool parentUsesSize &#x3D; false }){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-invokeLayoutCallback-lt-T-extends-Constraints-gt-LayoutCallback-lt-T-gt-callback"><span class="nav-number">5.13.</span> <span class="nav-text">void invokeLayoutCallback&lt;T extends Constraints&gt;(LayoutCallback&lt;T&gt; callback){...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-markNeedsCompositingBitsUpdate"><span class="nav-number">5.14.</span> <span class="nav-text">void markNeedsCompositingBitsUpdate() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-updateCompositingBits"><span class="nav-number">5.15.</span> <span class="nav-text">void _updateCompositingBits() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-markNeedsPaint"><span class="nav-number">5.16.</span> <span class="nav-text">void markNeedsPaint() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-skippedPaintingOnLayer"><span class="nav-number">5.17.</span> <span class="nav-text">void _skippedPaintingOnLayer() {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-scheduleInitialPaint-ContainerLayer-rootLayer"><span class="nav-number">5.18.</span> <span class="nav-text">void scheduleInitialPaint(ContainerLayer rootLayer) {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-replaceRootLayer-OffsetLayer-rootLayer"><span class="nav-number">5.19.</span> <span class="nav-text">void replaceRootLayer(OffsetLayer rootLayer) {...;}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-handleEvent-PointerEvent-event-covariant-HitTestEntry-entry"><span class="nav-number">5.20.</span> <span class="nav-text">void handleEvent(PointerEvent event, covariant HitTestEntry entry) { }</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Question"><span class="nav-number">6.</span> <span class="nav-text">Question</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mLiXin</p>
+  <div class="site-description" itemprop="description">Be true to yourself.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/mLixin.github.io/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/mLixin.github.io/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/mLixin.github.io/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/mLixin.github.io/lib/anime.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/mLixin.github.io/js/utils.js"></script>
+
+<script src="/mLixin.github.io/js/motion.js"></script>
+
+
+<script src="/mLixin.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/mLixin.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
