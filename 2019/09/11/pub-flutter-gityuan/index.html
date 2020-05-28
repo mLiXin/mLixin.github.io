@@ -1,27 +1,31 @@
 <!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GitYuan Flutter相关tag学习笔记 | mLiXin's Blog</title><link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/highlights/dracula.css"><link rel="canonical" href="http://mLixin.com/2019/09/11/pub-flutter-gityuan/"/>
-<meta name="description" content="Tips啃不啃C++，这是个问题。  Flutter渲染机制-UI线程 渲染相关的两个线程：  UI线程：运行UI Task Runner，是Flutter Engine用于执行Dart root isolate代码，将其转换为layer…">
+<meta name="description" content="Tips 啃不啃C++，这是个问题。  Flutter渲染机制-UI线程   渲染相关的两个线程：  UI线程：运行UI Task Runner，是Flutter Engine用于执行Dart root isolate代码，将其转换为layer…">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GitYuan Flutter相关tag学习笔记">
 <meta property="og:url" content="http://mlixin.com/2019/09/11/pub-flutter-gityuan/">
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
-<meta property="og:description" content="Tips啃不啃C++，这是个问题。  Flutter渲染机制-UI线程 渲染相关的两个线程：  UI线程：运行UI Task Runner，是Flutter Engine用于执行Dart root isolate代码，将其转换为layer…">
+<meta property="og:description" content="Tips 啃不啃C++，这是个问题。  Flutter渲染机制-UI线程   渲染相关的两个线程：  UI线程：运行UI Task Runner，是Flutter Engine用于执行Dart root isolate代码，将其转换为layer…">
 <meta property="og:image" content="http://mlixin.com/images/default.jpg">
 <meta property="article:published_time" content="2019-09-11T06:04:24.000Z">
 <meta property="article:modified_time" content="2020-05-28T08:04:27.123Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Flutter">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://mlixin.com/images/default.jpg"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2019-09-11 14:04:24"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">GitYuan Flutter相关tag学习笔记</h1><div class="article__meta"><time class="article__meta__time" datetime="2019-09-11T06:04:24.000Z" itemprop="datePublished">2019-09-11 14:04:24</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><p>啃不啃C++，这是个问题。</p>
+<meta name="twitter:image" content="http://mlixin.com/images/default.jpg"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2019-09-11 14:04:24"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">GitYuan Flutter相关tag学习笔记</h1><div class="article__meta"><time class="article__meta__time" datetime="2019-09-11T06:04:24.000Z" itemprop="datePublished">2019-09-11 14:04:24</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="Tips">Tips</h4>
+<p>啃不啃C++，这是个问题。</p>
 <a id="more"></a>
-<h4 id="Flutter渲染机制-UI线程"><a href="#Flutter渲染机制-UI线程" class="headerlink" title="Flutter渲染机制-UI线程"></a><a href="http://gityuan.com/2019/06/15/flutter_ui_draw/" target="_blank" rel="noopener">Flutter渲染机制-UI线程</a></h4><ul>
-<li><p>渲染相关的两个线程：</p>
+<h4 id="Flutter渲染机制-UI线程"><a href="http://gityuan.com/2019/06/15/flutter_ui_draw/" target="_blank" rel="noopener">Flutter渲染机制-UI线程</a></h4>
+<ul>
+<li>
+<p>渲染相关的两个线程：</p>
 <ul>
 <li>UI线程：运行UI Task Runner，是Flutter Engine用于执行Dart root isolate代码，将其转换为layer tree视图结构</li>
 <li>GPU线程：在GPU上执行，运行GPU Task Runner，处理Layer tree，将其转换成GPU命令并发送到GPU</li>
 <li>通过Vsync信号，使UI线程和GPU线程有条不紊的周期性渲染界面。</li>
 </ul>
 </li>
-<li><p>渲染流程：</p>
+<li>
+<p>渲染流程：</p>
 <ul>
 <li>需要渲染的时候，会调用Engine的scheduleFrame()来注册Vsync信号回调，触发回调doFrame()执行完成后便后移除回调方法，也就是说一次注册一次回调</li>
 <li>当再次绘制则需要重新调用scheduleFrame()方法，该方法的唯一重要参数<code>regenerate_layer_tree</code>决定在帧绘制过程是否需要重新生成layer tree，还是直接复用上一次的layer tree</li>
@@ -29,10 +33,12 @@
 <li>再交由GPU Task Runner将layer tree提供的信息转化为平台可执行的GPU指令</li>
 </ul>
 </li>
-<li><p>UI绘制核心工作：</p>
+<li>
+<p>UI绘制核心工作：</p>
 <ul>
 <li>Vsync单注册模式：保证在一帧的时间窗口里UI线程只会生成一个layer tree发送给GPU线程</li>
-<li>drawFrame()包含的过程：<ul>
+<li>drawFrame()包含的过程：
+<ul>
 <li>Animate：遍历_transientCallbacks,执行动画回调方法</li>
 <li>Build：对于dirty的元素回执行build构造，没有dirty的元素不会执行，对应于buildScope()</li>
 <li>Layout：计算渲染对象的大小和位置，对应于flushLayout(),这个过程可能会嵌套再调用build操作</li>
@@ -43,35 +49,42 @@
 </li>
 </ul>
 </li>
-<li><p>UI线程的耗时时长？</p>
+<li>
+<p>UI线程的耗时时长？</p>
 <ul>
 <li>从doFrame(frameTimeNanos)中的frameTimeNanos为七店，以Animator::Render()方法结束为终点，并将结果保存到LayerTree的成员变量。</li>
 </ul>
 </li>
-<li><p>Timeline工具使用</p>
+<li>
+<p>Timeline工具使用</p>
 <ul>
 <li>Frame Request Pending：从Animator::RequestFrame到Animator::BeginFrame()结束</li>
 <li>PipelineProduce：从Animator::BeginFrame()到Animator::Render()结束</li>
 </ul>
 </li>
-<li><p>UI线程渲染流程</p>
+<li>
+<p>UI线程渲染流程</p>
 <ul>
-<li>Vsync注册流程<ul>
+<li>Vsync注册流程
+<ul>
 <li>当调用到引擎的scheduleFrame()方法过程， 则会注册Vsync信号回调，当有Vsync信号到达，则会调用doFrame()方法。</li>
 <li>动画的执行AnimationController.forward()、surface创建的时候shell::surfaceCrated()等场景都会调用scheduleFrame()方法。</li>
 </ul>
 </li>
-<li>Engine层绘制<ul>
+<li>Engine层绘制
+<ul>
 <li>doFrame()经过多层调用后通过PostTask将任务异步post到UI TaskRunner线程来执行，最后调用到Window的BeginFrame()方法</li>
 </ul>
 </li>
-<li>Framework层绘制<ul>
+<li>Framework层绘制
+<ul>
 <li>window.cc中的BeginFrame()方法会调用到window.dart中的onBeginFramne()和onDrawFrame()两个方法</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Flutter中核心类：</p>
+<li>
+<p>Flutter中核心类：</p>
 <ul>
 <li>Window类：是连接Flutter框架层(Dart)与引擎层(C++)的关键类，在框架层中的window.dart文件里的一些方法在引擎层的window.cc文件有相对应的方法。</li>
 <li>RuntimeController类：可通过其成员root_isolate找到window类</li>
@@ -81,12 +94,16 @@
 </ul>
 </li>
 </ul>
-<h4 id="Flutter渲染机制—GPU线程"><a href="#Flutter渲染机制—GPU线程" class="headerlink" title="Flutter渲染机制—GPU线程"></a><a href="http://gityuan.com/2019/06/16/flutter_gpu_draw/" target="_blank" rel="noopener">Flutter渲染机制—GPU线程</a></h4><ul>
-<li><p>GPU线程是指运行着GPU Task Runner的名叫GPU的线程，其实依然是在CPU上运行，用于将UI线程传递过来的layer tree转换为GPU命令，并发送到GPU</p>
-</li>
-<li><p>GPU渲染原理</p>
+<h4 id="Flutter渲染机制—GPU线程"><a href="http://gityuan.com/2019/06/16/flutter_gpu_draw/" target="_blank" rel="noopener">Flutter渲染机制—GPU线程</a></h4>
 <ul>
-<li>GPU线程的主要工作是将layer tree进行光栅化再发送给GPU，其中最为核心方法ScopedFrame::Raster()，主要工作如下：<ul>
+<li>
+<p>GPU线程是指运行着GPU Task Runner的名叫GPU的线程，其实依然是在CPU上运行，用于将UI线程传递过来的layer tree转换为GPU命令，并发送到GPU</p>
+</li>
+<li>
+<p>GPU渲染原理</p>
+<ul>
+<li>GPU线程的主要工作是将layer tree进行光栅化再发送给GPU，其中最为核心方法ScopedFrame::Raster()，主要工作如下：
+<ul>
 <li>LayerTree::Preroll：绘制前的准备工作</li>
 <li>LayerTree::Paint：嵌套调用各个不同的layer的绘制方法</li>
 <li>SkCanvas::Flush：将数据flush到GPU，需要注意saveLayer的耗时</li>
@@ -95,30 +112,35 @@
 </li>
 </ul>
 </li>
-<li><p>渲染过程是生产者-消费者模式</p>
+<li>
+<p>渲染过程是生产者-消费者模式</p>
 <ul>
 <li>当管道中待处理的光栅化任务等于2个的时候(池子满了)，则UI线程无法执行Animator::BeginFrame()，而是等下一次Vsync信号再尝试执行</li>
 <li>当管道中没有待处理的光栅化任务的时候(池子空了)，则GPU线程无法执行Rasterizer::Draw()，而是直接返回，等待UI线程向其添加任务。</li>
 </ul>
 </li>
-<li><p>Timeline说明</p>
+<li>
+<p>Timeline说明</p>
 <ul>
 <li>UI线程是PipelineProduce，对应的GPU线程是PipelineConsume，贯穿整个Rasterizer::onDraw过程</li>
 </ul>
 </li>
-<li><p>GPU线程绘制流程</p>
+<li>
+<p>GPU线程绘制流程</p>
 <ul>
 <li>Flutter渲染机制在UI线程执行到compositeFrame()过程经过多层调用，将栅格化的任务Post到GPU线程来执行。GPU线程一旦空闲则会执行Rasterizer的draw()操作。图中LayerTree::Paint()过程是一个比较重要的操作，会嵌套调用不同layer的Paint过程，比如TransformLayer，PhysicalShapeLayer，ClipRectLayer，PictureLayer等都执行完成会执行flush()将数据发送给GPU。</li>
 </ul>
 </li>
-<li><p>三种不同的AndroidSurface</p>
+<li>
+<p>三种不同的AndroidSurface</p>
 <ul>
 <li>硬件Vsync方式，且开启Vulkan，则采用AndroidSurfaceVulkan，这是当前默认的方式</li>
 <li>硬件Vsync方式，未开启Vulkan，则采用AndroidSurfaceGL</li>
 <li>使用软件模拟的Vsync方式，则采用AndroidSurfaceSoftware</li>
 </ul>
 </li>
-<li><p>ContainerLayer9个子类组合成为了一个layerTree：</p>
+<li>
+<p>ContainerLayer9个子类组合成为了一个layerTree：</p>
 <ul>
 <li>ClipRectLayer：矩形裁剪层，可指定矩形和裁剪行为参数，四种行为：Clip.none/hardEdge/antiAlias/antiAliasWithSaveLayer</li>
 <li>ClipRRectLayer：圆角矩形裁剪层，可指定圆角矩形和裁剪行为参数</li>
@@ -132,14 +154,18 @@
 </ul>
 </li>
 </ul>
-<h4 id="深入理解Flutter引擎启动"><a href="#深入理解Flutter引擎启动" class="headerlink" title="深入理解Flutter引擎启动"></a><a href="http://gityuan.com/2019/06/22/flutter_booting/" target="_blank" rel="noopener">深入理解Flutter引擎启动</a></h4><ul>
-<li><p>FlutterApplication启动过程</p>
+<h4 id="深入理解Flutter引擎启动"><a href="http://gityuan.com/2019/06/22/flutter_booting/" target="_blank" rel="noopener">深入理解Flutter引擎启动</a></h4>
 <ul>
-<li>Andorid应用在启动的时候会执行FlutterApplication.onCreate()方法，里面调用FlutterMain.startInitialization()方法，主要工作如下：<ul>
+<li>
+<p>FlutterApplication启动过程</p>
+<ul>
+<li>Andorid应用在启动的时候会执行FlutterApplication.onCreate()方法，里面调用FlutterMain.startInitialization()方法，主要工作如下：
+<ul>
 <li>调用FlutterLoader的startInitialization()方法，先通过looper判断是不是出于主线程中，不是的话直接抛出异常</li>
 <li>初始化配置参数</li>
 <li>获取应用根目录下的所有assets资源路径，提取产物资源，加载到内存中</li>
-<li>加载flutter库<ul>
+<li>加载flutter库
+<ul>
 <li>Android进程自身会创建JavaVM，这里会将当前进程的JavaVM实例保存到静态变量中，再将当前线程和JavaVM建立关联</li>
 <li>注册FlutterMain的JNI方法</li>
 <li>注册PlatformViewAndroid的以为了方法，完成Java和C++的一些方法互调</li>
@@ -151,48 +177,60 @@
 </li>
 </ul>
 </li>
-<li><p>FlutterActivity启动过程（基于Channel master, v1.18.0-5.0.pre.46，原文基于Flutter1.5，略有差异，建议直接查看原文）</p>
+<li>
+<p>FlutterActivity启动过程（基于Channel master, v1.18.0-5.0.pre.46，原文基于Flutter1.5，略有差异，建议直接查看原文）</p>
 <ul>
-<li>FlutterActivity对应FlutterActivityAndFragmentDelegate代理类，工作都交给这个代理类去实现,FlutterActivity中onCreate方法中有以下几句代码:<ul>
+<li>FlutterActivity对应FlutterActivityAndFragmentDelegate代理类，工作都交给这个代理类去实现,FlutterActivity中onCreate方法中有以下几句代码:
+<ul>
 <li><code>this.delegate = new FlutterActivityAndFragmentDelegate(this);</code>：创建一个代理类，其中的this参数为一个Host接口，在FlutterActivityAndFragmentDelegate中定义的</li>
 <li><code>this.delegate.onAttach(this);</code>：调用代理类的onAttach()方法，里面会确保绑定了Flutter引擎并初始化完成</li>
 <li><code>this.delegate.onActivityCreated(savedInstanceState);</code>：调用代理类的onActivityCreated()方法</li>
 <li><code>this.setContentView(this.createFlutterView());</code>：调用代理类的onCreateView方法，创建FlutterSplashView</li>
 </ul>
 </li>
-<li>onCreate执行完后，FlutterActivity会调用onStart，代理类中的onStart方法中会调用<code>doInitialFlutterViewRun()</code>方法，里面应该就是原文作者说的加载Dart代码，然后经过层层调用开始执行Dart层的main方法， 执行runApp()过程。 </li>
+<li>onCreate执行完后，FlutterActivity会调用onStart，代理类中的onStart方法中会调用<code>doInitialFlutterViewRun()</code>方法，里面应该就是原文作者说的加载Dart代码，然后经过层层调用开始执行Dart层的main方法， 执行runApp()过程。</li>
 <li>上面说的代理类的生命周期划分是为了兼容FlutterFragment，除了onCreate，其他生命周期都一致(说的是什么话。。。)</li>
 <li>要开始啃C++吗？好像没啥太大的必要？</li>
 </ul>
 </li>
-<li><p>Flutter引擎启动流程</p>
+<li>
+<p>Flutter引擎启动流程</p>
 <ul>
 <li>过程就不看了， 晕C++</li>
 <li>结论是，每一个FlutterActivity都有相对应的FlutterVIew、AndroidShellHolder、Shell、Engine、Animator、PlatformViewAndroid、RuntimeController、Window等对象，每一个进程Dart独有一份。</li>
-<li>这里可以猜一下，FlutterFragment和FlutterActivity也类似，但是这里进程有点疑问，如果一个页面组合了多个FlutterFragment，里面就有多个Dart进程？ TODO </li>
+<li>这里可以猜一下，FlutterFragment和FlutterActivity也类似，但是这里进程有点疑问，如果一个页面组合了多个FlutterFragment，里面就有多个Dart进程？ TODO</li>
 </ul>
 </li>
 </ul>
-<h4 id="深入理解Dart虚拟机启动"><a href="#深入理解Dart虚拟机启动" class="headerlink" title="深入理解Dart虚拟机启动"></a><a href="http://gityuan.com/2019/06/23/dart-vm/" target="_blank" rel="noopener">深入理解Dart虚拟机启动</a></h4><ul>
-<li><p>Dart虚拟机概述</p>
+<h4 id="深入理解Dart虚拟机启动"><a href="http://gityuan.com/2019/06/23/dart-vm/" target="_blank" rel="noopener">深入理解Dart虚拟机启动</a></h4>
+<ul>
+<li>
+<p>Dart虚拟机概述</p>
 <ul>
 <li>Dart虚拟机拥有自己的Isolate，完全由虚拟机自己管理，Flutter引擎也无法直接访问相关操作，而是由Root Isolate通过Dart的C++调用，或者是发送消息通知的方式，将UI渲染相关的任务调教到UI Task Runner执行，这样就可以跟Flutter引擎相关模块进行交互。</li>
 <li>Isolate直接内存并不共享，而是通过Port方式通信，每个Isolate是有自己的内存以及相应的线程载体</li>
 <li>Dart没有共享内存的并发，没有竞争的可能性，不需要加锁，也没有死锁风向。Dart程序的并发需要依赖多个Isolate来实现。</li>
 </ul>
 </li>
-<li><p>一个进程只有一个Dart虚拟机，所有Shell共享该进程中的Dart虚拟机。</p>
+<li>
+<p>一个进程只有一个Dart虚拟机，所有Shell共享该进程中的Dart虚拟机。</p>
 </li>
-<li><p>每个Engine对应需要一个Isolate对象。</p>
+<li>
+<p>每个Engine对应需要一个Isolate对象。</p>
 </li>
 </ul>
-<h4 id="深入理解Flutter应用启动"><a href="#深入理解Flutter应用启动" class="headerlink" title="深入理解Flutter应用启动"></a><a href="http://gityuan.com/2019/06/29/flutter_run_app/" target="_blank" rel="noopener">深入理解Flutter应用启动</a></h4><ul>
-<li><p>参考其他<a href="https://www.stephenw.cc/2018/05/28/flutter-dart-framework/" target="_blank" rel="noopener">Flutter Dart Framework原理简解</a></p>
-</li>
-<li><p>从runApp()开始</p>
+<h4 id="深入理解Flutter应用启动"><a href="http://gityuan.com/2019/06/29/flutter_run_app/" target="_blank" rel="noopener">深入理解Flutter应用启动</a></h4>
 <ul>
-<li><code>WidgetsFlutterBinding.ensureInitialized()</code><ul>
-<li>WidgetsFlutterBinding是一个单例模式，负责创建WidgetsFlutterBinding对象，该对象类继承多个父类，父类方法相同， 则后面的会覆盖前面的，注意顺序<ul>
+<li>
+<p>参考其他<a href="https://www.stephenw.cc/2018/05/28/flutter-dart-framework/" target="_blank" rel="noopener">Flutter Dart Framework原理简解</a></p>
+</li>
+<li>
+<p>从runApp()开始</p>
+<ul>
+<li><code>WidgetsFlutterBinding.ensureInitialized()</code>
+<ul>
+<li>WidgetsFlutterBinding是一个单例模式，负责创建WidgetsFlutterBinding对象，该对象类继承多个父类，父类方法相同， 则后面的会覆盖前面的，注意顺序
+<ul>
 <li>BindingBase：抽象基类，用来调用每个Binding的initInstances方法进行初始化</li>
 <li>GestureBinding：绑定手势事件，用于检测应用的各种手势相关操作</li>
 <li>SchedulerBinding：绑定帧绘制回调函数，以及widget生命周期相关事件</li>
@@ -209,15 +247,20 @@
 <li><code>..scheduleWarmUpFrame();</code>：调度预热帧，执行帧绘制方法handleBeginFrame和handleDrawFrame。</li>
 </ul>
 </li>
-<li><p>MyApp是用户定义的根Widget，为了建立三棵树的关系，RenderObjectToWidgetAdapter起到重要的桥接功能，该类的createElement方法创建RenderObjectToWidgetElement对象，createRenderObject()方法获取的是RenderView。</p>
+<li>
+<p>MyApp是用户定义的根Widget，为了建立三棵树的关系，RenderObjectToWidgetAdapter起到重要的桥接功能，该类的createElement方法创建RenderObjectToWidgetElement对象，createRenderObject()方法获取的是RenderView。</p>
 </li>
 </ul>
-<h4 id="深入理解setState更新机制"><a href="#深入理解setState更新机制" class="headerlink" title="深入理解setState更新机制"></a><a href="http://gityuan.com/2019/07/06/flutter_set_state/" target="_blank" rel="noopener">深入理解setState更新机制</a></h4><ul>
-<li><p>setState()不应该在dispose()之后调用，可以通过mounted属性值来判断父widget中是否包含该widget</p>
+<h4 id="深入理解setState更新机制"><a href="http://gityuan.com/2019/07/06/flutter_set_state/" target="_blank" rel="noopener">深入理解setState更新机制</a></h4>
+<ul>
+<li>
+<p>setState()不应该在dispose()之后调用，可以通过mounted属性值来判断父widget中是否包含该widget</p>
 </li>
-<li><p>setState()过程主要是：记录所有的脏元素，添加到BuildOwner对象的_dirtyElements成员变量，然后调用scheduleFrame来注册Vsync回调。 当下一次vsync信号的到来时会执行handleBeginFrame()和handleDrawFrame()来更新UI。</p>
+<li>
+<p>setState()过程主要是：记录所有的脏元素，添加到BuildOwner对象的_dirtyElements成员变量，然后调用scheduleFrame来注册Vsync回调。 当下一次vsync信号的到来时会执行handleBeginFrame()和handleDrawFrame()来更新UI。</p>
 </li>
-<li><p>SchedulerPhase五个枚举值含义：</p>
+<li>
+<p>SchedulerPhase五个枚举值含义：</p>
 <ul>
 <li>idle：没有政治处理的帧，可能正在执行的是WIdgetsBinding.scheduleTask等其他的回调</li>
 <li>transientCallbacks：SchedulerBinding.handleBeginFrame过程， 处理动画状态更新</li>
@@ -227,14 +270,17 @@
 </ul>
 </li>
 </ul>
-<h4 id="深入理解Flutter动画原理"><a href="#深入理解Flutter动画原理" class="headerlink" title="深入理解Flutter动画原理"></a><a href="http://gityuan.com/2019/07/13/flutter_animator/" target="_blank" rel="noopener">深入理解Flutter动画原理</a></h4><ul>
-<li><p>Flutter动画分类：</p>
+<h4 id="深入理解Flutter动画原理"><a href="http://gityuan.com/2019/07/13/flutter_animator/" target="_blank" rel="noopener">深入理解Flutter动画原理</a></h4>
+<ul>
+<li>
+<p>Flutter动画分类：</p>
 <ul>
 <li>补间动画</li>
 <li>物理动画：遵循物理学定了的动画，实现了弹簧、阻尼、中立三种物理效果</li>
 </ul>
 </li>
-<li><p>核心类：</p>
+<li>
+<p>核心类：</p>
 <ul>
 <li>Animation：核心</li>
 <li>AnimationController：管理Animation</li>
@@ -243,7 +289,8 @@
 <li>Listeners和StatusListener：用于监听动画状态改变</li>
 </ul>
 </li>
-<li><p>AnimationStatus枚举类型</p>
+<li>
+<p>AnimationStatus枚举类型</p>
 <ul>
 <li>dismissed：动画在开始时停止</li>
 <li>forward：从头到尾绘制动画</li>
@@ -251,38 +298,50 @@
 <li>complete：结束时停止</li>
 </ul>
 </li>
-<li><p>原理分析：</p>
+<li>
+<p>原理分析：</p>
 <ul>
 <li>AnimationController初始过程一般都是设置duration和vsync初值，调用类型为TickerProvider的vsync对象的createTicker()方法来创建Ticker对象</li>
 </ul>
 </li>
-<li><p>TickerPRovider两个子类区别是，是否支持创建多个TickerProvider</p>
+<li>
+<p>TickerPRovider两个子类区别是，是否支持创建多个TickerProvider</p>
 </li>
 </ul>
-<h4 id="深入理解Flutter消息机制-这里看的不是很了解，然后大部分都是C-代码，有疑问"><a href="#深入理解Flutter消息机制-这里看的不是很了解，然后大部分都是C-代码，有疑问" class="headerlink" title="深入理解Flutter消息机制 - 这里看的不是很了解，然后大部分都是C++代码，有疑问"></a><a href="http://gityuan.com/2019/07/20/flutter_message_loop/" target="_blank" rel="noopener">深入理解Flutter消息机制 - 这里看的不是很了解，然后大部分都是C++代码，有疑问</a></h4><ul>
-<li><p>MessageLoop在什么时候启动的？</p>
+<h4 id="深入理解Flutter消息机制-这里看的不是很了解，然后大部分都是C-代码，有疑问"><a href="http://gityuan.com/2019/07/20/flutter_message_loop/" target="_blank" rel="noopener">深入理解Flutter消息机制 - 这里看的不是很了解，然后大部分都是C++代码，有疑问</a></h4>
+<ul>
+<li>
+<p>MessageLoop在什么时候启动的？</p>
 <ul>
 <li>FLutter引擎启动阶段会创建AndroidShellHolder对象，在该过程会执行ThreadHost初始化，MessageLoop便是在这个阶段启动的。</li>
 </ul>
 </li>
-<li><p>Fluter引擎启动过程会创建哪些线程？</p>
+<li>
+<p>Fluter引擎启动过程会创建哪些线程？</p>
 <ul>
 <li>UI/GPU/IO</li>
 </ul>
 </li>
-<li><p>MessageLoop的消息循环过程， 会同时消费Dart层的Microtask和引擎层Task</p>
+<li>
+<p>MessageLoop的消息循环过程， 会同时消费Dart层的Microtask和引擎层Task</p>
 </li>
-<li><p>Flutter引擎启动过程，会创建UI/GPU/IO这三个线程，并且会为每个线程一次创建MessageLoop对象，启动后处于epoll_wait等待状态。(这里说明每个线程都会有自己的MessageLoop对象。)</p>
+<li>
+<p>Flutter引擎启动过程，会创建UI/GPU/IO这三个线程，并且会为每个线程一次创建MessageLoop对象，启动后处于epoll_wait等待状态。(这里说明每个线程都会有自己的MessageLoop对象。)</p>
 </li>
-<li><p>在引擎中每次消费任务时调用FlushTasks()方法，遍历整个延迟任务队列，将到期的任务加入invocations，然后会遍历执行FlushMicrotaskNow()来消费所有的微任务。</p>
+<li>
+<p>在引擎中每次消费任务时调用FlushTasks()方法，遍历整个延迟任务队列，将到期的任务加入invocations，然后会遍历执行FlushMicrotaskNow()来消费所有的微任务。</p>
 </li>
 </ul>
-<h4 id="深入理解Flutter异步Future机制"><a href="#深入理解Flutter异步Future机制" class="headerlink" title="深入理解Flutter异步Future机制"></a><a href="http://gityuan.com/2019/07/21/flutter_future/" target="_blank" rel="noopener">深入理解Flutter异步Future机制</a></h4><ul>
-<li><p>Dart是单线程执行模型，Dart应用在其主isolate执行应用的main()方法时开始运行，当main()执行完成后，主isolate所在的线程再逐个处理队列中的任务，包括但不限于通过Future所创建的任务，但整个过程都运行在同一个单线程。</p>
+<h4 id="深入理解Flutter异步Future机制"><a href="http://gityuan.com/2019/07/21/flutter_future/" target="_blank" rel="noopener">深入理解Flutter异步Future机制</a></h4>
+<ul>
+<li>
+<p>Dart是单线程执行模型，Dart应用在其主isolate执行应用的main()方法时开始运行，当main()执行完成后，主isolate所在的线程再逐个处理队列中的任务，包括但不限于通过Future所创建的任务，但整个过程都运行在同一个单线程。</p>
 </li>
-<li><p>Dart的并行操作需要isolate或者worker</p>
+<li>
+<p>Dart的并行操作需要isolate或者worker</p>
 </li>
-<li><p>Future创建过程</p>
+<li>
+<p>Future创建过程</p>
 <ul>
 <li>创建Timer，并将_timer._handleMessage()放入到_handlerMap</li>
 <li>对于无延迟的Future则会将该Timer加入到ZeroTimer链表尾部</li>
@@ -290,15 +349,18 @@
 <li>创建ReceivePort和SendPort对象</li>
 </ul>
 </li>
-<li><p>Future处理过程</p>
+<li>
+<p>Future处理过程</p>
 <ul>
-<li>任务发送过程<ul>
+<li>任务发送过程
+<ul>
 <li>通过message记录的port值从map中找到handler，再通过该handler找到的MessageHandler来发送消息</li>
 <li>根据message优先级，如果是普通消息，则加入到queue队列；如果是OOB消息，则加入到oob_queue队列</li>
 <li>通过PostTask来向UI线程发送任务</li>
 </ul>
 </li>
-<li>任务接收过程<ul>
+<li>任务接收过程
+<ul>
 <li>先从oob_queue队列中取出头部的消息，当该消息为空且接收到待处理的优先级别为普通消息，则从queue队列取出头部消息</li>
 <li>通过port从_handlerMap中找到Dart层回调方法_timer._handleMessage()</li>
 <li>再从ZeroTImer链表中添加所有时间已过期的消息以及无延迟的消息</li>
@@ -307,44 +369,57 @@
 </li>
 </ul>
 </li>
-<li><p>Future操作只是异步执行，不会阻塞本次在UI线程的执行，但是其执行关键点中通过TaskRunner::PostTask()将Task放入UI线程，意味着如果Future中存在耗时操作，依然是影响UI线程的后续渲染绘制流畅度，所以不能在Future中做耗时操作。为保证应用的即时响应，应该将任务放到独立线程的isolate或者worker中。</p>
+<li>
+<p>Future操作只是异步执行，不会阻塞本次在UI线程的执行，但是其执行关键点中通过TaskRunner::PostTask()将Task放入UI线程，意味着如果Future中存在耗时操作，依然是影响UI线程的后续渲染绘制流畅度，所以不能在Future中做耗时操作。为保证应用的即时响应，应该将任务放到独立线程的isolate或者worker中。</p>
 </li>
 </ul>
-<h4 id="深入理解Flutter的Isolate创建过程"><a href="#深入理解Flutter的Isolate创建过程" class="headerlink" title="深入理解Flutter的Isolate创建过程"></a><a href="http://gityuan.com/2019/07/27/flutter-isolate/" target="_blank" rel="noopener">深入理解Flutter的Isolate创建过程</a></h4><ul>
-<li><p>Root isolate负责UI渲染以及用户交互操作，需要即时响应，当存在耗时操作的时候，必须创建新的isolate，否则UI渲染会被阻塞。</p>
+<h4 id="深入理解Flutter的Isolate创建过程"><a href="http://gityuan.com/2019/07/27/flutter-isolate/" target="_blank" rel="noopener">深入理解Flutter的Isolate创建过程</a></h4>
+<ul>
+<li>
+<p>Root isolate负责UI渲染以及用户交互操作，需要即时响应，当存在耗时操作的时候，必须创建新的isolate，否则UI渲染会被阻塞。</p>
 </li>
-<li><p>创建isolate的方法便是isolate.spawn()。</p>
+<li>
+<p>创建isolate的方法便是isolate.spawn()。</p>
 </li>
-<li><p>Isolate创建流程</p>
+<li>
+<p>Isolate创建流程</p>
 <ul>
 <li>创建IsolateSpawnState对象、SpawnIsolateTask对象</li>
-<li>Dart虚拟机创建过程会初始化线程池ThreadPool，从该线程池中查找worker<ul>
+<li>Dart虚拟机创建过程会初始化线程池ThreadPool，从该线程池中查找worker
+<ul>
 <li>存在空闲状态的worker，则调用Notify唤醒该worker处理刚创建的SpawnIsolateTask对象</li>
 <li>没有空闲状态的worker，则新建worker并创建响应的线程，该线程停留在worker的loop()过程</li>
 </ul>
 </li>
-<li>对于worker的loop过程说明：<ul>
+<li>对于worker的loop过程说明：
+<ul>
 <li>当线程池ThreadPool关闭，则会退出该worker的loop()过程</li>
 <li>当连续等待超过5秒，则释放并退出该worker的loop()过程</li>
 <li>除以上两种情况外，当收到MonitorLocker的Notify过程，则会继续开始处理task，task可以是SpawnIsolateTask、MessageHandlerTask、ParallelMarkTask等Task</li>
 </ul>
 </li>
 <li>创建isolate对象</li>
-<li>调用worker-&gt;setTask()向worker中添加task，worker的loop()过程取出并执行  </li>
+<li>调用worker-&gt;setTask()向worker中添加task，worker的loop()过程取出并执行</li>
 </ul>
 </li>
-<li><p>耗时操作需要创建新的isolate，isolate采用的是同一进程内的多线程间内存不共享的设计方案。</p>
+<li>
+<p>耗时操作需要创建新的isolate，isolate采用的是同一进程内的多线程间内存不共享的设计方案。</p>
 <ul>
 <li>避免线程竞争出现。</li>
 <li>因为isolate之间无法共享内存数据，因此设计了SendPort/ReveivePort的Port端口通信机制，让各isolate间彼此独立，但又可以相互的通信。Port通信的实现原理是异步消息机制</li>
 <li>Dart的isolate是由Dart VM管理的，Flutter引擎无法直接访问。</li>
 </ul>
 </li>
-<li><p>每次创建新的isolate的同时会通过pthread_create()来创建一个OSThread线程，isolate的工作便是在该线程中运行，可以理解为isolate是一种内存不共享的线程，isolate只是在系统现在线程基础之上做了一层份额改装而已。可通过Dart_CreateIsolate和Dart_ShutdownIsolate分别对应isolate的创建和关闭。</p>
+<li>
+<p>每次创建新的isolate的同时会通过pthread_create()来创建一个OSThread线程，isolate的工作便是在该线程中运行，可以理解为isolate是一种内存不共享的线程，isolate只是在系统现在线程基础之上做了一层份额改装而已。可通过Dart_CreateIsolate和Dart_ShutdownIsolate分别对应isolate的创建和关闭。</p>
 </li>
 </ul>
-<h4 id="搭建Flutter-Engine源码编译环境"><a href="#搭建Flutter-Engine源码编译环境" class="headerlink" title="搭建Flutter Engine源码编译环境"></a><a href="http://gityuan.com/2019/08/03/flutter_engine_setup/" target="_blank" rel="noopener">搭建Flutter Engine源码编译环境</a></h4><h4 id="搭建Flutter-Framework开发环境"><a href="#搭建Flutter-Framework开发环境" class="headerlink" title="搭建Flutter Framework开发环境"></a><a href="http://gityuan.com/2019/08/04/flutter_framework_setup/" target="_blank" rel="noopener">搭建Flutter Framework开发环境</a></h4><h4 id="深入理解Flutter的Platform-Channel机制"><a href="#深入理解Flutter的Platform-Channel机制" class="headerlink" title="深入理解Flutter的Platform Channel机制"></a><a href="http://gityuan.com/2019/08/10/flutter_channel/" target="_blank" rel="noopener">深入理解Flutter的Platform Channel机制</a></h4><ul>
-<li><p>核心原理</p>
+<h4 id="搭建Flutter-Engine源码编译环境"><a href="http://gityuan.com/2019/08/03/flutter_engine_setup/" target="_blank" rel="noopener">搭建Flutter Engine源码编译环境</a></h4>
+<h4 id="搭建Flutter-Framework开发环境"><a href="http://gityuan.com/2019/08/04/flutter_framework_setup/" target="_blank" rel="noopener">搭建Flutter Framework开发环境</a></h4>
+<h4 id="深入理解Flutter的Platform-Channel机制"><a href="http://gityuan.com/2019/08/10/flutter_channel/" target="_blank" rel="noopener">深入理解Flutter的Platform Channel机制</a></h4>
+<ul>
+<li>
+<p>核心原理</p>
 <ul>
 <li>Flutter应用通过Platform Channel将传递的数据编码成消息的形式，跨线程发送到该应用缩在的宿主</li>
 <li>宿主接收到Platform Channel的消息后，调用相应平台的API，也就是原生编程语言来执行相应方法</li>
@@ -352,30 +427,42 @@
 <li>整个过程的消息和响应是异步的，所以不会阻塞用户界面。</li>
 </ul>
 </li>
-<li><p>Flutter提供的三种不同的Channel</p>
+<li>
+<p>Flutter提供的三种不同的Channel</p>
 <ul>
 <li>BasicMessageChannel：传递字符串和半结构化数据</li>
 <li>MethodChannel：方法调用</li>
 <li>EventChannel：数据流的通信</li>
 </ul>
 </li>
-<li><p>MethodChannel的执行流程涉及到主线程和UI线程的交互，代码从Dart到C++再到Java层，执行完相应逻辑后原路返回，从Java层到C++层再到Dart层</p>
+<li>
+<p>MethodChannel的执行流程涉及到主线程和UI线程的交互，代码从Dart到C++再到Java层，执行完相应逻辑后原路返回，从Java层到C++层再到Dart层</p>
 </li>
 </ul>
-<h4 id="源码解读Flutter-tools机制"><a href="#源码解读Flutter-tools机制" class="headerlink" title="源码解读Flutter tools机制"></a><a href="http://gityuan.com/2019/09/01/flutter_tool/" target="_blank" rel="noopener">源码解读Flutter tools机制</a></h4><h4 id="源码解读Flutter-run机制"><a href="#源码解读Flutter-run机制" class="headerlink" title="源码解读Flutter run机制"></a><a href="http://gityuan.com/2019/09/07/flutter_run/" target="_blank" rel="noopener">源码解读Flutter run机制</a></h4><h4 id="Flutter前端编译frontend-server"><a href="#Flutter前端编译frontend-server" class="headerlink" title="Flutter前端编译frontend_server"></a><a href="http://gityuan.com/2019/09/14/flutter_frontend_server/" target="_blank" rel="noopener">Flutter前端编译frontend_server</a></h4><h4 id="Flutter机器码生成gen-snapshot"><a href="#Flutter机器码生成gen-snapshot" class="headerlink" title="Flutter机器码生成gen_snapshot"></a><a href="http://gityuan.com/2019/09/21/flutter_gen_snapshot/" target="_blank" rel="noopener">Flutter机器码生成gen_snapshot</a></h4><h4 id="解读Dart虚拟机的参数列表"><a href="#解读Dart虚拟机的参数列表" class="headerlink" title="解读Dart虚拟机的参数列表"></a><a href="http://gityuan.com/2019/09/22/dartvm_flags/" target="_blank" rel="noopener">解读Dart虚拟机的参数列表</a></h4><h4 id="Dart虚拟机运行原理"><a href="#Dart虚拟机运行原理" class="headerlink" title="Dart虚拟机运行原理"></a><a href="http://gityuan.com/2019/10/05/dart_vm/" target="_blank" rel="noopener">Dart虚拟机运行原理</a></h4><ul>
-<li><p>Dart VM为高级编程语言Dart提供执行环境，但是Dart在虚拟机上执行时，不仅仅可以采用解释执行或者JIT编译，还可以使用Dart虚拟机的AOT管道将Dart代码编译为机器代码，然后运行在Dart虚拟机的精简版环境，称之为预编译运行时环境，环境不包含任何编译器组件，且无法动态加载Dart源代码</p>
+<h4 id="源码解读Flutter-tools机制"><a href="http://gityuan.com/2019/09/01/flutter_tool/" target="_blank" rel="noopener">源码解读Flutter tools机制</a></h4>
+<h4 id="源码解读Flutter-run机制"><a href="http://gityuan.com/2019/09/07/flutter_run/" target="_blank" rel="noopener">源码解读Flutter run机制</a></h4>
+<h4 id="Flutter前端编译frontend-server"><a href="http://gityuan.com/2019/09/14/flutter_frontend_server/" target="_blank" rel="noopener">Flutter前端编译frontend_server</a></h4>
+<h4 id="Flutter机器码生成gen-snapshot"><a href="http://gityuan.com/2019/09/21/flutter_gen_snapshot/" target="_blank" rel="noopener">Flutter机器码生成gen_snapshot</a></h4>
+<h4 id="解读Dart虚拟机的参数列表"><a href="http://gityuan.com/2019/09/22/dartvm_flags/" target="_blank" rel="noopener">解读Dart虚拟机的参数列表</a></h4>
+<h4 id="Dart虚拟机运行原理"><a href="http://gityuan.com/2019/10/05/dart_vm/" target="_blank" rel="noopener">Dart虚拟机运行原理</a></h4>
+<ul>
+<li>
+<p>Dart VM为高级编程语言Dart提供执行环境，但是Dart在虚拟机上执行时，不仅仅可以采用解释执行或者JIT编译，还可以使用Dart虚拟机的AOT管道将Dart代码编译为机器代码，然后运行在Dart虚拟机的精简版环境，称之为预编译运行时环境，环境不包含任何编译器组件，且无法动态加载Dart源代码</p>
 </li>
-<li><p>Dart VM执行代码的方式：</p>
+<li>
+<p>Dart VM执行代码的方式：</p>
 <ul>
 <li>源码或者Kernel二进制(JIT)</li>
-<li>snapshot<ul>
+<li>snapshot
+<ul>
 <li>AOT snapshot</li>
 <li>APPJIT snapshot</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Isolate组成</p>
+<li>
+<p>Isolate组成</p>
 <ul>
 <li>Isolate中的Heap管理GC内存中所有对象的内存存储分配</li>
 <li>vm isolate是一个伪isolate，里面包含不可变对象，如null/true/false等</li>
@@ -384,24 +471,29 @@
 <li>每个Isolate都有一个执行Dart代码的Mutator Thread，还有很多的Hepler Thread用来处理虚拟机内部任务，如GC、JIT等</li>
 </ul>
 </li>
-<li><p>Isolate拥有内存Heap和控制线程，虚拟机中可以有很多Isolate，但是彼此之间不能直接通信，只能通过Dart特有的端口通信。</p>
+<li>
+<p>Isolate拥有内存Heap和控制线程，虚拟机中可以有很多Isolate，但是彼此之间不能直接通信，只能通过Dart特有的端口通信。</p>
 </li>
-<li><p>Isolate拥有一个Mutator控制线程，还有一些Hepler线程：</p>
+<li>
+<p>Isolate拥有一个Mutator控制线程，还有一些Hepler线程：</p>
 <ul>
 <li>后台JIT编译线程</li>
 <li>GC清理线程</li>
 <li>GC编发标记线程</li>
 </ul>
 </li>
-<li><p>线程和Isolate的关系</p>
+<li>
+<p>线程和Isolate的关系</p>
 <ul>
 <li>同一个线程在同一时间只能进入一个Isolate，当需要进入另一个Isolate则必须先退出当前Isolate</li>
 <li>一次只能有一个Mutator线程关联对应的Isolate，Mutator线程是执行Dart代码并使用虚拟机的公共C语言API的线程。</li>
 </ul>
 </li>
-<li><p>虚拟机采用线程池的方式来管理线程</p>
+<li>
+<p>虚拟机采用线程池的方式来管理线程</p>
 <ul>
-<li>核心变量<ul>
+<li>核心变量
+<ul>
 <li>all_workers_：记录所有的workers</li>
 <li>idle_workers_：记录所有空闲的workers</li>
 <li>count_started_：记录该线程池的历史累计启动workers个数</li>
@@ -410,7 +502,8 @@
 <li>count_idle_：记录该线程池当前处于空闲的worker个数，也就是idle_workers的长度</li>
 </ul>
 </li>
-<li>核心方法<ul>
+<li>核心方法
+<ul>
 <li>Run(Task*)</li>
 <li>Shutdown()</li>
 <li>SetIdleLocked(Worker*)</li>
@@ -420,9 +513,12 @@
 </ul>
 </li>
 </ul>
-</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T08:04:27.123Z"><meta itemprop="articleBody" content="Tips啃不啃C++，这是个问题。
+</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T08:04:27.123Z"><meta itemprop="articleBody" content="Tips
+啃不啃C++，这是个问题。
 
 Flutter渲染机制-UI线程
+
+
 渲染相关的两个线程：
 
 UI线程：运行UI Task Runner，是Flutter Engine用于执行Dart root isolate代码，将其转换为layer tree视图结构

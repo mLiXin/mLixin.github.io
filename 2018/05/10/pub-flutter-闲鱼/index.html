@@ -1,93 +1,113 @@
 <!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flutter学习笔记 - 闲鱼公众号 | mLiXin's Blog</title><link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/highlights/dracula.css"><link rel="canonical" href="http://mLixin.com/2018/05/10/pub-flutter-闲鱼/"/>
-<meta name="description" content="摘要闲鱼技术 公众号Flutter相关文章学习笔记  Android Flutter内存初探主要关注Dart…">
+<meta name="description" content="摘要 闲鱼技术 公众号Flutter相关文章学习笔记  Android Flutter内存初探 主要关注Dart…">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flutter学习笔记 - 闲鱼公众号">
 <meta property="og:url" content="http://mlixin.com/2018/05/10/pub-flutter-%E9%97%B2%E9%B1%BC/">
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
-<meta property="og:description" content="摘要闲鱼技术 公众号Flutter相关文章学习笔记  Android Flutter内存初探主要关注Dart…">
+<meta property="og:description" content="摘要 闲鱼技术 公众号Flutter相关文章学习笔记  Android Flutter内存初探 主要关注Dart…">
 <meta property="og:image" content="http://mlixin.com/images/default.jpg">
 <meta property="article:published_time" content="2018-05-10T09:23:05.000Z">
 <meta property="article:modified_time" content="2020-05-28T08:04:09.698Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Flutter">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://mlixin.com/images/default.jpg"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2018-05-10 17:23:05"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">Flutter学习笔记 - 闲鱼公众号</h1><div class="article__meta"><time class="article__meta__time" datetime="2018-05-10T09:23:05.000Z" itemprop="datePublished">2018-05-10 17:23:05</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>闲鱼技术 公众号Flutter相关文章学习笔记</p>
+<meta name="twitter:image" content="http://mlixin.com/images/default.jpg"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2018-05-10 17:23:05"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">Flutter学习笔记 - 闲鱼公众号</h1><div class="article__meta"><time class="article__meta__time" datetime="2018-05-10T09:23:05.000Z" itemprop="datePublished">2018-05-10 17:23:05</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="摘要">摘要</h4>
+<p>闲鱼技术 公众号Flutter相关文章学习笔记</p>
 <a id="more"></a>
-<h4 id="Android-Flutter内存初探"><a href="#Android-Flutter内存初探" class="headerlink" title="Android Flutter内存初探"></a><a href="https://mp.weixin.qq.com/s/efKCpCtvvHDHUiAsizobBQ" target="_blank" rel="noopener">Android Flutter内存初探</a></h4><p>主要关注Dart VM内存分配和回收相关的部分</p>
+<h4 id="Android-Flutter内存初探"><a href="https://mp.weixin.qq.com/s/efKCpCtvvHDHUiAsizobBQ" target="_blank" rel="noopener">Android Flutter内存初探</a></h4>
+<p>主要关注Dart VM内存分配和回收相关的部分</p>
 <ul>
-<li><p>Dart的线程是不共享内存的，各自的堆和栈都是隔离的，彼此通过消息通道来通信。Dart天然不存在数据竞争和变量状态同步的问题，整个Flutter Framework Widget的渲染过程都运行在一个isolate中。</p>
+<li>
+<p>Dart的线程是不共享内存的，各自的堆和栈都是隔离的，彼此通过消息通道来通信。Dart天然不存在数据竞争和变量状态同步的问题，整个Flutter Framework Widget的渲染过程都运行在一个isolate中。</p>
 </li>
-<li><p>Dart VM将内存管理分为新生代和老年代</p>
+<li>
+<p>Dart VM将内存管理分为新生代和老年代</p>
 <ul>
-<li>新生代(New Generation)<ul>
+<li>新生代(New Generation)
+<ul>
 <li>初次分配的对象的都位于新生代中，该区域主要存放内存较小并且生命周期较短的对象，比如局部变量。</li>
 <li>新生代会频繁执行内存回收(GC)，回收采用“复制-清除”算法，将内存分为两块，运行时每次只使用其中一块，另一块备用，当发生GC的时候，当前内存使用的内存块中存活的对象拷贝到备用内存块中，然后清除当前使用内存块，最后交互两块内存的角色。</li>
 </ul>
 </li>
-<li>老年代(Old Generation)<ul>
+<li>老年代(Old Generation)
+<ul>
 <li>新生代GC留下的对象会被转移到老年代中(这里可能还是和JVM一样会有年龄限制的，不是每次GC留下的对象都会马上转移到老年代中)。老年代存放生命力周期较长，内存较大的对象。</li>
 <li>老年代GC采用<code>标记-清除</code>算法，分成标记和清除两个阶段。标记阶段，所有线程参与并发的完成对回收对象的标记，降低标记阶段耗时；清除阶段，由GC线程负责清理回收对象，和应用线程同时执行，不影响应用运行。</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Android和Flutter加载图片使用的内存有什么区别？</p>
+<li>
+<p>Android和Flutter加载图片使用的内存有什么区别？</p>
 <ul>
 <li>Android原生的ImageView在6.0和7.0版本使用的是Java虚拟机内存，而在Android8.0是使用的Native内存</li>
 <li>Flutter中的Image Widget使用的内存是Graphics(图形缓冲区队列向屏幕显示像素所使用的内存，这是CPU共享的内存，不是CPU专用内存)，不懂，反正不是Java虚拟机内存，不会出现OOM</li>
 </ul>
 </li>
-<li><p>Flutter和原生混合开发的是时候，有两种方案可以实现：</p>
+<li>
+<p>Flutter和原生混合开发的是时候，有两种方案可以实现：</p>
 <ul>
 <li>一个Activity里面启动一个新的Flutter View</li>
-<li>只用一个FlutterView，跳转的时候复用这个FlutterView<ul>
+<li>只用一个FlutterView，跳转的时候复用这个FlutterView
+<ul>
 <li>Flutter Framework中FlutterView是绑定Activity使用的，必须attach一个Activity，为了避免Activity泄露，可以在detach的时候传入mainActivity，因为运行过程中mainActivity是会一直存在的。</li>
 <li>复用FlutterView的时候会有问题，比如Activity切换的时候，就不得不将当前FlutterView detach掉给后面新建的Activity使用，会有空白闪动。</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Flutter首帧渲染耗时较高，优化思路是，预先将要使用的FlutterView加载好首帧，这样在真正使用的时候就很快了。</p>
+<li>
+<p>Flutter首帧渲染耗时较高，优化思路是，预先将要使用的FlutterView加载好首帧，这样在真正使用的时候就很快了。</p>
 </li>
 </ul>
-<h4 id="深入了解Flutter界面开发"><a href="#深入了解Flutter界面开发" class="headerlink" title="深入了解Flutter界面开发"></a><a href="https://mp.weixin.qq.com/s/z2r2OmnY7r7dQrkO8ndkFQ" target="_blank" rel="noopener">深入了解Flutter界面开发</a></h4><ul>
-<li><p>Widget、Element、RenderObject分别是什么？有什么关系？</p>
+<h4 id="深入了解Flutter界面开发"><a href="https://mp.weixin.qq.com/s/z2r2OmnY7r7dQrkO8ndkFQ" target="_blank" rel="noopener">深入了解Flutter界面开发</a></h4>
+<ul>
+<li>
+<p>Widget、Element、RenderObject分别是什么？有什么关系？</p>
 <ul>
 <li>Widget：存放渲染内容、视图布局信息，widget的属性最好是immutable的</li>
 <li>Element：存放上下文，通过Element遍历视图树，Element同时持有Widget和RenderObject</li>
 <li>RenderObject：根据Widget的布局属性进行layout，paint Widget传入的内容。</li>
 </ul>
 </li>
-<li><p>为什么widget都是immutable？</p>
+<li>
+<p>为什么widget都是immutable？</p>
 <ul>
 <li>界面开发是响应式编程，希望数据变更的时候，发送通知到对应的可变更节点，由上到下重新create widget树进行刷新。</li>
 </ul>
 </li>
-<li><p>Widget重新创建，element树和renderObject树是否也重新创建？</p>
+<li>
+<p>Widget重新创建，element树和renderObject树是否也重新创建？</p>
 <ul>
 <li>Widget树创建非常轻量，不会带来想呢个问题，但是renderObject涉及到layout、paint等复杂操作，是一个枕着在哪个的渲染的view，整个view树重新创建开销比较大，所以不会重新创建。</li>
 </ul>
 </li>
-<li><p>State生命周期</p>
+<li>
+<p>State生命周期</p>
 <ul>
-<li>initState<ul>
+<li>initState
+<ul>
 <li>create之后，被insert到tree的时候调用</li>
 </ul>
 </li>
-<li>didUpdateWidget<ul>
+<li>didUpdateWidget
+<ul>
 <li>祖先节点rebuild widget的时候调用</li>
 </ul>
 </li>
-<li>deactivate<ul>
+<li>deactivate
+<ul>
 <li>widget被remove的时候调用，一个widget从tree中remove掉，可以在dispose接口被调用前重新insert到一个新的tree中</li>
 </ul>
 </li>
-<li>didChangeDependencies<ul>
+<li>didChangeDependencies
+<ul>
 <li>initState之后立刻调用</li>
 <li>依赖的InheritedWidget rebuild，会触发该接口被调用</li>
 </ul>
 </li>
-<li>build<ul>
+<li>build
+<ul>
 <li>initState之后</li>
 <li>didUpdateWidget之后</li>
 <li>setState之后</li>
@@ -95,87 +115,106 @@
 <li>deactivate被调用，然后重新将其插入到一另外一个location之后</li>
 </ul>
 </li>
-<li>dispose()<ul>
+<li>dispose()
+<ul>
 <li>widget彻底销毁时调用</li>
 </ul>
 </li>
-<li>reassemble<ul>
+<li>reassemble
+<ul>
 <li>hot Reload</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>如何触发树的更新？</p>
+<li>
+<p>如何触发树的更新？</p>
 <ul>
 <li>全局更新，runApp(rootWidget)</li>
 <li>局部子树更新，setState()</li>
 </ul>
 </li>
-<li><p>Layout的size计算过程</p>
+<li>
+<p>Layout的size计算过程</p>
 <ul>
 <li>parent传constrains给child，child根据自身渲染内容返回size</li>
 </ul>
 </li>
 </ul>
-<h4 id="深入理解flutter的编译原理与优化"><a href="#深入理解flutter的编译原理与优化" class="headerlink" title="深入理解flutter的编译原理与优化"></a><a href="https://mp.weixin.qq.com/s/vlHt8jxbdzBqJZDobpsFVw" target="_blank" rel="noopener">深入理解flutter的编译原理与优化</a></h4><ul>
+<h4 id="深入理解flutter的编译原理与优化"><a href="https://mp.weixin.qq.com/s/vlHt8jxbdzBqJZDobpsFVw" target="_blank" rel="noopener">深入理解flutter的编译原理与优化</a></h4>
+<ul>
 <li>TODO</li>
 </ul>
-<h4 id="深入理解Flutter引擎线程模式"><a href="#深入理解Flutter引擎线程模式" class="headerlink" title="深入理解Flutter引擎线程模式"></a><a href="https://mp.weixin.qq.com/s/hZ5PUvPpMlEYBAJggGnJsw" target="_blank" rel="noopener">深入理解Flutter引擎线程模式</a></h4><ul>
-<li><p>TODO 可以多看几次</p>
+<h4 id="深入理解Flutter引擎线程模式"><a href="https://mp.weixin.qq.com/s/hZ5PUvPpMlEYBAJggGnJsw" target="_blank" rel="noopener">深入理解Flutter引擎线程模式</a></h4>
+<ul>
+<li>
+<p>TODO 可以多看几次</p>
 </li>
-<li><p>Flutter比较其他跨平台方案，有哪些高性能特性？</p>
+<li>
+<p>Flutter比较其他跨平台方案，有哪些高性能特性？</p>
 <ul>
 <li>FLutter在Release模式下直接将Dart编译成本地机器码，避免了代码解释运行的性能消耗</li>
 <li>Dart本身针对高频率循环刷新在内存层面进行了优化</li>
 <li>Flutter实现了自己的图形绘制，避免了Native桥接</li>
 </ul>
 </li>
-<li><p>Flutter中如何管理线程？</p>
+<li>
+<p>Flutter中如何管理线程？</p>
 <ul>
-<li>Engine自己不创建管理线程，线程的创建和管理由embedder负责，Embedder指的是将引擎移植到平台的中间层代码。 </li>
+<li>Engine自己不创建管理线程，线程的创建和管理由embedder负责，Embedder指的是将引擎移植到平台的中间层代码。</li>
 </ul>
 </li>
-<li><p>Flutter要求Embedder提供的四个Task Runner分别是什么？</p>
+<li>
+<p>Flutter要求Embedder提供的四个Task Runner分别是什么？</p>
 <ul>
-<li>Platform Task Runner<ul>
+<li>Platform Task Runner
+<ul>
 <li>可以理解为主线程，其实和其他线程没区别。一般来说，一个Flutter应用启动时会创建一个Engine实例，Engine创建的时候会创建一个线程供Platform Runner使用</li>
 <li>不仅仅处理与Engine交互，还处理来自平台的消息</li>
 <li>阻塞Platform Thread不会直接导致Flutter应用的卡顿。长时间卡住的Platform Thread应用有可能会被系统Watchdog强行杀死</li>
 </ul>
 </li>
-<li>UI Task Runner Thread（Dart Runner）<ul>
+<li>UI Task Runner Thread（Dart Runner）
+<ul>
 <li>被Flutter Engine用于执行Dart root isolate代码</li>
 <li>处理渲染相关的逻辑、来自Native Plugins的消息响应</li>
 <li>生成平台不相关的LayerTree传给GPU Task Runner</li>
 <li>过载会导致Flutter应用卡顿</li>
 </ul>
 </li>
-<li>GPU Task Runner<ul>
+<li>GPU Task Runner
+<ul>
 <li>执行设备GPU的相关调用，将LayerTree提供的信息转化为实际的GPU指令。</li>
 <li>过载会导致Flutter应用卡顿</li>
 </ul>
 </li>
-<li>IO Task Runner <ul>
+<li>IO Task Runner
+<ul>
 <li>从图片存储中读取压缩的图片格式，将图片数据进行处理为GPU Runner的渲染做好准备</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Dart中的isolate机制</p>
+<li>
+<p>Dart中的isolate机制</p>
 <ul>
-<li>定义<ul>
+<li>定义
+<ul>
 <li>Isolate有自己的内存和单线程控制的运行实体，Isolate之间的内存在逻辑上是隔离的，isolate中的代码是按顺序执行的，任何Dart程序的并发都是运行多个isolate的结果。因为不共享内存，没有竞争的可能性，不需要锁，不用担心死锁。</li>
 </ul>
 </li>
-<li>通信<ul>
+<li>通信
+<ul>
 <li>只能通过Port异步传递消息</li>
 </ul>
 </li>
-<li>与普通线程的区别<ul>
+<li>与普通线程的区别
+<ul>
 <li>线程之间是可以共享内存的，但是isolate没有</li>
 </ul>
 </li>
-<li>实现<ul>
+<li>实现
+<ul>
 <li>初始化isolate数据结构</li>
 <li>初始化堆内存heap</li>
 <li>进入新创建的isolate，使用跟isolate一对一的线程运行isolate</li>
@@ -188,22 +227,27 @@
 </ul>
 </li>
 </ul>
-<h4 id="Flutter-Plugin调用Native-APIs"><a href="#Flutter-Plugin调用Native-APIs" class="headerlink" title="Flutter Plugin调用Native APIs"></a><a href="https://mp.weixin.qq.com/s/WORru3f5rfABFMoxQ_2nYw" target="_blank" rel="noopener">Flutter Plugin调用Native APIs</a></h4><ul>
-<li><p>Flutter与其他开发框架相比有什么优点？</p>
+<h4 id="Flutter-Plugin调用Native-APIs"><a href="https://mp.weixin.qq.com/s/WORru3f5rfABFMoxQ_2nYw" target="_blank" rel="noopener">Flutter Plugin调用Native APIs</a></h4>
+<ul>
+<li>
+<p>Flutter与其他开发框架相比有什么优点？</p>
 <ul>
 <li>使用AOT预编译代码为机器码，所以运行效率更高</li>
 <li>没有使用底层的原生控件，而是使用Skia渲染引擎绘制而成，不依赖底层控件，多端一致性较好</li>
 <li>扩展性强，可以通过Plugin与Native进行通信</li>
 </ul>
 </li>
-<li><p>Flutter中的MethodChannel如何实现？</p>
+<li>
+<p>Flutter中的MethodChannel如何实现？</p>
 <ul>
-<li>Plugin Flutter部分<ul>
+<li>Plugin Flutter部分
+<ul>
 <li>MethodChannel：Flutter api调用Native APis</li>
 <li>EventChannel：Native调用Flutter App</li>
 </ul>
 </li>
-<li>Plugin Android部分<ul>
+<li>Plugin Android部分
+<ul>
 <li>新版本中已经在FlutterActivity中注册过了，只需要重写configureFlutterEngine，重新生成MethodChannel实例并实现即可。</li>
 </ul>
 </li>
@@ -211,39 +255,48 @@
 </li>
 </ul>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// metehodChannel</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> MethodChannel _methodChannel = <span class="keyword">const</span> MethodChannel(<span class="string">'samples.flutter.io/battery'</span>);</span><br><span class="line"><span class="built_in">int</span> result = <span class="keyword">await</span> _methodChannel.invokeMethod(<span class="string">''</span>,&#123;<span class="string">'paramName'</span>:<span class="string">'paramValue'</span>，&#125;)</span><br><span class="line"><span class="comment">// EventChannle</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> EventChannel _eventChannel = <span class="keyword">const</span> EventChannel(<span class="string">'samples.flutter.io/charging'</span>);</span><br><span class="line"><span class="keyword">void</span> listenNativeEvent()&#123;</span><br><span class="line">    _eventChannel.receiveBroadcastStream().listen(_onEvent,onError:_onError);</span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> _onEvent(<span class="built_in">Object</span> event)&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> _onError(<span class="built_in">Object</span> error)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Flutter混合工程改造实践"><a href="#Flutter混合工程改造实践" class="headerlink" title="Flutter混合工程改造实践"></a><a href="https://mp.weixin.qq.com/s/Q1z6Mal2pZbequxk5I5UYA" target="_blank" rel="noopener">Flutter混合工程改造实践</a></h4><ul>
+<h4 id="Flutter混合工程改造实践"><a href="https://mp.weixin.qq.com/s/Q1z6Mal2pZbequxk5I5UYA" target="_blank" rel="noopener">Flutter混合工程改造实践</a></h4>
+<ul>
 <li>TODO 以ios视角来讨论的，暂时不太能立即理解。</li>
-<li>将Flutter工程包含已有的Native工程，会带来哪些问题？<ul>
-<li>构建打包问题<ul>
+<li>将Flutter工程包含已有的Native工程，会带来哪些问题？
+<ul>
+<li>构建打包问题
+<ul>
 <li>引入Flutter后，Native工程对其有依赖和耦合，从而无法独立编译构建。</li>
 </ul>
 </li>
-<li>混合编译带来的开发效率的降低<ul>
+<li>混合编译带来的开发效率的降低
+<ul>
 <li>转型Flutter的过程中必然有许多业务仍使用Native进行开发，工程结构的改动会使开发无法在纯Native环境下进行。</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<h4 id="Release-Flutter的最后一公里"><a href="#Release-Flutter的最后一公里" class="headerlink" title="Release Flutter的最后一公里"></a><a href="https://mp.weixin.qq.com/s/xV-FGR9o2ODLFJFq4YwnKg" target="_blank" rel="noopener">Release Flutter的最后一公里</a></h4><ol>
-<li><p>选择Dart的原因，有哪些优势？</p>
+<h4 id="Release-Flutter的最后一公里"><a href="https://mp.weixin.qq.com/s/xV-FGR9o2ODLFJFq4YwnKg" target="_blank" rel="noopener">Release Flutter的最后一公里</a></h4>
+<ol>
+<li>
+<p>选择Dart的原因，有哪些优势？</p>
 <ul>
 <li>易学</li>
 <li>AOT编译、JIT编译</li>
 <li>可无锁进行对象分配和垃圾回收</li>
 </ul>
 </li>
-<li><p>混合栈管理</p>
+<li>
+<p>混合栈管理</p>
 <ul>
 <li>抽取单一FlutterView或FlutterNativeView，后续没启动一个Activity都对FLutterView或FlutterNativeView进行复用。</li>
 </ul>
 </li>
-<li><p>UI渲染原理</p>
+<li>
+<p>UI渲染原理</p>
 <ul>
 <li>GPU的Vsync信号同步到UI线程，UI线程使用Dart构建抽象的视图结构(LayerTree)，接着在GPU线程进行图层合成，且视图数据提供给Skia引擎进行渲染生成GPU数据，最终通过OpenGL或Vulkan提供给GPU，有次可以看出Flutter并不关心显示器、视频控制器以及GPU具体工作细节，它只关心Vsync信号，以求尽可能快的在两个Vsync信号之间计算并合成视图数据并提供给GPU。</li>
 </ul>
 </li>
-<li><p>Flutter播放器可以如何改进？</p>
+<li>
+<p>Flutter播放器可以如何改进？</p>
 <ul>
 <li>设置一个EventChannel，用于向Flutter通知视频状态变化</li>
 <li>设置一个MethodChannel，用于控制video player</li>
@@ -252,30 +305,38 @@
 </ul>
 </li>
 </ol>
-<h4 id="Flutter-React编程范式实践"><a href="#Flutter-React编程范式实践" class="headerlink" title="Flutter React编程范式实践"></a><a href="https://mp.weixin.qq.com/s/GRHvM0BHe2D9Qwb_nW0New" target="_blank" rel="noopener">Flutter React编程范式实践</a></h4><ul>
-<li>TODO</li>
-<li><h4 id="闲鱼Fultter混合工程持续集成的最佳实践"><a href="#闲鱼Fultter混合工程持续集成的最佳实践" class="headerlink" title="闲鱼Fultter混合工程持续集成的最佳实践"></a><a href="https://mp.weixin.qq.com/s/5opwrgVr48e0YDYtEWFXZQ" target="_blank" rel="noopener">闲鱼Fultter混合工程持续集成的最佳实践</a></h4></li>
-</ul>
-<ol>
-<li><p>Flutter依赖抽取模块，将Flutter的依赖抽取为一个Flutter依赖库发布到远程， 供纯Native工程引用。</p>
-</li>
-<li><p>Native工程对Flutter工程有哪些依赖？</p>
+<h4 id="Flutter-React编程范式实践"><a href="https://mp.weixin.qq.com/s/GRHvM0BHe2D9Qwb_nW0New" target="_blank" rel="noopener">Flutter React编程范式实践</a></h4>
 <ul>
-<li>Flutter库和引擎<ul>
+<li>TODO</li>
+<li></li>
+</ul>
+<h4 id="闲鱼Fultter混合工程持续集成的最佳实践"><a href="https://mp.weixin.qq.com/s/5opwrgVr48e0YDYtEWFXZQ" target="_blank" rel="noopener">闲鱼Fultter混合工程持续集成的最佳实践</a></h4>
+<ol>
+<li>
+<p>Flutter依赖抽取模块，将Flutter的依赖抽取为一个Flutter依赖库发布到远程， 供纯Native工程引用。</p>
+</li>
+<li>
+<p>Native工程对Flutter工程有哪些依赖？</p>
+<ul>
+<li>Flutter库和引擎
+<ul>
 <li>Flutter的Framework库和引擎库</li>
 </ul>
 </li>
-<li>Flutter工程<ul>
+<li>Flutter工程
+<ul>
 <li>自己实现的Flutter模块功能，主要为Flutter工程下lib目录下的dart代码</li>
 </ul>
 </li>
 <li>自己实现的Flutter Plugin</li>
 </ul>
 </li>
-<li><p>Android的Flutter依赖文件都有哪些?</p>
+<li>
+<p>Android的Flutter依赖文件都有哪些?</p>
 <ul>
 <li>Flutter库和引擎</li>
-<li>Flutter工程产物<ul>
+<li>Flutter工程产物
+<ul>
 <li>isolate_snapshot_data 应用程序数据段</li>
 <li>isolate_snapshot_instr 应用程序指令段</li>
 <li>wm_snapshot_data VM虚拟机数据段</li>
@@ -283,15 +344,18 @@
 <li>flutter_assets</li>
 </ul>
 </li>
-<li>Flutter Plugin<ul>
+<li>Flutter Plugin
+<ul>
 <li>各个Plugin编译出来的aar文件</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Flutter工程中的Android打包如何实现？</p>
+<li>
+<p>Flutter工程中的Android打包如何实现？</p>
 <ul>
-<li>在Android的Gradle任务中插入了一个flutter.gradle的任务，而这个flutter.gradle主要做了三件事：<ul>
+<li>在Android的Gradle任务中插入了一个flutter.gradle的任务，而这个flutter.gradle主要做了三件事：
+<ul>
 <li>增加flutter.jar的依赖</li>
 <li>插入Flutter Plugin的编译依赖</li>
 <li>插入Flutter工程的编译任务，最终将产物(连个isolate_snapshot文件、两个vm_snapshot文件和flutter_Assets文件夹)拷贝到mergeAssets.outputDir，最终merge到APK的assets目录下</li>
@@ -299,7 +363,8 @@
 </li>
 </ul>
 </li>
-<li><p>如何抽取Android的Flutter依赖？</p>
+<li>
+<p>如何抽取Android的Flutter依赖？</p>
 <ul>
 <li>编译Flutter工程</li>
 <li>将flutter.jar和Flutter工程的产物打包成一个aar</li>
@@ -307,7 +372,8 @@
 <li>纯粹的Native项目只需要compile我们发布到maven的aar即可。</li>
 </ul>
 </li>
-<li><p>自动化持续集成如何实现？</p>
+<li>
+<p>自动化持续集成如何实现？</p>
 <ul>
 <li>每次需要构建纯粹Native工程前自动完成Flutter工程对应的远程库的编译发布工作，整个过程不需要人工干预</li>
 <li>在开发测试阶段，采用五段式版本号，最后一位自动递增产生，这样就可以保证测试阶段的所有并行开发的Flutter库的版本号不会产生冲突</li>
@@ -315,97 +381,121 @@
 </ul>
 </li>
 </ol>
-<h4 id="Flutter新锐专家之路：工程研发体系篇"><a href="#Flutter新锐专家之路：工程研发体系篇" class="headerlink" title="Flutter新锐专家之路：工程研发体系篇"></a><a href="https://mp.weixin.qq.com/s/YMnzLGrUdjd1PFlkZdFMqQ" target="_blank" rel="noopener">Flutter新锐专家之路：工程研发体系篇</a></h4><ul>
+<h4 id="Flutter新锐专家之路：工程研发体系篇"><a href="https://mp.weixin.qq.com/s/YMnzLGrUdjd1PFlkZdFMqQ" target="_blank" rel="noopener">Flutter新锐专家之路：工程研发体系篇</a></h4>
+<ul>
 <li>TODO 混合实战的时候看</li>
 </ul>
-<h4 id="Flutter新锐专家之路：混合开发篇"><a href="#Flutter新锐专家之路：混合开发篇" class="headerlink" title="Flutter新锐专家之路：混合开发篇"></a><a href="https://mp.weixin.qq.com/s/1AMvmuckg9bEODqhULVhPQ" target="_blank" rel="noopener">Flutter新锐专家之路：混合开发篇</a></h4><ul>
+<h4 id="Flutter新锐专家之路：混合开发篇"><a href="https://mp.weixin.qq.com/s/1AMvmuckg9bEODqhULVhPQ" target="_blank" rel="noopener">Flutter新锐专家之路：混合开发篇</a></h4>
+<ul>
 <li>TODO 混合实战的时候再来看</li>
 </ul>
-<h4 id="万万没想到-Flutter这样外接纹理"><a href="#万万没想到-Flutter这样外接纹理" class="headerlink" title="万万没想到-Flutter这样外接纹理"></a><a href="https://mp.weixin.qq.com/s/KkCsBvnRayvpXdI35J3fnw" target="_blank" rel="noopener">万万没想到-Flutter这样外接纹理</a></h4><ol start="0">
-<li><p>TODO 有些有点深，理解的不是很好</p>
+<h4 id="万万没想到-Flutter这样外接纹理"><a href="https://mp.weixin.qq.com/s/KkCsBvnRayvpXdI35J3fnw" target="_blank" rel="noopener">万万没想到-Flutter这样外接纹理</a></h4>
+<ol start="0">
+<li>
+<p>TODO 有些有点深，理解的不是很好</p>
 </li>
-<li><p>Flutter如何实现在Native和FlutterEngine实现UI的隔离？</p>
+<li>
+<p>Flutter如何实现在Native和FlutterEngine实现UI的隔离？</p>
 <ul>
 <li>当Runtime完成Layout输出一个LayerTree之后，在管线中会遍历LayerTree的每一个叶子节点，每一个叶子节点最终会调用Skia引擎完成界面元素的绘制，在遍历完成后，再调用glSwapBuffer完成上屏操作。</li>
 </ul>
 </li>
-<li><p>Flutter中的Texture控件有什么意义？</p>
+<li>
+<p>Flutter中的Texture控件有什么意义？</p>
 <ul>
 <li>代表的是在这个控件上显示的数据，需要由Native提供</li>
 </ul>
 </li>
-<li><p>Flutter如何展示Native端大数据？</p>
+<li>
+<p>Flutter如何展示Native端大数据？</p>
 <ul>
 <li>使用Texture，通过外交纹理的方式，Flutter和Native传输的数据载体PixelBuffer，Native端的数据源(摄像头、播放器等)将数据写入PixelBuffer，Flutter拿到PixelBuffer以后转成OpenGLES Texture，交由Skia绘制</li>
 </ul>
 </li>
 </ol>
-<h4 id="深入理解Flutter-Platform-Channel"><a href="#深入理解Flutter-Platform-Channel" class="headerlink" title="深入理解Flutter Platform Channel"></a><a href="https://mp.weixin.qq.com/s/FT7UFbee1AtxmKt3iJgvyg" target="_blank" rel="noopener">深入理解Flutter Platform Channel</a></h4><ol start="0">
-<li><p>Flutter与Native之间的消息传递，如果要了解细节，可以细看这篇。</p>
+<h4 id="深入理解Flutter-Platform-Channel"><a href="https://mp.weixin.qq.com/s/FT7UFbee1AtxmKt3iJgvyg" target="_blank" rel="noopener">深入理解Flutter Platform Channel</a></h4>
+<ol start="0">
+<li>
+<p>Flutter与Native之间的消息传递，如果要了解细节，可以细看这篇。</p>
 </li>
-<li><p>Flutter有哪几种Channel？</p>
+<li>
+<p>Flutter有哪几种Channel？</p>
 <ul>
-<li>BasicMessageChannel<ul>
+<li>BasicMessageChannel
+<ul>
 <li>用于传递字符串和半结构化的信息</li>
 </ul>
 </li>
-<li>MethodChannel<ul>
+<li>MethodChannel
+<ul>
 <li>用于传递方法调用(method invocation)</li>
 </ul>
 </li>
-<li>EventChannel<ul>
+<li>EventChannel
+<ul>
 <li>用于数据流(event streams)的通信</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Channel的三个重要的成员变量？</p>
+<li>
+<p>Channel的三个重要的成员变量？</p>
 <ul>
-<li>name<ul>
+<li>name
+<ul>
 <li>String类型，代表Channel的名字，也是其唯一标识符</li>
 <li>当有消息从Flutter端发送到Platform端的时候，会根据其传递过来的channel name找到该channel对应的Handler</li>
 </ul>
 </li>
-<li>messager<ul>
+<li>messager
+<ul>
 <li>BinaryMessenger类型，代表消息信使，是消息的发送与接收的工具</li>
 <li>通信使用的消息格式为二进制格式数据。</li>
 <li>初始化一个Channel，并向该Channel注册处理消息的Handler时，实际上会生成一个与只对应的BinaryMessageHandler，并以channel name为key，注册到Binarymessenger中。当Flutter端发送消息到BinaryMessenger时，BinaryMessenger会根据入参channel找到对应的BinaryMessagehandler，并交由其处理。</li>
 </ul>
 </li>
-<li>codec<ul>
+<li>codec
+<ul>
 <li>MessageCodec类型或MethodCodec类型，代表消息的编解码器。用于二进制格式数据与基础数据之间的编解码。</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Platform Channel的代码运行在什么线程？</p>
+<li>
+<p>Platform Channel的代码运行在什么线程？</p>
 <ul>
 <li>在Platform侧执行的额代码运行在Platform Task Runner中，在Flutter app侧的代码则运行在UI Task Runner中。在Android和iOS平台上，Platform Task Runner跑在主线程上，所以不能在Platform端的Handler中处理耗时操作。</li>
 </ul>
 </li>
-<li><p>Platform Channel是否线程安全？</p>
+<li>
+<p>Platform Channel是否线程安全？</p>
 <ul>
 <li>不是线程安全的。</li>
 <li>Flutter Engine中多个组件是非线程安全的，故跟Flutter Engine的所有交互必须发生在Platform Thread。故在将Platform端的消息处理结果回传给Flutter端的时候，需要确保回调函数是在Platform Thread中执行。</li>
 </ul>
 </li>
-<li><p>Platform Channel是否支持大内存数据块的传递？</p>
+<li>
+<p>Platform Channel是否支持大内存数据块的传递？</p>
 <ul>
 <li>支持。</li>
 <li>当需要传递大内存数据块的时候，使用BasicMessageChannel以及BinaryCodec。而整个数据传递的过程中，唯一出现数据拷贝的位置为native二进制数据转化为Dart语言二进制数据。若二进制数据大于阈值时则不会拷贝数据，直接转化，否则拷贝一份再转化。</li>
 </ul>
 </li>
-<li><p>如何将Platform Channel原理应用到开发工作中？</p>
+<li>
+<p>如何将Platform Channel原理应用到开发工作中？</p>
 <ul>
 <li>使用BasicMessageChannel实现Flutter端使用Platform端资源。</li>
 <li>Flutter端将图片资源名name 传递给Platform端，Native端使用Platform端接收到name后，根据name定位到图片资源，并将该图片资源以为禁止数据格式，通过BasicMessageChannel，传递会Flutter端。</li>
 </ul>
 </li>
 </ol>
-<h4 id="Flutter快速上车之Widget"><a href="#Flutter快速上车之Widget" class="headerlink" title="Flutter快速上车之Widget"></a><a href="https://mp.weixin.qq.com/s/kAWPj97w5NfiqAYEpi3zVA" target="_blank" rel="noopener">Flutter快速上车之Widget</a></h4><ol>
+<h4 id="Flutter快速上车之Widget"><a href="https://mp.weixin.qq.com/s/kAWPj97w5NfiqAYEpi3zVA" target="_blank" rel="noopener">Flutter快速上车之Widget</a></h4>
+<ol>
 <li>ImageCache默认1000张；可以通过url增加后缀的方式实现cdn优化</li>
-<li>如何知道App的生命周期？<ul>
-<li>通过WidgetsBindingObserver的didChangeApplifecycleState获取。常用状态包含以下几个：<ul>
+<li>如何知道App的生命周期？
+<ul>
+<li>通过WidgetsBindingObserver的didChangeApplifecycleState获取。常用状态包含以下几个：
+<ul>
 <li>resumed：可见，并能响应用户的输入</li>
 <li>inactive：处于并不活动状态，无法处理用户响应</li>
 <li>paused：不可见、不能响应用户的输入，在后台继续活动中</li>
@@ -414,117 +504,170 @@
 </ul>
 </li>
 </ol>
-<h4 id="Flutter之禅-内存优化篇"><a href="#Flutter之禅-内存优化篇" class="headerlink" title="Flutter之禅 内存优化篇"></a><a href="https://mp.weixin.qq.com/s/mHBz56OWKBB_g9YavVKTbQ" target="_blank" rel="noopener">Flutter之禅 内存优化篇</a></h4><ol>
+<h4 id="Flutter之禅-内存优化篇"><a href="https://mp.weixin.qq.com/s/mHBz56OWKBB_g9YavVKTbQ" target="_blank" rel="noopener">Flutter之禅 内存优化篇</a></h4>
+<ol>
 <li>使用Dart Observatory观察Dart Image对象的内存情况</li>
 <li>Dart语言采用垃圾回收机制来管理分配的内存，VM层面的垃圾回收可信</li>
 <li>Flutter里面所有的图片都是经过ImageProvider来获取的，ImageProvider在获取图片的时候会调用一个Resolve接口，而这个接口会首先查询IamgeCache去读取图片，如果不存在缓存，就new Image实例出来。</li>
-<li>ImageCache中的缓存实现机制？<ul>
+<li>ImageCache中的缓存实现机制？
+<ul>
 <li>Flutter中的Image是用Map实现的基于LRU算法缓存。ImageCache缓存的是ImageStream对象，即缓存的是一个异步加载的图片对象，而缓存没有对占用内存总量做限制，而是采用默认最大限制1000个对象。导致穿的问题是，在图片加载解码完成之前，无法知道到底要消耗多少内存，至少在Flutter这个Cache实现中没有处理。</li>
 <li>优化的话，就是根据机型的物理内存去做缓存大小的适配，设置ImageCache的合理限制。</li>
 </ul>
 </li>
 </ol>
-<h4 id="揭秘Flutter-Hot-Reload（基础篇）"><a href="#揭秘Flutter-Hot-Reload（基础篇）" class="headerlink" title="揭秘Flutter Hot Reload（基础篇）"></a><a href="https://mp.weixin.qq.com/s/Z9QPUJ3dZy2btBOlhSfyQw" target="_blank" rel="noopener">揭秘Flutter Hot Reload（基础篇）</a></h4><ol>
+<h4 id="揭秘Flutter-Hot-Reload（基础篇）"><a href="https://mp.weixin.qq.com/s/Z9QPUJ3dZy2btBOlhSfyQw" target="_blank" rel="noopener">揭秘Flutter Hot Reload（基础篇）</a></h4>
+<ol>
 <li>TODO 暂时没必要看</li>
 </ol>
-<h4 id="Flutter瘦身大作战"><a href="#Flutter瘦身大作战" class="headerlink" title="Flutter瘦身大作战"></a><a href="https://mp.weixin.qq.com/s/IIoaY2uw6Bqzc9XWI91YFw" target="_blank" rel="noopener">Flutter瘦身大作战</a></h4><ol>
+<h4 id="Flutter瘦身大作战"><a href="https://mp.weixin.qq.com/s/IIoaY2uw6Bqzc9XWI91YFw" target="_blank" rel="noopener">Flutter瘦身大作战</a></h4>
+<ol>
 <li>基于iOS端，暂时略过，需要再看。</li>
 </ol>
-<h4 id="Flutter中嵌入Native组件的正确姿势是…"><a href="#Flutter中嵌入Native组件的正确姿势是…" class="headerlink" title="Flutter中嵌入Native组件的正确姿势是…"></a><a href="https://mp.weixin.qq.com/s/JM_AB0vVH0uOY7v0ToDamw" target="_blank" rel="noopener">Flutter中嵌入Native组件的正确姿势是…</a></h4><ol>
-<li>在Flutter中嵌入原生组件，如何实现？<ul>
+<h4 id="Flutter中嵌入Native组件的正确姿势是…"><a href="https://mp.weixin.qq.com/s/JM_AB0vVH0uOY7v0ToDamw" target="_blank" rel="noopener">Flutter中嵌入Native组件的正确姿势是…</a></h4>
+<ol>
+<li>在Flutter中嵌入原生组件，如何实现？
+<ul>
 <li>AndroidView</li>
 </ul>
 </li>
-<li>AndroidView的实现原理<ul>
+<li>AndroidView的实现原理
+<ul>
 <li>TODO 看的不是很顺利</li>
 </ul>
 </li>
 </ol>
-<h4 id="关于Flutter初始化，我必须告诉你的是…（干货）"><a href="#关于Flutter初始化，我必须告诉你的是…（干货）" class="headerlink" title="关于Flutter初始化，我必须告诉你的是…（干货）"></a><a href="https://mp.weixin.qq.com/s/5JYzHWmczimYy3QMlLUJ4w" target="_blank" rel="noopener">关于Flutter初始化，我必须告诉你的是…（干货）</a></h4><ol>
+<h4 id="关于Flutter初始化，我必须告诉你的是…（干货）"><a href="https://mp.weixin.qq.com/s/5JYzHWmczimYy3QMlLUJ4w" target="_blank" rel="noopener">关于Flutter初始化，我必须告诉你的是…（干货）</a></h4>
+<ol>
 <li>很多变动，参考意义不大。</li>
 </ol>
-<h4 id="做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现"><a href="#做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现" class="headerlink" title="做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现"></a><a href="https://mp.weixin.qq.com/s/N5ih-DY5TuKyn_a0P2mz0Q" target="_blank" rel="noopener">做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现</a></h4><ol>
+<h4 id="做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现"><a href="https://mp.weixin.qq.com/s/N5ih-DY5TuKyn_a0P2mz0Q" target="_blank" rel="noopener">做了2个多月的设计和编码，我梳理了Flutter动态化的方案对比及最佳实现</a></h4>
+<ol>
 <li>Flutter页面动态组件</li>
 </ol>
-<h4 id="Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）"><a href="#Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）" class="headerlink" title="Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）"></a><a href="https://mp.weixin.qq.com/s/YgE9lwEHb31WOWyraHL35w" target="_blank" rel="noopener">Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）</a></h4><ol>
+<h4 id="Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）"><a href="https://mp.weixin.qq.com/s/YgE9lwEHb31WOWyraHL35w" target="_blank" rel="noopener">Flutter路由管理代码这么长长长长长，阿里工程师怎么高效解决？（实用）</a></h4>
+<ol>
 <li>使用注解生成映射表，现在已经没有维护，略过。</li>
 </ol>
-<h4 id="Flutter-Exception降到万分之几的秘密"><a href="#Flutter-Exception降到万分之几的秘密" class="headerlink" title="Flutter Exception降到万分之几的秘密"></a><a href="https://mp.weixin.qq.com/s/JiJ3XwIq_ADM457M6CBSxA" target="_blank" rel="noopener">Flutter Exception降到万分之几的秘密</a></h4><h4 id="如何在Flutter上优雅地序列化一个对象（实用）"><a href="#如何在Flutter上优雅地序列化一个对象（实用）" class="headerlink" title="如何在Flutter上优雅地序列化一个对象（实用）"></a><a href="https://mp.weixin.qq.com/s/W5kQBe0vlnkG7VwIVAmnRA" target="_blank" rel="noopener">如何在Flutter上优雅地序列化一个对象（实用）</a></h4><ol>
+<h4 id="Flutter-Exception降到万分之几的秘密"><a href="https://mp.weixin.qq.com/s/JiJ3XwIq_ADM457M6CBSxA" target="_blank" rel="noopener">Flutter Exception降到万分之几的秘密</a></h4>
+<h4 id="如何在Flutter上优雅地序列化一个对象（实用）"><a href="https://mp.weixin.qq.com/s/W5kQBe0vlnkG7VwIVAmnRA" target="_blank" rel="noopener">如何在Flutter上优雅地序列化一个对象（实用）</a></h4>
+<ol>
 <li>json_serializable太繁琐，而且大量使用as会给性能和最终产物大小产生不小的影响。</li>
-<li>Dart中没有反射，如何实现反序列化对象的创建问题？<ul>
+<li>Dart中没有反射，如何实现反序列化对象的创建问题？
+<ul>
 <li>类似C++的那种回调函数解决</li>
 </ul>
 </li>
 <li>一顿操作猛如虎，一看github没开源。</li>
 </ol>
-<h4 id="已开源-码上用它开始Flutter混合开发——FlutterBoost"><a href="#已开源-码上用它开始Flutter混合开发——FlutterBoost" class="headerlink" title="已开源|码上用它开始Flutter混合开发——FlutterBoost"></a><a href="https://mp.weixin.qq.com/s/v-wwruadJntX1n-YuMPC7g" target="_blank" rel="noopener">已开源|码上用它开始Flutter混合开发——FlutterBoost</a></h4><ol>
-<li><p>如果Flutter与Native混合开发中，使用多引擎的话会导致的问题</p>
+<h4 id="已开源-码上用它开始Flutter混合开发——FlutterBoost"><a href="https://mp.weixin.qq.com/s/v-wwruadJntX1n-YuMPC7g" target="_blank" rel="noopener">已开源|码上用它开始Flutter混合开发——FlutterBoost</a></h4>
+<ol>
+<li>
+<p>如果Flutter与Native混合开发中，使用多引擎的话会导致的问题</p>
 <ul>
-<li>冗余的资源问题<ul>
+<li>冗余的资源问题
+<ul>
 <li>每个引擎之间的isolate相互独立，每个引擎底层维护自己一份图片缓存，内存压力会非常大</li>
 </ul>
 </li>
-<li>插件注册的问题<ul>
+<li>插件注册的问题
+<ul>
 <li>插件依赖Messenger传递消息，而目前Messenger是由FlutterViewController去实现的。如果有多个FLutterViewController，插件的注册和通信会变得非常混乱和难以维护。</li>
 </ul>
 </li>
-<li>Flutter Widget和Native的页面差异化问题<ul>
+<li>Flutter Widget和Native的页面差异化问题
+<ul>
 <li>Flutter页面是widget，native的也没是vc，希望消除两者差异，否则在进行页面买点和其他一些统一操作的时候会遇到额外的复杂度</li>
 </ul>
 </li>
-<li>增加页面之间通信的复杂度<ul>
+<li>增加页面之间通信的复杂度
+<ul>
 <li>只有一个引擎实例，可以共享一个isolate，使用统一的编程框架进行widget之间的通信。</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>FlutterBoost方案的思路</p>
+<li>
+<p>FlutterBoost方案的思路</p>
 <ul>
 <li>采用共享引擎的模式实现，由Native容器Container通过消息驱动Flutter页面容器Containner，从而达到NativeContainer与Flutter Container的同步目的。Flutter渲染的内容由Native容器去驱动。</li>
 </ul>
 </li>
-<li><p>TODO 研究一下FlutterBoost源码实现</p>
+<li>
+<p>TODO 研究一下FlutterBoost源码实现</p>
 </li>
 </ol>
-<h4 id="打通前后端逻辑，客户端Flutter代码一天上线"><a href="#打通前后端逻辑，客户端Flutter代码一天上线" class="headerlink" title="打通前后端逻辑，客户端Flutter代码一天上线"></a><a href="https://mp.weixin.qq.com/s/hFdBtDQo1TvvxBGHLV3Stw" target="_blank" rel="noopener">打通前后端逻辑，客户端Flutter代码一天上线</a></h4><ol>
-<li>Flutter动态化方案<ul>
-<li>官方方案：Code Push<ul>
+<h4 id="打通前后端逻辑，客户端Flutter代码一天上线"><a href="https://mp.weixin.qq.com/s/hFdBtDQo1TvvxBGHLV3Stw" target="_blank" rel="noopener">打通前后端逻辑，客户端Flutter代码一天上线</a></h4>
+<ol>
+<li>Flutter动态化方案
+<ul>
+<li>官方方案：Code Push
+<ul>
 <li>DartVM在执行的时候会加载isolate_snapshot_data和isolate_snapshot_instr两个文件，通过动态更改这些文件，就能达到动态更新的目的。</li>
 </ul>
 </li>
-<li>动态模板<ul>
-<li>定义一套DSL，在端侧解析动态的创建View来实现动态化。闲鱼实现UI2Code，如果实现，可以通过UI2CODE将设计图转为Code，再通过DSL下发。完美。 </li>
+<li>动态模板
+<ul>
+<li>定义一套DSL，在端侧解析动态的创建View来实现动态化。闲鱼实现UI2Code，如果实现，可以通过UI2CODE将设计图转为Code，再通过DSL下发。完美。</li>
 </ul>
 </li>
 </ul>
 </li>
 </ol>
-<h4 id="燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件"><a href="#燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件" class="headerlink" title="燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件"></a><a href="https://mp.weixin.qq.com/s/QwNMm0P2z7RGJ_xzhto1RQ" target="_blank" rel="noopener">燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件</a></h4><h4 id="Fish-Redux中的Dispatch是怎么实现的？"><a href="#Fish-Redux中的Dispatch是怎么实现的？" class="headerlink" title="Fish Redux中的Dispatch是怎么实现的？"></a><a href="https://mp.weixin.qq.com/s/4hJzGPH8OQ6hkthRFuisBQ" target="_blank" rel="noopener">Fish Redux中的Dispatch是怎么实现的？</a></h4><h4 id="走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相"><a href="#走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相" class="headerlink" title="走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相"></a><a href="https://mp.weixin.qq.com/s/26kY9rvRxVDkml2UeBnQfw" target="_blank" rel="noopener">走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相</a></h4><h4 id="在闲鱼，我们如何用Dart做高效后端开发？"><a href="#在闲鱼，我们如何用Dart做高效后端开发？" class="headerlink" title="在闲鱼，我们如何用Dart做高效后端开发？"></a><a href="https://mp.weixin.qq.com/s/jAD3hacFMVcOv9GnAfCFOw" target="_blank" rel="noopener">在闲鱼，我们如何用Dart做高效后端开发？</a></h4><h4 id="Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！"><a href="#Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！" class="headerlink" title="Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！"></a><a href="https://mp.weixin.qq.com/s/hw24XYmMDNj1iWZ2GAxMiQ" target="_blank" rel="noopener">Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！</a></h4><h4 id="一个优秀的可定制化Flutter相册组件，看这一篇就够了"><a href="#一个优秀的可定制化Flutter相册组件，看这一篇就够了" class="headerlink" title="一个优秀的可定制化Flutter相册组件，看这一篇就够了"></a><a href="https://mp.weixin.qq.com/s/ARKAvDn52irJmyw5tEeD0w" target="_blank" rel="noopener">一个优秀的可定制化Flutter相册组件，看这一篇就够了</a></h4><h4 id="揭秘！一个高准确率的Flutter埋点框架如何设计"><a href="#揭秘！一个高准确率的Flutter埋点框架如何设计" class="headerlink" title="揭秘！一个高准确率的Flutter埋点框架如何设计"></a><a href="https://mp.weixin.qq.com/s/CMYi-f0-6nwZ4ZyV5K_lKA" target="_blank" rel="noopener">揭秘！一个高准确率的Flutter埋点框架如何设计</a></h4><h4 id="如何低成本实现Flutter富文本，看着一篇就够了！"><a href="#如何低成本实现Flutter富文本，看着一篇就够了！" class="headerlink" title="如何低成本实现Flutter富文本，看着一篇就够了！"></a><a href="https://mp.weixin.qq.com/s/CGMwDXQbv_YbwEzblwGqRQ" target="_blank" rel="noopener">如何低成本实现Flutter富文本，看着一篇就够了！</a></h4><h4 id="编程界的“二向箔”——Dart元编程"><a href="#编程界的“二向箔”——Dart元编程" class="headerlink" title="编程界的“二向箔”——Dart元编程"></a><a href="https://mp.weixin.qq.com/s/-vEha279U54piV8PGKDzbA" target="_blank" rel="noopener">编程界的“二向箔”——Dart元编程</a></h4><h4 id="如何在Flutter上实现高性能的动态模板渲染"><a href="#如何在Flutter上实现高性能的动态模板渲染" class="headerlink" title="如何在Flutter上实现高性能的动态模板渲染"></a><a href="https://mp.weixin.qq.com/s/fX6DtXYtKw0hFqf7t---eA" target="_blank" rel="noopener">如何在Flutter上实现高性能的动态模板渲染</a></h4><h4 id="重磅-庖丁解牛之——Flutter-for-Web"><a href="#重磅-庖丁解牛之——Flutter-for-Web" class="headerlink" title="重磅|庖丁解牛之——Flutter for Web"></a><a href="https://mp.weixin.qq.com/s/krR2XsDXvakMlZWbV-VvSg" target="_blank" rel="noopener">重磅|庖丁解牛之——Flutter for Web</a></h4><h4 id="闲鱼公开多年Flutter武功秘籍（又又又开源了！）"><a href="#闲鱼公开多年Flutter武功秘籍（又又又开源了！）" class="headerlink" title="闲鱼公开多年Flutter武功秘籍（又又又开源了！）"></a><a href="https://mp.weixin.qq.com/s/8xOW0jh7sKCw19AZzI9QEw" target="_blank" rel="noopener">闲鱼公开多年Flutter武功秘籍（又又又开源了！）</a></h4><h4 id="即将开源-Flutter页面线上性能数据不再是谜"><a href="#即将开源-Flutter页面线上性能数据不再是谜" class="headerlink" title="即将开源|Flutter页面线上性能数据不再是谜"></a><a href="https://mp.weixin.qq.com/s/L_Hn8kdQsn4eRgrGGgTVJw" target="_blank" rel="noopener">即将开源|Flutter页面线上性能数据不再是谜</a></h4><h4 id="做一个高一致性、高性能的Flutter动态渲染，真的很难么？"><a href="#做一个高一致性、高性能的Flutter动态渲染，真的很难么？" class="headerlink" title="做一个高一致性、高性能的Flutter动态渲染，真的很难么？"></a><a href="https://mp.weixin.qq.com/s/R6IxJqawwbmlWvlwb3ZXww" target="_blank" rel="noopener">做一个高一致性、高性能的Flutter动态渲染，真的很难么？</a></h4><h4 id="怎样的Flutter-Engine定制流程，才能实现真正“开箱即用”？"><a href="#怎样的Flutter-Engine定制流程，才能实现真正“开箱即用”？" class="headerlink" title="怎样的Flutter Engine定制流程，才能实现真正“开箱即用”？"></a><a href="https://mp.weixin.qq.com/s/SB6p4fZuKCOvwtKvSzV1DA" target="_blank" rel="noopener">怎样的Flutter Engine定制流程，才能实现真正“开箱即用”？</a></h4><h4 id="Flutter-Serverless端到端研发架构实践"><a href="#Flutter-Serverless端到端研发架构实践" class="headerlink" title="Flutter+Serverless端到端研发架构实践"></a><a href="https://mp.weixin.qq.com/s/JHqHmb00JEMPSAQbau2FIw" target="_blank" rel="noopener">Flutter+Serverless端到端研发架构实践</a></h4><h4 id="闲鱼Flutter互动引擎系列——整体设计篇"><a href="#闲鱼Flutter互动引擎系列——整体设计篇" class="headerlink" title="闲鱼Flutter互动引擎系列——整体设计篇"></a><a href="https://mp.weixin.qq.com/s/oa-XUzWhhsz37Mj-Y6WkzA" target="_blank" rel="noopener">闲鱼Flutter互动引擎系列——整体设计篇</a></h4><h4 id="基于Flutter-FaaS的业务框架思考与实践"><a href="#基于Flutter-FaaS的业务框架思考与实践" class="headerlink" title="基于Flutter+FaaS的业务框架思考与实践"></a><a href="https://mp.weixin.qq.com/s/yvrz8zMD4q_ngk54-PWK8A" target="_blank" rel="noopener">基于Flutter+FaaS的业务框架思考与实践</a></h4><h4 id="闲鱼Flutter互动引擎系列——骨骼动画篇"><a href="#闲鱼Flutter互动引擎系列——骨骼动画篇" class="headerlink" title="闲鱼Flutter互动引擎系列——骨骼动画篇"></a><a href="https://mp.weixin.qq.com/s/mpfnA3vcnbaJPtoTdZNJ6g" target="_blank" rel="noopener">闲鱼Flutter互动引擎系列——骨骼动画篇</a></h4><h4 id="FlutterBoost1-0到2-0，我一共做了这几件事…"><a href="#FlutterBoost1-0到2-0，我一共做了这几件事…" class="headerlink" title="FlutterBoost1.0到2.0，我一共做了这几件事…"></a><a href="https://mp.weixin.qq.com/s/cNtyeyIAPB_1TkvMS69znA" target="_blank" rel="noopener">FlutterBoost1.0到2.0，我一共做了这几件事…</a></h4><h4 id="闲鱼Flutter图片框架架构演进（超详细）"><a href="#闲鱼Flutter图片框架架构演进（超详细）" class="headerlink" title="闲鱼Flutter图片框架架构演进（超详细）"></a><a href="https://mp.weixin.qq.com/s/98BxqW5QDHXLKMwHX_E7EQ" target="_blank" rel="noopener">闲鱼Flutter图片框架架构演进（超详细）</a></h4><h4 id="一个易迁移、兼容性高的-Flutter-富文本方案"><a href="#一个易迁移、兼容性高的-Flutter-富文本方案" class="headerlink" title="一个易迁移、兼容性高的 Flutter 富文本方案"></a><a href="https://mp.weixin.qq.com/s/uqxLb5ToMdi9sqL6gDRW_g" target="_blank" rel="noopener">一个易迁移、兼容性高的 Flutter 富文本方案</a></h4><h4 id="复杂业务如何保证Flutter的高性能高流畅度？"><a href="#复杂业务如何保证Flutter的高性能高流畅度？" class="headerlink" title="复杂业务如何保证Flutter的高性能高流畅度？"></a><a href="https://mp.weixin.qq.com/s/iXFa9C68gUHr7PL8NHnZUA" target="_blank" rel="noopener">复杂业务如何保证Flutter的高性能高流畅度？</a></h4><ul>
-<li><p>Flutter渲染原理</p>
+<h4 id="燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件"><a href="https://mp.weixin.qq.com/s/QwNMm0P2z7RGJ_xzhto1RQ" target="_blank" rel="noopener">燃烧我的卡路里——Flutter瘦内存、瘦包之图片渲染组件</a></h4>
+<h4 id="Fish-Redux中的Dispatch是怎么实现的？"><a href="https://mp.weixin.qq.com/s/4hJzGPH8OQ6hkthRFuisBQ" target="_blank" rel="noopener">Fish Redux中的Dispatch是怎么实现的？</a></h4>
+<h4 id="走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相"><a href="https://mp.weixin.qq.com/s/26kY9rvRxVDkml2UeBnQfw" target="_blank" rel="noopener">走近科学，探究阿里闲鱼团队通过数据提升Flutter体验的真相</a></h4>
+<h4 id="在闲鱼，我们如何用Dart做高效后端开发？"><a href="https://mp.weixin.qq.com/s/jAD3hacFMVcOv9GnAfCFOw" target="_blank" rel="noopener">在闲鱼，我们如何用Dart做高效后端开发？</a></h4>
+<h4 id="Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！"><a href="https://mp.weixin.qq.com/s/hw24XYmMDNj1iWZ2GAxMiQ" target="_blank" rel="noopener">Flutter高内聚组件怎么做？闲鱼闲鱼打造开源高效方案！</a></h4>
+<h4 id="一个优秀的可定制化Flutter相册组件，看这一篇就够了"><a href="https://mp.weixin.qq.com/s/ARKAvDn52irJmyw5tEeD0w" target="_blank" rel="noopener">一个优秀的可定制化Flutter相册组件，看这一篇就够了</a></h4>
+<h4 id="揭秘！一个高准确率的Flutter埋点框架如何设计"><a href="https://mp.weixin.qq.com/s/CMYi-f0-6nwZ4ZyV5K_lKA" target="_blank" rel="noopener">揭秘！一个高准确率的Flutter埋点框架如何设计</a></h4>
+<h4 id="如何低成本实现Flutter富文本，看着一篇就够了！"><a href="https://mp.weixin.qq.com/s/CGMwDXQbv_YbwEzblwGqRQ" target="_blank" rel="noopener">如何低成本实现Flutter富文本，看着一篇就够了！</a></h4>
+<h4 id="编程界的“二向箔”——Dart元编程"><a href="https://mp.weixin.qq.com/s/-vEha279U54piV8PGKDzbA" target="_blank" rel="noopener">编程界的“二向箔”——Dart元编程</a></h4>
+<h4 id="如何在Flutter上实现高性能的动态模板渲染"><a href="https://mp.weixin.qq.com/s/fX6DtXYtKw0hFqf7t---eA" target="_blank" rel="noopener">如何在Flutter上实现高性能的动态模板渲染</a></h4>
+<h4 id="重磅-庖丁解牛之——Flutter-for-Web"><a href="https://mp.weixin.qq.com/s/krR2XsDXvakMlZWbV-VvSg" target="_blank" rel="noopener">重磅|庖丁解牛之——Flutter for Web</a></h4>
+<h4 id="闲鱼公开多年Flutter武功秘籍（又又又开源了！）"><a href="https://mp.weixin.qq.com/s/8xOW0jh7sKCw19AZzI9QEw" target="_blank" rel="noopener">闲鱼公开多年Flutter武功秘籍（又又又开源了！）</a></h4>
+<h4 id="即将开源-Flutter页面线上性能数据不再是谜"><a href="https://mp.weixin.qq.com/s/L_Hn8kdQsn4eRgrGGgTVJw" target="_blank" rel="noopener">即将开源|Flutter页面线上性能数据不再是谜</a></h4>
+<h4 id="做一个高一致性、高性能的Flutter动态渲染，真的很难么？"><a href="https://mp.weixin.qq.com/s/R6IxJqawwbmlWvlwb3ZXww" target="_blank" rel="noopener">做一个高一致性、高性能的Flutter动态渲染，真的很难么？</a></h4>
+<h4 id="怎样的Flutter-Engine定制流程，才能实现真正“开箱即用”？"><a href="https://mp.weixin.qq.com/s/SB6p4fZuKCOvwtKvSzV1DA" target="_blank" rel="noopener">怎样的Flutter Engine定制流程，才能实现真正“开箱即用”？</a></h4>
+<h4 id="Flutter-Serverless端到端研发架构实践"><a href="https://mp.weixin.qq.com/s/JHqHmb00JEMPSAQbau2FIw" target="_blank" rel="noopener">Flutter+Serverless端到端研发架构实践</a></h4>
+<h4 id="闲鱼Flutter互动引擎系列——整体设计篇"><a href="https://mp.weixin.qq.com/s/oa-XUzWhhsz37Mj-Y6WkzA" target="_blank" rel="noopener">闲鱼Flutter互动引擎系列——整体设计篇</a></h4>
+<h4 id="基于Flutter-FaaS的业务框架思考与实践"><a href="https://mp.weixin.qq.com/s/yvrz8zMD4q_ngk54-PWK8A" target="_blank" rel="noopener">基于Flutter+FaaS的业务框架思考与实践</a></h4>
+<h4 id="闲鱼Flutter互动引擎系列——骨骼动画篇"><a href="https://mp.weixin.qq.com/s/mpfnA3vcnbaJPtoTdZNJ6g" target="_blank" rel="noopener">闲鱼Flutter互动引擎系列——骨骼动画篇</a></h4>
+<h4 id="FlutterBoost1-0到2-0，我一共做了这几件事…"><a href="https://mp.weixin.qq.com/s/cNtyeyIAPB_1TkvMS69znA" target="_blank" rel="noopener">FlutterBoost1.0到2.0，我一共做了这几件事…</a></h4>
+<h4 id="闲鱼Flutter图片框架架构演进（超详细）"><a href="https://mp.weixin.qq.com/s/98BxqW5QDHXLKMwHX_E7EQ" target="_blank" rel="noopener">闲鱼Flutter图片框架架构演进（超详细）</a></h4>
+<h4 id="一个易迁移、兼容性高的-Flutter-富文本方案"><a href="https://mp.weixin.qq.com/s/uqxLb5ToMdi9sqL6gDRW_g" target="_blank" rel="noopener">一个易迁移、兼容性高的 Flutter 富文本方案</a></h4>
+<h4 id="复杂业务如何保证Flutter的高性能高流畅度？"><a href="https://mp.weixin.qq.com/s/iXFa9C68gUHr7PL8NHnZUA" target="_blank" rel="noopener">复杂业务如何保证Flutter的高性能高流畅度？</a></h4>
+<ul>
+<li>
+<p>Flutter渲染原理</p>
 <ul>
 <li>根据Widget生成Element，然后创建相应的RenderObject并关联到Element.renderObject属性上，在通过RenderObject来完成布局排列和绘制</li>
 <li>当需要更新UI的时候，Framework通知Engine，Engine会等到下一个Vsync信号到达的时候通知Framework进行animate、build、layout、paint，最后生成LayerTree提交给Engine，Engine会把Layer进行组合，生成纹理，最后提交数据给GPU，GPU经过处理后在显示器上面显示</li>
 </ul>
 </li>
-<li><p>如果Text中内有发生了变化，会触发哪些操作？</p>
+<li>
+<p>如果Text中内有发生了变化，会触发哪些操作？</p>
 <ul>
 <li>Widget是不可改变的，需要重新创建一颗新树，从build开始，然后对上一帧的element树进行遍历，调用updateChild，看子节点类型跟之前是不是一样，不一样的话，就把子节点扔掉，创造一个新的；一样的话就做内容更新。对renderObject做updateRenderObject操作，该操作内部会判断现在的节点跟上一帧是不是有改动，有改动会标记dirty，重新layout、paint，在生成新的layer交给GPU</li>
 </ul>
 </li>
-<li><p>性能分析工具及方法(真机+profile模式下运行，debug没意义)</p>
+<li>
+<p>性能分析工具及方法(真机+profile模式下运行，debug没意义)</p>
 <ul>
 <li>performance overlay，Flutter Inspector</li>
 <li>Dart DevTool，Andorid studio底部的菜单按钮</li>
 <li>debug调试工具</li>
 </ul>
 </li>
-<li><p>优化方法</p>
+<li>
+<p>优化方法</p>
 <ul>
 <li>提高build效率，部分刷新，可以降低widgetTree遍历的出发点，将setState刷新数据尽量下发到底层节点。</li>
 <li>提高paint效率。利用RepaintBoundary，经常发生显示变化的内容提供一个新的隔离layer，新的layer paint不会影响到其他layer</li>
 </ul>
 </li>
-<li><p>注意点</p>
+<li>
+<p>注意点</p>
 <ul>
 <li>减少build中逻辑处理，因为widget在页面刷新过程中随时会通知build重建，build调用频繁，应该只处理跟UI相关的逻辑。</li>
 <li>减少saveLayer(ShaderMask、ColorFilter、Text Overflow)、clipPath的使用，saveLayer会在GPU中分配一块新的绘图缓冲区，切换绘图目标，这个操作是在GPU中非常耗时的，clipPath会影响每个绘图指令，做相交操作，之外的部分剔除掉，也是个耗时操作</li>
@@ -532,10 +675,14 @@
 </ul>
 </li>
 </ul>
-</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T08:04:09.698Z"><meta itemprop="articleBody" content="摘要闲鱼技术 公众号Flutter相关文章学习笔记
+</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T08:04:09.698Z"><meta itemprop="articleBody" content="摘要
+闲鱼技术 公众号Flutter相关文章学习笔记
 
-Android Flutter内存初探主要关注Dart VM内存分配和回收相关的部分
+Android Flutter内存初探
+主要关注Dart VM内存分配和回收相关的部分
+
 
 Dart的线程是不共享内存的，各自的堆和栈都是隔离的，彼此通过消息通道来通信。Dart天然不存在数据竞争和变量状态同步的问题，整个Flutter Framework Widget的渲染过程都运行在一个isolate中。
+
 
 Dart..."><meta itemprop="url" content="http://mLixin.com/2018/05/10/pub-flutter-闲鱼/"><meta itemprop="mainEntityOfPage" content="http://mLixin.com/2018/05/10/pub-flutter-闲鱼/"><div itemscope itemtype="https://schema.org/Organization" itemprop="publisher"><meta itemprop="name" content="mLiXin's Blog"><div itemscope itemprop="logo" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="http://mLixin.com/images/top.png"></div></div><div itemscope itemtype="https://schema.org/ImageObject" itemprop="image"><meta itemprop="contentUrl" content="http://mLixin.com/images/default.jpg"><meta itemprop="url" content="http://mLixin.com/images/default.jpg"><meta itemprop="width" content="1280"><meta itemprop="height" content="720"></div></article><section class="related-posts"><h3>Related posts</h3><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2020/04/22/pub-flutter-tao/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">pub-flutter-tao</span></a></div><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2019/09/11/pub-flutter-gityuan/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">GitYuan Flutter相关tag学习笔记</span></a></div><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2020/04/09/flutter-%E5%85%A5%E9%97%A8-002/"><div class="related-posts__item__background" style="background-image:url('/images/flutter-basics-appbar.png');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">Flutter入门(二) Flutter Widget一览</span></a></div></section></div></div></div><footer id="footer"><div class="widgets"><div class="widgets-inner"><!-- Jade doesn't support dynamic inclusion with `each`.--><!-- So, I just hard coded the file names that will be included.--><div class="widgets__item"><h3 class="widgets__item__heading">Recent posts</h3><ul class="recent-posts"><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-renderobject/">Flutter源码浅析 - RenderObject</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-element/">Flutter源码浅析 - Element</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/28/flutter-rtfsc-pipelineowner/">Flutter源码浅析 - PipelineOwner</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/28/flutter-rtfsc-buildowner/">Flutter源码浅析 - BuildOwner</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/27/flutter-rtfsc-app-start-02/">源码角度浅析Flutter App启动过程（二） runApp()做了哪些工作？</a></li></ul></div><div class="widgets__item"><h3 class="widgets__item__heading">Tag cloud</h3><div class="tag-cloud"><a href="/mLixin.github.io/tags/Android/" style="font-size: 1.22rem;">Android</a> <a href="/mLixin.github.io/tags/Dart/" style="font-size: 0.94rem;">Dart</a> <a href="/mLixin.github.io/tags/Flutter/" style="font-size: 1.31rem;">Flutter</a> <a href="/mLixin.github.io/tags/Java/" style="font-size: 1.03rem;">Java</a> <a href="/mLixin.github.io/tags/LeetCode/" style="font-size: 1.41rem;">LeetCode</a> <a href="/mLixin.github.io/tags/TODO/" style="font-size: 1.13rem;">TODO</a> <a href="/mLixin.github.io/tags/Web/" style="font-size: 0.84rem;">Web</a> <a href="/mLixin.github.io/tags/hexo/" style="font-size: 0.75rem;">hexo</a> <a href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" style="font-size: 0.75rem;">全栈</a> <a href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 1.5rem;">数据结构与算法</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 0.94rem;">计算机网络</a> <a href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 0.84rem;">设计模式</a></div></div><div class="widgets__item"><h3 class="widgets__item__heading">Categories</h3><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/">Android</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E5%86%85%E9%83%A8%E6%9C%BA%E5%88%B6/">内部机制</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/">第三方库解析</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/">Dart</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="category-list-count">13</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a><span class="category-list-count">7</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/">Java</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">原理解析</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Web/">Web</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Web/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">微信小程序</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/">全栈</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%B6%E4%BB%96/">其他</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%B6%E4%BB%96/hexo/">hexo</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span class="category-list-count">103</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/LeetCode/">LeetCode</a><span class="category-list-count">102</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a><span class="category-list-count">1</span></li></ul></li></ul></div></div></div><p class="copyright"><small>© 2020 mLiXin<br>Powered by <a href="https://hexo.io" rel="external" target="_blank">Hexo</a>, Theme by <a href="https://github.com/hyunseob" rel="external" target="_blank">HyunSeob</a></small></p></footer><script src="/js/sharer.min.js"></script></body></html>

@@ -1,37 +1,45 @@
 <!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flutter Widget-of-Week | mLiXin's Blog</title><link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/highlights/dracula.css"><link rel="canonical" href="http://mLixin.com/2020/04/14/flutter-widget-of-week/"/>
-<meta name="description" content="摘要YouTube上Flutter-Widget of week提到的所有组件一览  001 SafeArea YouTube 适用MediaQuery来检测屏幕尺寸，使应用程序的大小能与屏幕匹配 外部包裹SafeArea即可  002…">
+<meta name="description" content="摘要 YouTube上Flutter-Widget of week提到的所有组件一览  001 SafeArea  YouTube 适用MediaQuery来检测屏幕尺寸，使应用程序的大小能与屏幕匹配 外部包裹SafeArea即可  002…">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flutter Widget-of-Week">
 <meta property="og:url" content="http://mlixin.com/2020/04/14/flutter-widget-of-week/">
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
-<meta property="og:description" content="摘要YouTube上Flutter-Widget of week提到的所有组件一览  001 SafeArea YouTube 适用MediaQuery来检测屏幕尺寸，使应用程序的大小能与屏幕匹配 外部包裹SafeArea即可  002…">
+<meta property="og:description" content="摘要 YouTube上Flutter-Widget of week提到的所有组件一览  001 SafeArea  YouTube 适用MediaQuery来检测屏幕尺寸，使应用程序的大小能与屏幕匹配 外部包裹SafeArea即可  002…">
 <meta property="og:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-expanded.gif">
 <meta property="article:published_time" content="2020-04-14T10:21:11.000Z">
 <meta property="article:modified_time" content="2020-05-28T07:54:55.446Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Flutter">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-expanded.gif"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2020-04-14 18:21:11"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">Flutter Widget-of-Week</h1><div class="article__meta"><time class="article__meta__time" datetime="2020-04-14T10:21:11.000Z" itemprop="datePublished">2020-04-14 18:21:11</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a></div></div><hr><div class="article__contents"><h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>YouTube上Flutter-Widget of week提到的所有组件一览</p>
+<meta name="twitter:image" content="http://mlixin.com/images/flutter-guide/flutter-layout-expanded.gif"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2020-04-14 18:21:11"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">Flutter Widget-of-Week</h1><div class="article__meta"><time class="article__meta__time" datetime="2020-04-14T10:21:11.000Z" itemprop="datePublished">2020-04-14 18:21:11</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a></div></div><hr><div class="article__contents"><h4 id="摘要">摘要</h4>
+<p>YouTube上Flutter-Widget of week提到的所有组件一览</p>
 <a id="more"></a>
-<h4 id="001-SafeArea"><a href="#001-SafeArea" class="headerlink" title="001 SafeArea"></a>001 SafeArea</h4><ul>
-<li><a href="https://www.youtube.com/watch?v=lkF0TQJO0bA&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=2" target="_blank" rel="noopener">YouTube</a></li>
+<h4 id="001-SafeArea">001 SafeArea</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=lkF0TQJO0bA&amp;list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&amp;index=2" target="_blank" rel="noopener">YouTube</a></li>
 <li>适用MediaQuery来检测屏幕尺寸，使应用程序的大小能与屏幕匹配</li>
 <li>外部包裹SafeArea即可</li>
 </ul>
-<h4 id="002-Expanded"><a href="#002-Expanded" class="headerlink" title="002 Expanded"></a>002 Expanded</h4><ul>
-<li><a href="https://www.youtube.com/watch?v=_rnZaagadyo&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=3" target="_blank" rel="noopener">YouTube</a></li>
+<h4 id="002-Expanded">002 Expanded</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=_rnZaagadyo&amp;list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&amp;index=3" target="_blank" rel="noopener">YouTube</a></li>
 <li><img src="/images/flutter-guide/flutter-layout-expanded.gif" alt="Layout-&gt;Expanded"></li>
-<li><iframe src="/images/flutter-guide/flutter-layout-expanded.gif" width="100%" height="300" frameborder="0" loading="lazy" allowfullscreen></iframe></li>
-<li>tips<ul>
+<li>
+<iframe src="/images/flutter-guide/flutter-layout-expanded.gif" width="100%" height="300" frameborder="0" loading="lazy" allowfullscreen></iframe>
+</li>
+<li>tips
+<ul>
 <li>Row、Column中，使其中一个child伸展并填补额外的空间。当Row和Column布置它的子项的时候，会首先执行不灵活的子项，然后将剩余空间划分给灵活的子项，如Expanded。</li>
 <li>可以设置灵活因子<code>flex:2</code>防止竞争，类似Android里面的weight</li>
 </ul>
 </li>
 </ul>
-<h4 id="003-Wrap"><a href="#003-Wrap" class="headerlink" title="003 Wrap"></a>003 Wrap</h4><ul>
-<li><a href="https://www.youtube.com/watch?v=z5iw2SeFx2M&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=4" target="_blank" rel="noopener">YouTube</a></li>
+<h4 id="003-Wrap">003 Wrap</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=z5iw2SeFx2M&amp;list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&amp;index=4" target="_blank" rel="noopener">YouTube</a></li>
 <li><img src="/images/flutter-guide/flutter-layout-wrap.gif" alt="Layout-&gt;Wrap"></li>
-<li>tips<ul>
+<li>tips
+<ul>
 <li>当Row或者Column一行放不下的时候，就会溢出屏幕，就可以使用wrap替换，当一行放不下的时候，自动新增一行。</li>
 <li><code>direction</code>：配置横向还是纵向</li>
 <li><code>spacing</code>:横向padding</li>
@@ -39,46 +47,56 @@
 </ul>
 </li>
 </ul>
-<h4 id="004-AnimatedContainer"><a href="#004-AnimatedContainer" class="headerlink" title="004 AnimatedContainer"></a>004 AnimatedContainer</h4><ul>
-<li><a href="https://www.youtube.com/watch?v=yI-8QHpGIP4&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=5" target="_blank" rel="noopener">YouTube</a></li>
+<h4 id="004-AnimatedContainer">004 AnimatedContainer</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=yI-8QHpGIP4&amp;list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&amp;index=5" target="_blank" rel="noopener">YouTube</a></li>
 <li><img src="/images/flutter-guide/flutter-animation-animatedcontainer.gif" alt="Animation-&gt;AnimatedContainer"></li>
-<li>tips<ul>
+<li>tips
+<ul>
 <li>对color、borders、border-radius、background-image、shadows、gradients等等实施线性插值法进行动画变化，</li>
 <li><code>duration</code>：配置动画持续时间</li>
 </ul>
 </li>
 </ul>
-<h4 id="005-Opacity-透明度"><a href="#005-Opacity-透明度" class="headerlink" title="005 Opacity 透明度"></a>005 Opacity 透明度</h4><ul>
-<li><a href="https://www.youtube.com/watch?v=9hltevOHQBw&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=6" target="_blank" rel="noopener">YouTube</a></li>
+<h4 id="005-Opacity-透明度">005 Opacity 透明度</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=9hltevOHQBw&amp;list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&amp;index=6" target="_blank" rel="noopener">YouTube</a></li>
 <li><img src="/images/flutter-guide/flutter-painting-opacity.gif" alt="Painting-&gt;Opacity"></li>
-<li>tips<ul>
+<li>tips
+<ul>
 <li>可以理解为控制透明度</li>
 <li>不显示某个部件，但是又保留它的位置</li>
 <li>将两个部件重叠，同时设置AnimatedOpacity，可以创建动画</li>
 </ul>
 </li>
 </ul>
-<h4 id="006-FutureBuilder"><a href="#006-FutureBuilder" class="headerlink" title="006 FutureBuilder"></a>006 FutureBuilder</h4><ul>
-<li><a href="https://www.youtube.com/watch?v=ek8ZPdWj4Qo&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=7" target="_blank" rel="noopener">YouTube</a></li>
+<h4 id="006-FutureBuilder">006 FutureBuilder</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=ek8ZPdWj4Qo&amp;list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&amp;index=7" target="_blank" rel="noopener">YouTube</a></li>
 <li><img src="/images/flutter-guide/flutter-async-futurebuilder.gif" alt="Async-&gt;Futurebuilder"></li>
-<li>tips<ul>
+<li>tips
+<ul>
 <li>异步获取数据后构建widget</li>
 <li>注意对snapshot数据状态进行判断</li>
 </ul>
 </li>
 </ul>
-<h4 id="007-FadeTransition"><a href="#007-FadeTransition" class="headerlink" title="007 FadeTransition"></a>007 FadeTransition</h4><ul>
-<li><a href="https://www.youtube.com/watch?v=rLwWVbv3xDQ&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=8" target="_blank" rel="noopener">YouTube</a></li>
+<h4 id="007-FadeTransition">007 FadeTransition</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=rLwWVbv3xDQ&amp;list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&amp;index=8" target="_blank" rel="noopener">YouTube</a></li>
 <li><img src="/images/flutter-guide/flutter-animation-fadetransition.gif" alt="Animation-&gt;FadeTransition"></li>
-<li>tips<ul>
+<li>tips
+<ul>
 <li>淡入淡出动画的简单版</li>
 <li>需要controller，注意回收</li>
 </ul>
 </li>
 </ul>
-</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T07:54:55.446Z"><meta itemprop="articleBody" content="摘要YouTube上Flutter-Widget of week提到的所有组件一览
+</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T07:54:55.446Z"><meta itemprop="articleBody" content="摘要
+YouTube上Flutter-Widget of week提到的所有组件一览
 
 001 SafeArea
+
 YouTube
 适用MediaQuery来检测屏幕尺寸，使应用程序的大小能与屏幕匹配
 外部包裹SafeArea即可

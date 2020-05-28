@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flutter入门(一) Dart基础 | mLiXin's Blog</title><link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/highlights/dracula.css"><link rel="canonical" href="http://mLixin.com/2020/04/09/flutter-入门-001/"/>
-<meta name="description" content="摘要总结Dart语言入门基础  基础语法内置数据类型 类型： num int：-2^53 ~…">
+<meta name="description" content="摘要 总结Dart语言入门基础  基础语法 内置数据类型  类型：  num  int：-2^53 ~…">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flutter入门(一) Dart基础">
 <meta property="og:url" content="http://mlixin.com/2020/04/09/flutter-%E5%85%A5%E9%97%A8-001/">
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
-<meta property="og:description" content="摘要总结Dart语言入门基础  基础语法内置数据类型 类型： num int：-2^53 ~…">
+<meta property="og:description" content="摘要 总结Dart语言入门基础  基础语法 内置数据类型  类型：  num  int：-2^53 ~…">
 <meta property="og:image" content="http://mlixin.com/images/default.jpg">
 <meta property="article:published_time" content="2020-04-09T05:44:08.000Z">
 <meta property="article:modified_time" content="2020-05-28T07:52:44.431Z">
@@ -12,11 +12,16 @@
 <meta property="article:tag" content="Flutter">
 <meta property="article:tag" content="Dart">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://mlixin.com/images/default.jpg"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2020-04-09 13:44:08"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">Flutter入门(一) Dart基础</h1><div class="article__meta"><time class="article__meta__time" datetime="2020-04-09T05:44:08.000Z" itemprop="datePublished">2020-04-09 13:44:08</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>总结Dart语言入门基础</p>
+<meta name="twitter:image" content="http://mlixin.com/images/default.jpg"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2020-04-09 13:44:08"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">Flutter入门(一) Dart基础</h1><div class="article__meta"><time class="article__meta__time" datetime="2020-04-09T05:44:08.000Z" itemprop="datePublished">2020-04-09 13:44:08</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="摘要">摘要</h4>
+<p>总结Dart语言入门基础</p>
 <a id="more"></a>
-<h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><h5 id="内置数据类型"><a href="#内置数据类型" class="headerlink" title="内置数据类型"></a>内置数据类型</h5><ul>
-<li>类型：<ul>
-<li>num<ul>
+<h4 id="基础语法">基础语法</h4>
+<h5 id="内置数据类型">内置数据类型</h5>
+<ul>
+<li>类型：
+<ul>
+<li>num
+<ul>
 <li>int：-2^53 ~ 2^53</li>
 <li>double：64位双精度浮点数</li>
 </ul>
@@ -30,43 +35,53 @@
 </li>
 <li>所有的变量都是对象，所有对象都集成与Object类，所有类型没有初始化的变量默认值为null。</li>
 </ul>
-<h5 id="变量与常量"><a href="#变量与常量" class="headerlink" title="变量与常量"></a>变量与常量</h5><ul>
-<li>两种方式定义变量：<ul>
+<h5 id="变量与常量">变量与常量</h5>
+<ul>
+<li>两种方式定义变量：
+<ul>
 <li>显式指定变量类型：<code>String name = &quot;hello&quot;;</code></li>
 <li>不指定类型：<code>var name = &quot;hello&quot;;</code></li>
 </ul>
 </li>
 <li>使用dunamic或Object定义的变量可以动态改变变量的数据类型</li>
-<li>定义常量的两种方式：<ul>
+<li>定义常量的两种方式：
+<ul>
 <li>final：运行时常量，可以是一个变量</li>
 <li>const：编译时常量，必须是一个字面常量值。</li>
 </ul>
 </li>
 </ul>
-<h5 id="内置类型的常用操作"><a href="#内置类型的常用操作" class="headerlink" title="内置类型的常用操作"></a>内置类型的常用操作</h5><ul>
-<li>String转int<ul>
-<li><code>var one = int.parse(&#39;1&#39;);</code></li>
+<h5 id="内置类型的常用操作">内置类型的常用操作</h5>
+<ul>
+<li>String转int
+<ul>
+<li><code>var one = int.parse('1');</code></li>
 </ul>
 </li>
-<li>String转double<ul>
-<li><code>var onePointOne = double.parse(&#39;1.1&#39;);</code> </li>
+<li>String转double
+<ul>
+<li><code>var onePointOne = double.parse('1.1');</code></li>
 </ul>
 </li>
-<li>int转String<ul>
+<li>int转String
+<ul>
 <li><code>String oneStr = 1.toString();</code></li>
 </ul>
 </li>
-<li>double转String<ul>
+<li>double转String
+<ul>
 <li><code>String paiAsStr = 3.14159.toStringAsFixed(2);//保留两位小数</code></li>
 </ul>
 </li>
-<li>数位操作<ul>
-<li><code>print((3&lt;&lt;1) == 6);</code> </li>
+<li>数位操作
+<ul>
+<li><code>print((3&lt;&lt;1) == 6);</code></li>
 <li><code>print((3&gt;&gt;1) == 1);</code></li>
 <li><code>print((3|4) == 7);</code></li>
 </ul>
 </li>
-<li>字符串操作<ul>
+<li>字符串操作
+<ul>
 <li>可以用单引号、双引号来创建字符串</li>
 <li>可以使用三引号来创建多行字符串</li>
 <li>前面加r可以创建原始字符串，特殊字符不用转义</li>
@@ -76,57 +91,70 @@
 </ul>
 </li>
 <li>布尔类型默认值为null，只有flase、true两个值</li>
-<li>列表操作：<ul>
+<li>列表操作：
+<ul>
 <li>创建列表：<code>var list = [1,2,3];</code></li>
 <li>可以通过数组下标方式访问列表item：<code>list[0];</code></li>
 <li>可以使用add添加元素</li>
 <li>可以在lsit字面量钱添加const关键字来定义一个不可改变的列表</li>
 </ul>
 </li>
-<li>映射操作：<ul>
+<li>映射操作：
+<ul>
 <li>字面量创建Map：<code>var keyMap = {&quot;first&quot;:1,&quot;secode&quot;:2};</code></li>
-<li>构造函数创建Map：<code>var keyMap = new Map(); keyMap[&#39;first&#39;] = 1;</code></li>
-<li>通过可以下标查找map：<code>keyMap[&#39;first&#39;]</code></li>
+<li>构造函数创建Map：<code>var keyMap = new Map(); keyMap['first'] = 1;</code></li>
+<li>通过可以下标查找map：<code>keyMap['first']</code></li>
 </ul>
 </li>
 </ul>
-<h5 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h5><ul>
-<li><p>定义函数：</p>
+<h5 id="函数">函数</h5>
+<ul>
+<li>
+<p>定义函数：</p>
 <ul>
 <li><code>返回值类型 函数名(参数){ 处理和return}</code></li>
 </ul>
 </li>
-<li><p>不指定函数返回类型，则返回null，除非指定void，则函数没有返回值</p>
+<li>
+<p>不指定函数返回类型，则返回null，除非指定void，则函数没有返回值</p>
 </li>
-<li><p>函数的参数</p>
+<li>
+<p>函数的参数</p>
 <ul>
-<li>命名可选参数：<ul>
+<li>命名可选参数：
+<ul>
 <li>定义函数的时候，给参数列表中的参数设置默认值，则该参数是可选的，函数调用的时候可以忽略</li>
 </ul>
 </li>
-<li>位置可选参数<ul>
+<li>位置可选参数
+<ul>
 <li>使用中括号来定义参数列表，中括号中的参数是可选的</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>匿名函数：</p>
+<li>
+<p>匿名函数：</p>
 <ul>
 <li>没有名字的函数，也被称为lambda表达式或者闭包。</li>
 <li>和普通函数基本相同，只是省去了函数名而已。</li>
 <li><code>var func = (x,y){ return x + y;}; print(func(10,11));</code></li>
 </ul>
 </li>
-<li><p>箭头函数</p>
+<li>
+<p>箭头函数</p>
 <ul>
 <li>函数体只包含一条语句的时候，就可以使用=&gt;箭头语法进行缩写。仅仅是一个简洁表达的语法糖。</li>
 </ul>
 </li>
 </ul>
-<h5 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h5><ul>
+<h5 id="运算符">运算符</h5>
+<ul>
 <li>整除运算符：<code>~/</code>，将相除后的结果取整返回。</li>
-<li>类型判定运算符：<ul>
-<li><code>as</code>：类型转换<ul>
+<li>类型判定运算符：
+<ul>
+<li><code>as</code>：类型转换
+<ul>
 <li>无法转换会抛出异常，注意判断类型</li>
 </ul>
 </li>
@@ -134,136 +162,170 @@
 <li><code>is!</code>：对象不是指定类型</li>
 </ul>
 </li>
-<li>三元表达式：<ul>
+<li>三元表达式：
+<ul>
 <li><code>condition ? expr1 : expr2</code></li>
 </ul>
 </li>
-<li>判空<ul>
+<li>判空
+<ul>
 <li><code>expr1?? expr2</code>：expr1不为空，取自己值；为空，则取expr2的值。</li>
 </ul>
 </li>
-<li>级联运算符<ul>
+<li>级联运算符
+<ul>
 <li><code>..</code>：可以在同一个对象上连续滴啊用多个方法以及访问成员变量。可以避免创建临时变量。</li>
 </ul>
 </li>
-<li>条件成员访问符<ul>
+<li>条件成员访问符
+<ul>
 <li><code>?.</code>：如果左边的对象为null，则直接返回null</li>
 </ul>
 </li>
 </ul>
-<h5 id="分支与循环"><a href="#分支与循环" class="headerlink" title="分支与循环"></a>分支与循环</h5><ul>
+<h5 id="分支与循环">分支与循环</h5>
+<ul>
 <li>switch中的case可以使用整数、字符串、枚举类型和编译时常量。</li>
 <li>循环支持for循环、while循环，do-while循环</li>
-<li>List的遍历：<ul>
+<li>List的遍历：
+<ul>
 <li>for…in…循环</li>
 <li>forEach循环：<code>list.forEach((var it){ print(it);});</code></li>
 <li>箭头函数简写：<code>list.forEach((it) =&gt; print(it));</code></li>
 </ul>
 </li>
-<li>Map的遍历<ul>
+<li>Map的遍历
+<ul>
 <li>for…in…：<code>for(var k in map.keys){ }</code></li>
 <li>forEach：<code>map.forEach((k,v) =&gt; print());</code></li>
 </ul>
 </li>
 </ul>
-<h4 id="类和对象"><a href="#类和对象" class="headerlink" title="类和对象"></a>类和对象</h4><ul>
-<li><p>没有<code>private</code>、p<code>ublic</code>等成员访问修饰符，类私有成员，前面加<code>_</code>变为私有</p>
+<h4 id="类和对象">类和对象</h4>
+<ul>
+<li>
+<p>没有<code>private</code>、p<code>ublic</code>等成员访问修饰符，类私有成员，前面加<code>_</code>变为私有</p>
 </li>
-<li><p>没有构造方法的重载，不能写两个同名的构造方法</p>
+<li>
+<p>没有构造方法的重载，不能写两个同名的构造方法</p>
 </li>
-<li><p>所有的类中都包含隐式的getter方法；所有非final修饰的成员都包含隐式的setter方法。</p>
+<li>
+<p>所有的类中都包含隐式的getter方法；所有非final修饰的成员都包含隐式的setter方法。</p>
 </li>
-<li><p>setter、getter方法不仅仅是赋值和访问，而是为了一些额外的处理的时候，需要在方法名前添加set/get关键字</p>
+<li>
+<p>setter、getter方法不仅仅是赋值和访问，而是为了一些额外的处理的时候，需要在方法名前添加set/get关键字</p>
 </li>
-<li><p>命名构造方法：</p>
+<li>
+<p>命名构造方法：</p>
 <ul>
 <li><code>className.fromData(String data){this.data = data}</code></li>
 <li>可以为一个类实现多个构造方法，更清晰表明意图</li>
 </ul>
 </li>
-<li><p>常量构造方法：</p>
+<li>
+<p>常量构造方法：</p>
 <ul>
-<li>编译时常量对象：状态永远不变的对象，节省开销。<ul>
+<li>编译时常量对象：状态永远不变的对象，节省开销。
+<ul>
 <li>使用const修饰构造方法：<code>const Class(this.x,this.y);</code></li>
 <li>使用const创建对象：<code>static final Class class = const Class(0,0)</code></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>工厂构造方法：</p>
+<li>
+<p>工厂构造方法：</p>
 <ul>
 <li>创建一个新的对象或者从缓存中取一个对象的时候使用</li>
 <li><code>factory Class(String name){ if(_cache.containsKey(name)){ return _cacheInstance;} else { return newInstance;}}</code></li>
 </ul>
 </li>
-<li><p>构造方法重定向</p>
+<li>
+<p>构造方法重定向</p>
 <ul>
 <li>命名构造方法重定向到同名构造方法，中间使用一个冒号：<code>Class.fromData(string test):this(test,0);</code></li>
 </ul>
 </li>
-<li><p>类的初始化列表：</p>
+<li>
+<p>类的初始化列表：</p>
 <ul>
 <li>普通构造方法：<code>类名(){}</code></li>
 <li>带初始化列表的构造方法：<code>类名():赋值语句{}</code></li>
 </ul>
 </li>
-<li><p>运算符重载：</p>
+<li>
+<p>运算符重载：</p>
 <ul>
 <li>即为类重载运算符的操作：<code>Point operator +(Point p){ return new Point(xxx)};</code></li>
 </ul>
 </li>
-<li><p>类的继承</p>
+<li>
+<p>类的继承</p>
 <ul>
 <li>使用关键字<code>extends</code>，使用<code>super</code>引用父类</li>
-<li>可以使用<code>with</code>实现多继承<ul>
+<li>可以使用<code>with</code>实现多继承
+<ul>
 <li><code>class Son extends father1 with father2,father3</code></li>
 <li><code>class Son with father1,father2,father3</code></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Dart不支持interface，只有<code>abstract</code></p>
+<li>
+<p>Dart不支持interface，只有<code>abstract</code></p>
 </li>
-<li><p>隐式接口</p>
+<li>
+<p>隐式接口</p>
 <ul>
 <li>每个类都隐式的定义了一个包含所有势力成员的接口，并且该类实现了这个接口。</li>
 <li>可以使用<code>implements</code>关键字实现某个接口又不用继承。</li>
 </ul>
 </li>
 </ul>
-<h4 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h4><ul>
-<li>异常的两种处理方式：<ul>
+<h4 id="异常处理">异常处理</h4>
+<ul>
+<li>异常的两种处理方式：
+<ul>
 <li>关心异常，针对不同异常进行不同处理：<code>try...in</code>处理异常，<code>finally</code>可选，用于最后的处理</li>
 <li>不关心异常，只捕获，避免异常继续传递：<code>try...catch</code></li>
 </ul>
 </li>
 </ul>
-<h4 id="库与导入"><a href="#库与导入" class="headerlink" title="库与导入"></a>库与导入</h4><ul>
+<h4 id="库与导入">库与导入</h4>
+<ul>
 <li>使用<code>import</code>语句用来导入一个库</li>
 <li>使用<code>as</code>给库起别名，避免命名空间冲突</li>
 <li>使用<code>show</code>/<code>hide</code>控制库中成员的可见性</li>
 <li>使用<code>deffered as</code>延迟导入</li>
 </ul>
-<h4 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h4><ul>
-<li><p>单线程模型，所有代码都只在一个线程上运行，但是Dart代码可以运行在多个isolate上，isolate由虚拟机调度，isolate之间没有共享内存，因此它们之间没有竞争，不需要锁，不用担心死锁。isolate之间唯一的通知只能通过Port进行，而且Dart中的消息传递也是一部的。</p>
+<h4 id="异步编程">异步编程</h4>
+<ul>
+<li>
+<p>单线程模型，所有代码都只在一个线程上运行，但是Dart代码可以运行在多个isolate上，isolate由虚拟机调度，isolate之间没有共享内存，因此它们之间没有竞争，不需要锁，不用担心死锁。isolate之间唯一的通知只能通过Port进行，而且Dart中的消息传递也是一部的。</p>
 </li>
-<li><p>使用Future对象进行异步编程的两种方式：</p>
+<li>
+<p>使用Future对象进行异步编程的两种方式：</p>
 <ul>
 <li>使用<code>async</code>和<code>await</code></li>
 <li>使用Future api</li>
 </ul>
 </li>
-<li><p>Dart是事件驱动的体系结构，这种结构基于具有单个事件循环和两个对立的单线程执行模型</p>
+<li>
+<p>Dart是事件驱动的体系结构，这种结构基于具有单个事件循环和两个对立的单线程执行模型</p>
 <ul>
-<li>Dart的两个队列：<ul>
-<li>MicroTask queue 微任务队列<ul>
-<li>添加任务到MicroTask队列的方法：<ul>
+<li>Dart的两个队列：
+<ul>
+<li>MicroTask queue 微任务队列
+<ul>
+<li>添加任务到MicroTask队列的方法：
+<ul>
 <li><code>scheduleMicrotask(myTask);</code></li>
 <li><code>Future.microtask(myTask);</code></li>
 </ul>
 </li>
-<li>添加任务到Event队列<ul>
-<li><code>new Future(myTask)</code> </li>
+<li>添加任务到Event队列
+<ul>
+<li><code>new Future(myTask)</code></li>
 </ul>
 </li>
 </ul>
@@ -274,15 +336,18 @@
 <li>当事件循环在处理MicroTask队列时，Event队列会被卡住，应用程序无法处理鼠标单击、I/O消息等等事件</li>
 </ul>
 </li>
-<li><p>延时任务：</p>
+<li>
+<p>延时任务：</p>
 <ul>
 <li>使用<code>Future.delayed</code>方法，将任务加入到Event队列</li>
 </ul>
 </li>
-<li><p>Future</p>
+<li>
+<p>Future</p>
 <ul>
 <li>Future类是对未来结果的一个代理，返回的并不是被调用的任务的返回值</li>
-<li>创建方法：<ul>
+<li>创建方法：
+<ul>
 <li><code>Future()</code></li>
 <li><code>Future.microtask()</code></li>
 <li><code>Future.sync()</code>：同步方法，任务会被立即执行</li>
@@ -293,15 +358,20 @@
 </li>
 </ul>
 </li>
-<li><p>当Future中的任务完成后，可以使用<code>then</code>注册回调，这个回调会立即执行，不会被添加到事件队列</p>
+<li>
+<p>当Future中的任务完成后，可以使用<code>then</code>注册回调，这个回调会立即执行，不会被添加到事件队列</p>
 </li>
-<li><p>可以使用<code>catchError</code>处理异常</p>
+<li>
+<p>可以使用<code>catchError</code>处理异常</p>
 </li>
-<li><p>可以使用静态方法<code>wait</code>等待多个任务全部完成后回调</p>
+<li>
+<p>可以使用静态方法<code>wait</code>等待多个任务全部完成后回调</p>
 </li>
-<li><p>async和await</p>
+<li>
+<p>async和await</p>
 <ul>
-<li>async<ul>
+<li>async
+<ul>
 <li>被修饰的方法会将一个Future对象作为返回值</li>
 <li>该方法会同步执行其中的方法代码知道第一个await关键字，然后它暂停该方法其他部分的执行</li>
 <li>当await关键字引用的Future任务执行完成，await的下一行代码将立即执行。</li>
@@ -309,17 +379,23 @@
 </li>
 </ul>
 </li>
-<li><p>Isolate</p>
+<li>
+<p>Isolate</p>
 <ul>
 <li>可以理解为微线程，不能共享内存，不存在锁竞争，两个Isolate完全是两条独立的执行线，每个Isolate都有自己的事件循环，它们之间只能通过发送消息通信。</li>
 </ul>
 </li>
 </ul>
-</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a><a class="article__tags__item" href="/mLixin.github.io/tags/Dart/">Dart</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T07:52:44.431Z"><meta itemprop="articleBody" content="摘要总结Dart语言入门基础
+</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a><a class="article__tags__item" href="/mLixin.github.io/tags/Dart/">Dart</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T07:52:44.431Z"><meta itemprop="articleBody" content="摘要
+总结Dart语言入门基础
 
-基础语法内置数据类型
+基础语法
+内置数据类型
+
 类型：
+
 num
+
 int：-2^53 ~ 2^53
 double：64位双精度浮点数
 
@@ -334,5 +410,7 @@ Runes
 所有的变量都是对象，所有对象都集成与Object类，所有类型没有初始化的变量默认值为null。
 
 变量与常量
+
 两种方式定义变量：
+
 显式指定变量类型：String name =..."><meta itemprop="url" content="http://mLixin.com/2020/04/09/flutter-入门-001/"><meta itemprop="mainEntityOfPage" content="http://mLixin.com/2020/04/09/flutter-入门-001/"><div itemscope itemtype="https://schema.org/Organization" itemprop="publisher"><meta itemprop="name" content="mLiXin's Blog"><div itemscope itemprop="logo" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="http://mLixin.com/images/top.png"></div></div><div itemscope itemtype="https://schema.org/ImageObject" itemprop="image"><meta itemprop="contentUrl" content="http://mLixin.com/images/default.jpg"><meta itemprop="url" content="http://mLixin.com/images/default.jpg"><meta itemprop="width" content="1280"><meta itemprop="height" content="720"></div></article><section class="related-posts"><h3>Related posts</h3><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2020/04/13/flutter-%E5%85%A5%E9%97%A8-003/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">Flutter入门(三) Flutter ThemeData一览</span></a></div><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2019/09/11/pub-flutter-gityuan/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">GitYuan Flutter相关tag学习笔记</span></a></div><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2018/05/10/pub-flutter-%E9%97%B2%E9%B1%BC/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">Flutter学习笔记 - 闲鱼公众号</span></a></div></section></div></div></div><footer id="footer"><div class="widgets"><div class="widgets-inner"><!-- Jade doesn't support dynamic inclusion with `each`.--><!-- So, I just hard coded the file names that will be included.--><div class="widgets__item"><h3 class="widgets__item__heading">Recent posts</h3><ul class="recent-posts"><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-renderobject/">Flutter源码浅析 - RenderObject</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-element/">Flutter源码浅析 - Element</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/28/flutter-rtfsc-pipelineowner/">Flutter源码浅析 - PipelineOwner</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/28/flutter-rtfsc-buildowner/">Flutter源码浅析 - BuildOwner</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/27/flutter-rtfsc-app-start-02/">源码角度浅析Flutter App启动过程（二） runApp()做了哪些工作？</a></li></ul></div><div class="widgets__item"><h3 class="widgets__item__heading">Tag cloud</h3><div class="tag-cloud"><a href="/mLixin.github.io/tags/Android/" style="font-size: 1.22rem;">Android</a> <a href="/mLixin.github.io/tags/Dart/" style="font-size: 0.94rem;">Dart</a> <a href="/mLixin.github.io/tags/Flutter/" style="font-size: 1.31rem;">Flutter</a> <a href="/mLixin.github.io/tags/Java/" style="font-size: 1.03rem;">Java</a> <a href="/mLixin.github.io/tags/LeetCode/" style="font-size: 1.41rem;">LeetCode</a> <a href="/mLixin.github.io/tags/TODO/" style="font-size: 1.13rem;">TODO</a> <a href="/mLixin.github.io/tags/Web/" style="font-size: 0.84rem;">Web</a> <a href="/mLixin.github.io/tags/hexo/" style="font-size: 0.75rem;">hexo</a> <a href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" style="font-size: 0.75rem;">全栈</a> <a href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 1.5rem;">数据结构与算法</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 0.94rem;">计算机网络</a> <a href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 0.84rem;">设计模式</a></div></div><div class="widgets__item"><h3 class="widgets__item__heading">Categories</h3><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/">Android</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E5%86%85%E9%83%A8%E6%9C%BA%E5%88%B6/">内部机制</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/">第三方库解析</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/">Dart</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="category-list-count">13</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a><span class="category-list-count">7</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/">Java</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">原理解析</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Web/">Web</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Web/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">微信小程序</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/">全栈</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%B6%E4%BB%96/">其他</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%B6%E4%BB%96/hexo/">hexo</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span class="category-list-count">103</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/LeetCode/">LeetCode</a><span class="category-list-count">102</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a><span class="category-list-count">1</span></li></ul></li></ul></div></div></div><p class="copyright"><small>© 2020 mLiXin<br>Powered by <a href="https://hexo.io" rel="external" target="_blank">Hexo</a>, Theme by <a href="https://github.com/hyunseob" rel="external" target="_blank">HyunSeob</a></small></p></footer><script src="/js/sharer.min.js"></script></body></html>

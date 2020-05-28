@@ -1,255 +1,445 @@
 <!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flutter入门(二) Flutter Widget一览 | mLiXin's Blog</title><link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/highlights/dracula.css"><link rel="canonical" href="http://mLixin.com/2020/04/09/flutter-入门-002/"/>
-<meta name="description" content="摘要Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46) YouTube上Flutter有个系列：Widget of the…">
+<meta name="description" content="摘要 Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46) YouTube上Flutter有个系列：Widget of the…">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flutter入门(二) Flutter Widget一览">
 <meta property="og:url" content="http://mlixin.com/2020/04/09/flutter-%E5%85%A5%E9%97%A8-002/">
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
-<meta property="og:description" content="摘要Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46) YouTube上Flutter有个系列：Widget of the…">
+<meta property="og:description" content="摘要 Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46) YouTube上Flutter有个系列：Widget of the…">
 <meta property="og:image" content="http://mlixin.com/images/flutter-basics-appbar.png">
 <meta property="article:published_time" content="2020-04-09T07:46:51.000Z">
 <meta property="article:modified_time" content="2020-05-28T07:53:00.884Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Flutter">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://mlixin.com/images/flutter-basics-appbar.png"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2020-04-09 15:46:51"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">Flutter入门(二) Flutter Widget一览</h1><div class="article__meta"><time class="article__meta__time" datetime="2020-04-09T07:46:51.000Z" itemprop="datePublished">2020-04-09 15:46:51</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46)</p>
-<p>YouTube上Flutter有个系列：Widget of the week，基本上每个小部件都会有说明，可以参考。地址：<a href="https://www.youtube.com/watch?v=b_sQ9bMltGU&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG" target="_blank" rel="noopener">需要搭梯子</a></p>
+<meta name="twitter:image" content="http://mlixin.com/images/flutter-basics-appbar.png"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2020-04-09 15:46:51"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">Flutter入门(二) Flutter Widget一览</h1><div class="article__meta"><time class="article__meta__time" datetime="2020-04-09T07:46:51.000Z" itemprop="datePublished">2020-04-09 15:46:51</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="摘要">摘要</h4>
+<p>Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46)</p>
+<p>YouTube上Flutter有个系列：Widget of the week，基本上每个小部件都会有说明，可以参考。地址：<a href="https://www.youtube.com/watch?v=b_sQ9bMltGU&amp;list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG" target="_blank" rel="noopener">需要搭梯子</a></p>
 <p>Flutter现在支持Android、Ios、MacOS、Windows、Linux、Web，真香。</p>
 <a id="more"></a>
-
-<h4 id="Accessibility-辅助功能Widget"><a href="#Accessibility-辅助功能Widget" class="headerlink" title="Accessibility - 辅助功能Widget"></a>Accessibility - 辅助功能Widget</h4><h5 id="ExcludeSemantics"><a href="#ExcludeSemantics" class="headerlink" title="ExcludeSemantics"></a>ExcludeSemantics</h5><h5 id="mergeSemantics"><a href="#mergeSemantics" class="headerlink" title="mergeSemantics"></a>mergeSemantics</h5><h5 id="Semantics"><a href="#Semantics" class="headerlink" title="Semantics"></a>Semantics</h5><h4 id="Animation-and-motion-动画和Motion"><a href="#Animation-and-motion-动画和Motion" class="headerlink" title="Animation and motion - 动画和Motion"></a>Animation and motion - 动画和Motion</h4><h5 id="AnimatedBuilder"><a href="#AnimatedBuilder" class="headerlink" title="AnimatedBuilder"></a>AnimatedBuilder</h5><ul>
+<h4 id="Accessibility-辅助功能Widget">Accessibility - 辅助功能Widget</h4>
+<h5 id="ExcludeSemantics">ExcludeSemantics</h5>
+<h5 id="mergeSemantics">mergeSemantics</h5>
+<h5 id="Semantics">Semantics</h5>
+<h4 id="Animation-and-motion-动画和Motion">Animation and motion - 动画和Motion</h4>
+<h5 id="AnimatedBuilder">AnimatedBuilder</h5>
+<ul>
 <li>构建动画的组件</li>
 </ul>
-<h5 id="AnimatedContainer"><a href="#AnimatedContainer" class="headerlink" title="AnimatedContainer"></a>AnimatedContainer</h5><ul>
+<h5 id="AnimatedContainer">AnimatedContainer</h5>
+<ul>
 <li>一段时间内会改变值的Container？</li>
 </ul>
-<h5 id="AnimatedCrossFade"><a href="#AnimatedCrossFade" class="headerlink" title="AnimatedCrossFade"></a>AnimatedCrossFade</h5><ul>
+<h5 id="AnimatedCrossFade">AnimatedCrossFade</h5>
+<ul>
 <li>在给定的两个Child Widget间淡入淡出？</li>
 </ul>
-<h5 id="AnimatedDefaultTextStyle"><a href="#AnimatedDefaultTextStyle" class="headerlink" title="AnimatedDefaultTextStyle"></a>AnimatedDefaultTextStyle</h5><ul>
+<h5 id="AnimatedDefaultTextStyle">AnimatedDefaultTextStyle</h5>
+<ul>
 <li>文字动画变化？</li>
 </ul>
-<h5 id="AnimatedListState"><a href="#AnimatedListState" class="headerlink" title="AnimatedListState"></a>AnimatedListState</h5><ul>
+<h5 id="AnimatedListState">AnimatedListState</h5>
+<ul>
 <li>一个Scrolling container在插入和删除时动画的状态？</li>
 </ul>
-<h5 id="AnimatedModalBarrier"><a href="#AnimatedModalBarrier" class="headerlink" title="AnimatedModalBarrier"></a>AnimatedModalBarrier</h5><ul>
+<h5 id="AnimatedModalBarrier">AnimatedModalBarrier</h5>
+<ul>
 <li>字面意思屏障？防止用户在widget自己变化之前影响widget？</li>
 </ul>
-<h5 id="AnimatedOpacity"><a href="#AnimatedOpacity" class="headerlink" title="AnimatedOpacity"></a>AnimatedOpacity</h5><ul>
+<h5 id="AnimatedOpacity">AnimatedOpacity</h5>
+<ul>
 <li>透明度动画？</li>
 </ul>
-<h5 id="AnimatedPhysicalModel"><a href="#AnimatedPhysicalModel" class="headerlink" title="AnimatedPhysicalModel"></a>AnimatedPhysicalModel</h5><ul>
+<h5 id="AnimatedPhysicalModel">AnimatedPhysicalModel</h5>
+<ul>
 <li>物理模型动画？</li>
 </ul>
-<h5 id="AnimatedPositioned"><a href="#AnimatedPositioned" class="headerlink" title="AnimatedPositioned"></a>AnimatedPositioned</h5><ul>
+<h5 id="AnimatedPositioned">AnimatedPositioned</h5>
+<ul>
 <li>位置变化动画？</li>
 </ul>
-<h5 id="AnimatedSize"><a href="#AnimatedSize" class="headerlink" title="AnimatedSize"></a>AnimatedSize</h5><ul>
+<h5 id="AnimatedSize">AnimatedSize</h5>
+<ul>
 <li>尺寸变化动画</li>
 </ul>
-<h5 id="AnimatedWidget"><a href="#AnimatedWidget" class="headerlink" title="AnimatedWidget"></a>AnimatedWidget</h5><ul>
+<h5 id="AnimatedWidget">AnimatedWidget</h5>
+<ul>
 <li>根据给定变化的值重建widget？</li>
 </ul>
-<h5 id="AnimatedWidgetBaseState"><a href="#AnimatedWidgetBaseState" class="headerlink" title="AnimatedWidgetBaseState"></a>AnimatedWidgetBaseState</h5><ul>
+<h5 id="AnimatedWidgetBaseState">AnimatedWidgetBaseState</h5>
+<ul>
 <li>基础状态类？</li>
 </ul>
-<h5 id="DecoratedBoxTransition"><a href="#DecoratedBoxTransition" class="headerlink" title="DecoratedBoxTransition"></a>DecoratedBoxTransition</h5><ul>
+<h5 id="DecoratedBoxTransition">DecoratedBoxTransition</h5>
+<ul>
 <li>DecoratedBox变化动画</li>
 </ul>
-<h5 id="FadeTransition"><a href="#FadeTransition" class="headerlink" title="FadeTransition"></a>FadeTransition</h5><ul>
+<h5 id="FadeTransition">FadeTransition</h5>
+<ul>
 <li>淡入淡出变化动画</li>
 </ul>
-<h5 id="Hero"><a href="#Hero" class="headerlink" title="Hero"></a>Hero</h5><ul>
+<h5 id="Hero">Hero</h5>
+<ul>
 <li>标记一个child widget并成为大页面的动画？</li>
 </ul>
-<h5 id="PositionedTransition"><a href="#PositionedTransition" class="headerlink" title="PositionedTransition"></a>PositionedTransition</h5><ul>
+<h5 id="PositionedTransition">PositionedTransition</h5>
+<ul>
 <li>位置变化动画</li>
 </ul>
-<h5 id="RotationTransition"><a href="#RotationTransition" class="headerlink" title="RotationTransition"></a>RotationTransition</h5><ul>
+<h5 id="RotationTransition">RotationTransition</h5>
+<ul>
 <li>旋转变化动画</li>
 </ul>
-<h5 id="ScaleTransition"><a href="#ScaleTransition" class="headerlink" title="ScaleTransition"></a>ScaleTransition</h5><ul>
+<h5 id="ScaleTransition">ScaleTransition</h5>
+<ul>
 <li>收缩、放大动画</li>
 </ul>
-<h5 id="SizeTransition"><a href="#SizeTransition" class="headerlink" title="SizeTransition"></a>SizeTransition</h5><ul>
+<h5 id="SizeTransition">SizeTransition</h5>
+<ul>
 <li>尺寸变化动画</li>
 </ul>
-<h5 id="SlideTransition"><a href="#SlideTransition" class="headerlink" title="SlideTransition"></a>SlideTransition</h5><ul>
+<h5 id="SlideTransition">SlideTransition</h5>
+<ul>
 <li>滑动动画？</li>
 </ul>
-<h4 id="Assets-images-and-icon"><a href="#Assets-images-and-icon" class="headerlink" title="Assets, images, and icon"></a>Assets, images, and icon</h4><h5 id="AssetBundle"><a href="#AssetBundle" class="headerlink" title="AssetBundle"></a>AssetBundle</h5><ul>
+<h4 id="Assets-images-and-icon">Assets, images, and icon</h4>
+<h5 id="AssetBundle">AssetBundle</h5>
+<ul>
 <li>包含可以在app中使用的images和字符串等资源</li>
 </ul>
-<h5 id="Icon"><a href="#Icon" class="headerlink" title="Icon"></a>Icon</h5><h5 id="Image"><a href="#Image" class="headerlink" title="Image"></a>Image</h5><h5 id="RawImage"><a href="#RawImage" class="headerlink" title="RawImage"></a>RawImage</h5><ul>
+<h5 id="Icon">Icon</h5>
+<h5 id="Image">Image</h5>
+<h5 id="RawImage">RawImage</h5>
+<ul>
 <li>立即展示一个dart:ui的image</li>
 </ul>
-<h4 id="Async"><a href="#Async" class="headerlink" title="Async"></a>Async</h4><h5 id="FutureBuilder"><a href="#FutureBuilder" class="headerlink" title="FutureBuilder"></a>FutureBuilder</h5><ul>
+<h4 id="Async">Async</h4>
+<h5 id="FutureBuilder">FutureBuilder</h5>
+<ul>
 <li>基于Future最新反馈的数据来构建自己</li>
 </ul>
-<h5 id="StreamBuilder"><a href="#StreamBuilder" class="headerlink" title="StreamBuilder"></a>StreamBuilder</h5><ul>
+<h5 id="StreamBuilder">StreamBuilder</h5>
+<ul>
 <li>基于Stream最新反馈的数据来构建自己</li>
 </ul>
-<h4 id="Basics-基础Widget"><a href="#Basics-基础Widget" class="headerlink" title="Basics - 基础Widget"></a>Basics - 基础Widget</h4><h5 id="Appbar"><a href="#Appbar" class="headerlink" title="Appbar"></a>Appbar</h5><ul>
+<h4 id="Basics-基础Widget">Basics - 基础Widget</h4>
+<h5 id="Appbar">Appbar</h5>
+<ul>
 <li><img src="/images/flutter-basics-appbar.png" alt="Basics-&gt;Appbar"></li>
 <li>说明</li>
 </ul>
-<h5 id="Column"><a href="#Column" class="headerlink" title="Column"></a>Column</h5><ul>
-<li>布局排列方式，内部children竖直排列，约等于<code>orientation=vertical</code>的<code>LinearLayout</code> </li>
+<h5 id="Column">Column</h5>
+<ul>
+<li>布局排列方式，内部children竖直排列，约等于<code>orientation=vertical</code>的<code>LinearLayout</code></li>
 </ul>
-<h4 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h4><ul>
+<h4 id="Container">Container</h4>
+<ul>
 <li>暂时理解为包裹类，如果需要给类似Text设置padding、margin等都需要外部包裹一个Container，因为Text这些是没有padding、margin这种参数可以配置。</li>
 </ul>
-<h5 id="FlutterLogo"><a href="#FlutterLogo" class="headerlink" title="FlutterLogo"></a>FlutterLogo</h5><ul>
+<h5 id="FlutterLogo">FlutterLogo</h5>
+<ul>
 <li>就是FlutterLogo，实际开发用不到感觉</li>
 </ul>
-<h5 id="Icon-1"><a href="#Icon-1" class="headerlink" title="Icon"></a>Icon</h5><ul>
+<h5 id="Icon-2">Icon</h5>
+<ul>
 <li>就是图标，Flutter内置了很多图标，通过<code>Icons.xx</code>使用</li>
 </ul>
-<h5 id="Image-1"><a href="#Image-1" class="headerlink" title="Image"></a>Image</h5><ul>
+<h5 id="Image-2">Image</h5>
+<ul>
 <li>图片</li>
 </ul>
-<h5 id="Placeholder"><a href="#Placeholder" class="headerlink" title="Placeholder"></a>Placeholder</h5><ul>
+<h5 id="Placeholder">Placeholder</h5>
+<ul>
 <li>占位widget，用来在开发过程中表明这里还没有开发完成？好像没有用处</li>
 </ul>
-<h5 id="RaisedButton"><a href="#RaisedButton" class="headerlink" title="RaisedButton"></a>RaisedButton</h5><ul>
+<h5 id="RaisedButton">RaisedButton</h5>
+<ul>
 <li>Material风格的Button</li>
 </ul>
-<h5 id="Row"><a href="#Row" class="headerlink" title="Row"></a>Row</h5><ul>
-<li>布局排列方式，内部children横向排列，约等于<code>orientation=horizontal</code>的<code>LinearLayout</code> </li>
+<h5 id="Row">Row</h5>
+<ul>
+<li>布局排列方式，内部children横向排列，约等于<code>orientation=horizontal</code>的<code>LinearLayout</code></li>
 </ul>
-<h5 id="Scaffold"><a href="#Scaffold" class="headerlink" title="Scaffold"></a>Scaffold</h5><ul>
+<h5 id="Scaffold">Scaffold</h5>
+<ul>
 <li>实现了基本的Material风格的布局结构</li>
 </ul>
-<h5 id="Text"><a href="#Text" class="headerlink" title="Text"></a>Text</h5><ul>
+<h5 id="Text">Text</h5>
+<ul>
 <li>文字</li>
 </ul>
-<h4 id="Cupertino-iOS-style-widgets"><a href="#Cupertino-iOS-style-widgets" class="headerlink" title="Cupertino(iOS-style widgets)"></a>Cupertino(iOS-style widgets)</h4><h5 id="CupertinoActionSheet"><a href="#CupertinoActionSheet" class="headerlink" title="CupertinoActionSheet"></a>CupertinoActionSheet</h5><ul>
+<h4 id="Cupertino-iOS-style-widgets">Cupertino(iOS-style widgets)</h4>
+<h5 id="CupertinoActionSheet">CupertinoActionSheet</h5>
+<ul>
 <li>ios风格的底部表单弹框</li>
 </ul>
-<h5 id="CupertinoActivityIndicator"><a href="#CupertinoActivityIndicator" class="headerlink" title="CupertinoActivityIndicator"></a>CupertinoActivityIndicator</h5><ul>
+<h5 id="CupertinoActivityIndicator">CupertinoActivityIndicator</h5>
+<ul>
 <li>ios风格的loading</li>
 </ul>
-<h5 id="CupertinoAlertDialog"><a href="#CupertinoAlertDialog" class="headerlink" title="CupertinoAlertDialog"></a>CupertinoAlertDialog</h5><ul>
+<h5 id="CupertinoAlertDialog">CupertinoAlertDialog</h5>
+<ul>
 <li>ios风格的提示弹框</li>
 </ul>
-<h5 id="CupertinoButton"><a href="#CupertinoButton" class="headerlink" title="CupertinoButton"></a>CupertinoButton</h5><ul>
+<h5 id="CupertinoButton">CupertinoButton</h5>
+<ul>
 <li>ios风格的按钮</li>
 </ul>
-<h5 id="CupertinoContextMenu"><a href="#CupertinoContextMenu" class="headerlink" title="CupertinoContextMenu"></a>CupertinoContextMenu</h5><ul>
+<h5 id="CupertinoContextMenu">CupertinoContextMenu</h5>
+<ul>
 <li>ios风格，长按弹出菜单</li>
 </ul>
-<h5 id="CupertinoDatePicker"><a href="#CupertinoDatePicker" class="headerlink" title="CupertinoDatePicker"></a>CupertinoDatePicker</h5><ul>
+<h5 id="CupertinoDatePicker">CupertinoDatePicker</h5>
+<ul>
 <li>ios风格时间选择器</li>
 </ul>
-<h5 id="CupertinoDialog"><a href="#CupertinoDialog" class="headerlink" title="CupertinoDialog"></a>CupertinoDialog</h5><ul>
+<h5 id="CupertinoDialog">CupertinoDialog</h5>
+<ul>
 <li>ios风格弹框</li>
 </ul>
-<h5 id="CupertinoDialogAction"><a href="#CupertinoDialogAction" class="headerlink" title="CupertinoDialogAction"></a>CupertinoDialogAction</h5><ul>
+<h5 id="CupertinoDialogAction">CupertinoDialogAction</h5>
+<ul>
 <li>iOS风格弹框按钮</li>
 </ul>
-<h5 id="CupertinoFullscreenDialogTransition"><a href="#CupertinoFullscreenDialogTransition" class="headerlink" title="CupertinoFullscreenDialogTransition"></a>CupertinoFullscreenDialogTransition</h5><ul>
+<h5 id="CupertinoFullscreenDialogTransition">CupertinoFullscreenDialogTransition</h5>
+<ul>
 <li>ios风格全屏变化动画</li>
 </ul>
-<h5 id="CupertinoNavigationBar"><a href="#CupertinoNavigationBar" class="headerlink" title="CupertinoNavigationBar"></a>CupertinoNavigationBar</h5><ul>
+<h5 id="CupertinoNavigationBar">CupertinoNavigationBar</h5>
+<ul>
 <li>ios风格顶部导航栏</li>
 </ul>
-<h5 id="CupertinoPageScaffod"><a href="#CupertinoPageScaffod" class="headerlink" title="CupertinoPageScaffod"></a>CupertinoPageScaffod</h5><ul>
+<h5 id="CupertinoPageScaffod">CupertinoPageScaffod</h5>
+<ul>
 <li>ios风格页面布局结构</li>
 </ul>
-<h5 id="CupertinoPageTransition"><a href="#CupertinoPageTransition" class="headerlink" title="CupertinoPageTransition"></a>CupertinoPageTransition</h5><ul>
+<h5 id="CupertinoPageTransition">CupertinoPageTransition</h5>
+<ul>
 <li>ios风格页面跳转动画</li>
 </ul>
-<h5 id="CupertinoPicker"><a href="#CupertinoPicker" class="headerlink" title="CupertinoPicker"></a>CupertinoPicker</h5><ul>
+<h5 id="CupertinoPicker">CupertinoPicker</h5>
+<ul>
 <li>ios风格选择器</li>
 </ul>
-<h5 id="CupertinoPopupSurface"><a href="#CupertinoPopupSurface" class="headerlink" title="CupertinoPopupSurface"></a>CupertinoPopupSurface</h5><ul>
+<h5 id="CupertinoPopupSurface">CupertinoPopupSurface</h5>
+<ul>
 <li>ios风格弹框接口</li>
 </ul>
-<h5 id="CupertinoScrollbar"><a href="#CupertinoScrollbar" class="headerlink" title="CupertinoScrollbar"></a>CupertinoScrollbar</h5><ul>
+<h5 id="CupertinoScrollbar">CupertinoScrollbar</h5>
+<ul>
 <li>ios风格侧滑栏</li>
 </ul>
-<h5 id="CupertinoSegmentedControl"><a href="#CupertinoSegmentedControl" class="headerlink" title="CupertinoSegmentedControl"></a>CupertinoSegmentedControl</h5><ul>
+<h5 id="CupertinoSegmentedControl">CupertinoSegmentedControl</h5>
+<ul>
 <li>ios风格顶部tab</li>
 </ul>
-<h5 id="CupertinoSlider"><a href="#CupertinoSlider" class="headerlink" title="CupertinoSlider"></a>CupertinoSlider</h5><ul>
+<h5 id="CupertinoSlider">CupertinoSlider</h5>
+<ul>
 <li>ios风格滑动进度条</li>
 </ul>
-<h5 id="CupertinoSlidingSegmentedControl"><a href="#CupertinoSlidingSegmentedControl" class="headerlink" title="CupertinoSlidingSegmentedControl"></a>CupertinoSlidingSegmentedControl</h5><ul>
+<h5 id="CupertinoSlidingSegmentedControl">CupertinoSlidingSegmentedControl</h5>
+<ul>
 <li>ios风格滑动tab</li>
 </ul>
-<h5 id="CupertinoSwitch"><a href="#CupertinoSwitch" class="headerlink" title="CupertinoSwitch"></a>CupertinoSwitch</h5><ul>
+<h5 id="CupertinoSwitch">CupertinoSwitch</h5>
+<ul>
 <li>ios风格switch按钮</li>
 </ul>
-<h5 id="CupertinoTabBar"><a href="#CupertinoTabBar" class="headerlink" title="CupertinoTabBar"></a>CupertinoTabBar</h5><ul>
+<h5 id="CupertinoTabBar">CupertinoTabBar</h5>
+<ul>
 <li>ios风格底部tabBar</li>
 </ul>
-<h5 id="CupertinoTabScaffold"><a href="#CupertinoTabScaffold" class="headerlink" title="CupertinoTabScaffold"></a>CupertinoTabScaffold</h5><ul>
+<h5 id="CupertinoTabScaffold">CupertinoTabScaffold</h5>
+<ul>
 <li>ios风格tab布局结构</li>
 </ul>
-<h5 id="CupertinoTabView"><a href="#CupertinoTabView" class="headerlink" title="CupertinoTabView"></a>CupertinoTabView</h5><ul>
+<h5 id="CupertinoTabView">CupertinoTabView</h5>
+<ul>
 <li>ios风格tabView</li>
 </ul>
-<h5 id="CupertinoTextField"><a href="#CupertinoTextField" class="headerlink" title="CupertinoTextField"></a>CupertinoTextField</h5><ul>
+<h5 id="CupertinoTextField">CupertinoTextField</h5>
+<ul>
 <li>ios风格输入框</li>
 </ul>
-<h5 id="CupertinoTimerPicker"><a href="#CupertinoTimerPicker" class="headerlink" title="CupertinoTimerPicker"></a>CupertinoTimerPicker</h5><ul>
+<h5 id="CupertinoTimerPicker">CupertinoTimerPicker</h5>
+<ul>
 <li>ios风格时间选择器</li>
 </ul>
-<h4 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h4><h5 id="Form"><a href="#Form" class="headerlink" title="Form"></a>Form</h5><ul>
+<h4 id="Input">Input</h4>
+<h5 id="Form">Form</h5>
+<ul>
 <li>可以理解为表单</li>
 </ul>
-<h5 id="FormField"><a href="#FormField" class="headerlink" title="FormField"></a>FormField</h5><ul>
+<h5 id="FormField">FormField</h5>
+<ul>
 <li>一个表单输入</li>
 </ul>
-<h5 id="RawKeyboardListener"><a href="#RawKeyboardListener" class="headerlink" title="RawKeyboardListener"></a>RawKeyboardListener</h5><ul>
+<h5 id="RawKeyboardListener">RawKeyboardListener</h5>
+<ul>
 <li>键盘监听器？</li>
 </ul>
-<h4 id="Interaction-Models-交互类"><a href="#Interaction-Models-交互类" class="headerlink" title="Interaction Models - 交互类"></a>Interaction Models - 交互类</h4><h5 id="AbsorbPointer"><a href="#AbsorbPointer" class="headerlink" title="AbsorbPointer"></a>AbsorbPointer</h5><ul>
+<h4 id="Interaction-Models-交互类">Interaction Models - 交互类</h4>
+<h5 id="AbsorbPointer">AbsorbPointer</h5>
+<ul>
 <li>吸收属性，阻止触摸事件访问到下面的小部件</li>
 </ul>
-<h5 id="Dismissible"><a href="#Dismissible" class="headerlink" title="Dismissible"></a>Dismissible</h5><ul>
+<h5 id="Dismissible">Dismissible</h5>
+<ul>
 <li>滑动触发删除小部件</li>
 </ul>
-<h5 id="DragTarget"><a href="#DragTarget" class="headerlink" title="DragTarget"></a>DragTarget</h5><ul>
+<h5 id="DragTarget">DragTarget</h5>
+<ul>
 <li>拖拽widget</li>
 </ul>
-<h5 id="Draggable"><a href="#Draggable" class="headerlink" title="Draggable"></a>Draggable</h5><ul>
+<h5 id="Draggable">Draggable</h5>
+<ul>
 <li>可拖拽</li>
 </ul>
-<h5 id="GestureDetector"><a href="#GestureDetector" class="headerlink" title="GestureDetector"></a>GestureDetector</h5><ul>
+<h5 id="GestureDetector">GestureDetector</h5>
+<ul>
 <li>手势识别</li>
 </ul>
-<h5 id="IgnorePointer"><a href="#IgnorePointer" class="headerlink" title="IgnorePointer"></a>IgnorePointer</h5><ul>
+<h5 id="IgnorePointer">IgnorePointer</h5>
+<ul>
 <li>？？？</li>
 </ul>
-<h5 id="LongPressDraggable"><a href="#LongPressDraggable" class="headerlink" title="LongPressDraggable"></a>LongPressDraggable</h5><ul>
+<h5 id="LongPressDraggable">LongPressDraggable</h5>
+<ul>
 <li>长按拖拽</li>
 </ul>
-<h5 id="Scrollable"><a href="#Scrollable" class="headerlink" title="Scrollable"></a>Scrollable</h5><ul>
+<h5 id="Scrollable">Scrollable</h5>
+<ul>
 <li>滑动widget</li>
 </ul>
-<h5 id="Hero-1"><a href="#Hero-1" class="headerlink" title="Hero"></a>Hero</h5><ul>
+<h5 id="Hero-2">Hero</h5>
+<ul>
 <li>标记child并成为新页面的main？</li>
 </ul>
-<h5 id="Navigator"><a href="#Navigator" class="headerlink" title="Navigator"></a>Navigator</h5><ul>
+<h5 id="Navigator">Navigator</h5>
+<ul>
 <li>路由跳转</li>
 </ul>
-<h4 id="Layout"><a href="#Layout" class="headerlink" title="Layout"></a>Layout</h4><h5 id="Align"><a href="#Align" class="headerlink" title="Align"></a>Align</h5><h5 id="AspectRatio"><a href="#AspectRatio" class="headerlink" title="AspectRatio"></a>AspectRatio</h5><h5 id="Baseline"><a href="#Baseline" class="headerlink" title="Baseline"></a>Baseline</h5><h5 id="Center"><a href="#Center" class="headerlink" title="Center"></a>Center</h5><h5 id="ConstrainedBox"><a href="#ConstrainedBox" class="headerlink" title="ConstrainedBox"></a>ConstrainedBox</h5><h5 id="Container-1"><a href="#Container-1" class="headerlink" title="Container"></a>Container</h5><h5 id="CustomSingleChildLayout"><a href="#CustomSingleChildLayout" class="headerlink" title="CustomSingleChildLayout"></a>CustomSingleChildLayout</h5><h5 id="Expand"><a href="#Expand" class="headerlink" title="Expand"></a>Expand</h5><h5 id="FittedBox"><a href="#FittedBox" class="headerlink" title="FittedBox"></a>FittedBox</h5><h5 id="FractionallySize"><a href="#FractionallySize" class="headerlink" title="FractionallySize"></a>FractionallySize</h5><h5 id="IntrinsicHeight"><a href="#IntrinsicHeight" class="headerlink" title="IntrinsicHeight"></a>IntrinsicHeight</h5><h5 id="IntrinsicWidth"><a href="#IntrinsicWidth" class="headerlink" title="IntrinsicWidth"></a>IntrinsicWidth</h5><h5 id="LimitedBox"><a href="#LimitedBox" class="headerlink" title="LimitedBox"></a>LimitedBox</h5><h5 id="Offstage"><a href="#Offstage" class="headerlink" title="Offstage"></a>Offstage</h5><h5 id="OverflowBox"><a href="#OverflowBox" class="headerlink" title="OverflowBox"></a>OverflowBox</h5><h5 id="Padding"><a href="#Padding" class="headerlink" title="Padding"></a>Padding</h5><h5 id="SizedBox"><a href="#SizedBox" class="headerlink" title="SizedBox"></a>SizedBox</h5><h5 id="SizedOverflowBox"><a href="#SizedOverflowBox" class="headerlink" title="SizedOverflowBox"></a>SizedOverflowBox</h5><h5 id="Transform"><a href="#Transform" class="headerlink" title="Transform"></a>Transform</h5><h5 id="Column-1"><a href="#Column-1" class="headerlink" title="Column"></a>Column</h5><h5 id="CustomMultiChildLayout"><a href="#CustomMultiChildLayout" class="headerlink" title="CustomMultiChildLayout"></a>CustomMultiChildLayout</h5><h5 id="Flow"><a href="#Flow" class="headerlink" title="Flow"></a>Flow</h5><h5 id="GridView"><a href="#GridView" class="headerlink" title="GridView"></a>GridView</h5><h5 id="IndexedStack"><a href="#IndexedStack" class="headerlink" title="IndexedStack"></a>IndexedStack</h5><h5 id="LayoutBuilder"><a href="#LayoutBuilder" class="headerlink" title="LayoutBuilder"></a>LayoutBuilder</h5><h5 id="ListBody"><a href="#ListBody" class="headerlink" title="ListBody"></a>ListBody</h5><h5 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h5><h5 id="Row-1"><a href="#Row-1" class="headerlink" title="Row"></a>Row</h5><h5 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h5><h5 id="Table"><a href="#Table" class="headerlink" title="Table"></a>Table</h5><h5 id="Wrap"><a href="#Wrap" class="headerlink" title="Wrap"></a>Wrap</h5><h4 id="Material-Components"><a href="#Material-Components" class="headerlink" title="Material Components"></a>Material Components</h4><h5 id="Appbar-1"><a href="#Appbar-1" class="headerlink" title="Appbar"></a>Appbar</h5><h5 id="BottomNavigationBar"><a href="#BottomNavigationBar" class="headerlink" title="BottomNavigationBar"></a>BottomNavigationBar</h5><h5 id="Drarwer"><a href="#Drarwer" class="headerlink" title="Drarwer"></a>Drarwer</h5><h5 id="MaterialApp"><a href="#MaterialApp" class="headerlink" title="MaterialApp"></a>MaterialApp</h5><h5 id="Scaffold-1"><a href="#Scaffold-1" class="headerlink" title="Scaffold"></a>Scaffold</h5><h5 id="SliverAppBar"><a href="#SliverAppBar" class="headerlink" title="SliverAppBar"></a>SliverAppBar</h5><h5 id="TabBar"><a href="#TabBar" class="headerlink" title="TabBar"></a>TabBar</h5><h5 id="TabBarView"><a href="#TabBarView" class="headerlink" title="TabBarView"></a>TabBarView</h5><h5 id="WidgetsApp"><a href="#WidgetsApp" class="headerlink" title="WidgetsApp"></a>WidgetsApp</h5><h5 id="ButtonBar"><a href="#ButtonBar" class="headerlink" title="ButtonBar"></a>ButtonBar</h5><h5 id="DropdownButton"><a href="#DropdownButton" class="headerlink" title="DropdownButton"></a>DropdownButton</h5><h5 id="FlatButton"><a href="#FlatButton" class="headerlink" title="FlatButton"></a>FlatButton</h5><h5 id="FloatingActionButton"><a href="#FloatingActionButton" class="headerlink" title="FloatingActionButton"></a>FloatingActionButton</h5><h5 id="IconButton"><a href="#IconButton" class="headerlink" title="IconButton"></a>IconButton</h5><h5 id="OutlinButton"><a href="#OutlinButton" class="headerlink" title="OutlinButton"></a>OutlinButton</h5><h5 id="PopupMenuButton"><a href="#PopupMenuButton" class="headerlink" title="PopupMenuButton"></a>PopupMenuButton</h5><h5 id="RaisedButton-1"><a href="#RaisedButton-1" class="headerlink" title="RaisedButton"></a>RaisedButton</h5><h5 id="Checkbox"><a href="#Checkbox" class="headerlink" title="Checkbox"></a>Checkbox</h5><h5 id="Data-amp-Time-Pickers"><a href="#Data-amp-Time-Pickers" class="headerlink" title="Data&amp;Time Pickers"></a>Data&amp;Time Pickers</h5><h5 id="Radio"><a href="#Radio" class="headerlink" title="Radio"></a>Radio</h5><h5 id="Slider"><a href="#Slider" class="headerlink" title="Slider"></a>Slider</h5><h5 id="Switch"><a href="#Switch" class="headerlink" title="Switch"></a>Switch</h5><h5 id="TextField"><a href="#TextField" class="headerlink" title="TextField"></a>TextField</h5><h5 id="AlertDialog"><a href="#AlertDialog" class="headerlink" title="AlertDialog"></a>AlertDialog</h5><h5 id="BottomSheet"><a href="#BottomSheet" class="headerlink" title="BottomSheet"></a>BottomSheet</h5><h5 id="ExpansionPanel"><a href="#ExpansionPanel" class="headerlink" title="ExpansionPanel"></a>ExpansionPanel</h5><h5 id="SimpleDialog"><a href="#SimpleDialog" class="headerlink" title="SimpleDialog"></a>SimpleDialog</h5><h5 id="SnackBar"><a href="#SnackBar" class="headerlink" title="SnackBar"></a>SnackBar</h5><h5 id="Card"><a href="#Card" class="headerlink" title="Card"></a>Card</h5><h5 id="Chip"><a href="#Chip" class="headerlink" title="Chip"></a>Chip</h5><h5 id="CircularProgressIndicator"><a href="#CircularProgressIndicator" class="headerlink" title="CircularProgressIndicator"></a>CircularProgressIndicator</h5><h5 id="DataTable"><a href="#DataTable" class="headerlink" title="DataTable"></a>DataTable</h5><h5 id="GridView-1"><a href="#GridView-1" class="headerlink" title="GridView"></a>GridView</h5><h5 id="Icon-2"><a href="#Icon-2" class="headerlink" title="Icon"></a>Icon</h5><h5 id="Image-2"><a href="#Image-2" class="headerlink" title="Image"></a>Image</h5><h5 id="LinearProgressIndicator"><a href="#LinearProgressIndicator" class="headerlink" title="LinearProgressIndicator"></a>LinearProgressIndicator</h5><h5 id="Tooltip"><a href="#Tooltip" class="headerlink" title="Tooltip"></a>Tooltip</h5><h5 id="Divider"><a href="#Divider" class="headerlink" title="Divider"></a>Divider</h5><h5 id="ListTile"><a href="#ListTile" class="headerlink" title="ListTile"></a>ListTile</h5><h5 id="Stepper"><a href="#Stepper" class="headerlink" title="Stepper"></a>Stepper</h5><h4 id="Painting-and-effects"><a href="#Painting-and-effects" class="headerlink" title="Painting and effects"></a>Painting and effects</h4><h5 id="BackdropFilter"><a href="#BackdropFilter" class="headerlink" title="BackdropFilter"></a>BackdropFilter</h5><h5 id="ClipOval"><a href="#ClipOval" class="headerlink" title="ClipOval"></a>ClipOval</h5><h5 id="ClipPath"><a href="#ClipPath" class="headerlink" title="ClipPath"></a>ClipPath</h5><h5 id="ClipRect"><a href="#ClipRect" class="headerlink" title="ClipRect"></a>ClipRect</h5><h5 id="CustomPaint"><a href="#CustomPaint" class="headerlink" title="CustomPaint"></a>CustomPaint</h5><h5 id="DecoratedBox"><a href="#DecoratedBox" class="headerlink" title="DecoratedBox"></a>DecoratedBox</h5><h5 id="FractionalTranslation"><a href="#FractionalTranslation" class="headerlink" title="FractionalTranslation"></a>FractionalTranslation</h5><h5 id="Opacity"><a href="#Opacity" class="headerlink" title="Opacity"></a>Opacity</h5><h5 id="RotatedBox"><a href="#RotatedBox" class="headerlink" title="RotatedBox"></a>RotatedBox</h5><h5 id="Transform-1"><a href="#Transform-1" class="headerlink" title="Transform"></a>Transform</h5><h4 id="Scrolling"><a href="#Scrolling" class="headerlink" title="Scrolling"></a>Scrolling</h4><h5 id="CustomScrollView"><a href="#CustomScrollView" class="headerlink" title="CustomScrollView"></a>CustomScrollView</h5><h5 id="GridView-2"><a href="#GridView-2" class="headerlink" title="GridView"></a>GridView</h5><h5 id="ListView-1"><a href="#ListView-1" class="headerlink" title="ListView"></a>ListView</h5><h5 id="NestedScrollView"><a href="#NestedScrollView" class="headerlink" title="NestedScrollView"></a>NestedScrollView</h5><h5 id="NotificationListener"><a href="#NotificationListener" class="headerlink" title="NotificationListener"></a>NotificationListener</h5><h5 id="PageView"><a href="#PageView" class="headerlink" title="PageView"></a>PageView</h5><h5 id="RefreshIndicator"><a href="#RefreshIndicator" class="headerlink" title="RefreshIndicator"></a>RefreshIndicator</h5><ul>
+<h4 id="Layout">Layout</h4>
+<h5 id="Align">Align</h5>
+<h5 id="AspectRatio">AspectRatio</h5>
+<h5 id="Baseline">Baseline</h5>
+<h5 id="Center">Center</h5>
+<h5 id="ConstrainedBox">ConstrainedBox</h5>
+<h5 id="Container-2">Container</h5>
+<h5 id="CustomSingleChildLayout">CustomSingleChildLayout</h5>
+<h5 id="Expand">Expand</h5>
+<h5 id="FittedBox">FittedBox</h5>
+<h5 id="FractionallySize">FractionallySize</h5>
+<h5 id="IntrinsicHeight">IntrinsicHeight</h5>
+<h5 id="IntrinsicWidth">IntrinsicWidth</h5>
+<h5 id="LimitedBox">LimitedBox</h5>
+<h5 id="Offstage">Offstage</h5>
+<h5 id="OverflowBox">OverflowBox</h5>
+<h5 id="Padding">Padding</h5>
+<h5 id="SizedBox">SizedBox</h5>
+<h5 id="SizedOverflowBox">SizedOverflowBox</h5>
+<h5 id="Transform">Transform</h5>
+<h5 id="Column-2">Column</h5>
+<h5 id="CustomMultiChildLayout">CustomMultiChildLayout</h5>
+<h5 id="Flow">Flow</h5>
+<h5 id="GridView">GridView</h5>
+<h5 id="IndexedStack">IndexedStack</h5>
+<h5 id="LayoutBuilder">LayoutBuilder</h5>
+<h5 id="ListBody">ListBody</h5>
+<h5 id="ListView">ListView</h5>
+<h5 id="Row-2">Row</h5>
+<h5 id="Stack">Stack</h5>
+<h5 id="Table">Table</h5>
+<h5 id="Wrap">Wrap</h5>
+<h4 id="Material-Components">Material Components</h4>
+<h5 id="Appbar-2">Appbar</h5>
+<h5 id="BottomNavigationBar">BottomNavigationBar</h5>
+<h5 id="Drarwer">Drarwer</h5>
+<h5 id="MaterialApp">MaterialApp</h5>
+<h5 id="Scaffold-2">Scaffold</h5>
+<h5 id="SliverAppBar">SliverAppBar</h5>
+<h5 id="TabBar">TabBar</h5>
+<h5 id="TabBarView">TabBarView</h5>
+<h5 id="WidgetsApp">WidgetsApp</h5>
+<h5 id="ButtonBar">ButtonBar</h5>
+<h5 id="DropdownButton">DropdownButton</h5>
+<h5 id="FlatButton">FlatButton</h5>
+<h5 id="FloatingActionButton">FloatingActionButton</h5>
+<h5 id="IconButton">IconButton</h5>
+<h5 id="OutlinButton">OutlinButton</h5>
+<h5 id="PopupMenuButton">PopupMenuButton</h5>
+<h5 id="RaisedButton-2">RaisedButton</h5>
+<h5 id="Checkbox">Checkbox</h5>
+<h5 id="Data-Time-Pickers">Data&amp;Time Pickers</h5>
+<h5 id="Radio">Radio</h5>
+<h5 id="Slider">Slider</h5>
+<h5 id="Switch">Switch</h5>
+<h5 id="TextField">TextField</h5>
+<h5 id="AlertDialog">AlertDialog</h5>
+<h5 id="BottomSheet">BottomSheet</h5>
+<h5 id="ExpansionPanel">ExpansionPanel</h5>
+<h5 id="SimpleDialog">SimpleDialog</h5>
+<h5 id="SnackBar">SnackBar</h5>
+<h5 id="Card">Card</h5>
+<h5 id="Chip">Chip</h5>
+<h5 id="CircularProgressIndicator">CircularProgressIndicator</h5>
+<h5 id="DataTable">DataTable</h5>
+<h5 id="GridView-2">GridView</h5>
+<h5 id="Icon-3">Icon</h5>
+<h5 id="Image-3">Image</h5>
+<h5 id="LinearProgressIndicator">LinearProgressIndicator</h5>
+<h5 id="Tooltip">Tooltip</h5>
+<h5 id="Divider">Divider</h5>
+<h5 id="ListTile">ListTile</h5>
+<h5 id="Stepper">Stepper</h5>
+<h4 id="Painting-and-effects">Painting and effects</h4>
+<h5 id="BackdropFilter">BackdropFilter</h5>
+<h5 id="ClipOval">ClipOval</h5>
+<h5 id="ClipPath">ClipPath</h5>
+<h5 id="ClipRect">ClipRect</h5>
+<h5 id="CustomPaint">CustomPaint</h5>
+<h5 id="DecoratedBox">DecoratedBox</h5>
+<h5 id="FractionalTranslation">FractionalTranslation</h5>
+<h5 id="Opacity">Opacity</h5>
+<h5 id="RotatedBox">RotatedBox</h5>
+<h5 id="Transform-2">Transform</h5>
+<h4 id="Scrolling">Scrolling</h4>
+<h5 id="CustomScrollView">CustomScrollView</h5>
+<h5 id="GridView-3">GridView</h5>
+<h5 id="ListView-2">ListView</h5>
+<h5 id="NestedScrollView">NestedScrollView</h5>
+<h5 id="NotificationListener">NotificationListener</h5>
+<h5 id="PageView">PageView</h5>
+<h5 id="RefreshIndicator">RefreshIndicator</h5>
+<ul>
 <li>下拉刷新loading</li>
 </ul>
-<h5 id="ScrollConfiguration"><a href="#ScrollConfiguration" class="headerlink" title="ScrollConfiguration"></a>ScrollConfiguration</h5><h5 id="Scroll"><a href="#Scroll" class="headerlink" title="Scroll"></a>Scroll</h5><h5 id="Scrollbar"><a href="#Scrollbar" class="headerlink" title="Scrollbar"></a>Scrollbar</h5><h5 id="SingleChildScrollView"><a href="#SingleChildScrollView" class="headerlink" title="SingleChildScrollView"></a>SingleChildScrollView</h5><h4 id="Styling"><a href="#Styling" class="headerlink" title="Styling"></a>Styling</h4><h5 id="MediaQuery"><a href="#MediaQuery" class="headerlink" title="MediaQuery"></a>MediaQuery</h5><ul>
+<h5 id="ScrollConfiguration">ScrollConfiguration</h5>
+<h5 id="Scroll">Scroll</h5>
+<h5 id="Scrollbar">Scrollbar</h5>
+<h5 id="SingleChildScrollView">SingleChildScrollView</h5>
+<h4 id="Styling">Styling</h4>
+<h5 id="MediaQuery">MediaQuery</h5>
+<ul>
 <li>媒体查询？啥？</li>
 </ul>
-<h5 id="Padding-1"><a href="#Padding-1" class="headerlink" title="Padding"></a>Padding</h5><ul>
+<h5 id="Padding-2">Padding</h5>
+<ul>
 <li>给内部child添加padding</li>
 </ul>
-<h5 id="Theme"><a href="#Theme" class="headerlink" title="Theme"></a>Theme</h5><ul>
+<h5 id="Theme">Theme</h5>
+<ul>
 <li>对下面的所有widget适用</li>
 </ul>
-<h4 id="Text-1"><a href="#Text-1" class="headerlink" title="Text"></a>Text</h4><h5 id="DefaultTextStyle"><a href="#DefaultTextStyle" class="headerlink" title="DefaultTextStyle"></a>DefaultTextStyle</h5><ul>
+<h4 id="Text-2">Text</h4>
+<h5 id="DefaultTextStyle">DefaultTextStyle</h5>
+<ul>
 <li>默认的文字样式，对下面的所有Text Widget有效</li>
 </ul>
-<h5 id="RichText"><a href="#RichText" class="headerlink" title="RichText"></a>RichText</h5><ul>
+<h5 id="RichText">RichText</h5>
+<ul>
 <li>富文本</li>
 </ul>
-<h5 id="Text-2"><a href="#Text-2" class="headerlink" title="Text"></a>Text</h5></div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T07:53:00.884Z"><meta itemprop="articleBody" content="摘要Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46)
+<h5 id="Text-3">Text</h5>
+</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T07:53:00.884Z"><meta itemprop="articleBody" content="摘要
+Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46)
 YouTube上Flutter有个系列：Widget of the..."><meta itemprop="url" content="http://mLixin.com/2020/04/09/flutter-入门-002/"><meta itemprop="mainEntityOfPage" content="http://mLixin.com/2020/04/09/flutter-入门-002/"><div itemscope itemtype="https://schema.org/Organization" itemprop="publisher"><meta itemprop="name" content="mLiXin's Blog"><div itemscope itemprop="logo" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="http://mLixin.com/images/top.png"></div></div><div itemscope itemtype="https://schema.org/ImageObject" itemprop="image"><meta itemprop="contentUrl" content="http://mLixin.com/images/default.jpg"><meta itemprop="url" content="http://mLixin.com/images/default.jpg"><meta itemprop="width" content="1280"><meta itemprop="height" content="720"></div></article><section class="related-posts"><h3>Related posts</h3><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2018/05/10/pub-flutter-%E9%97%B2%E9%B1%BC/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">Flutter学习笔记 - 闲鱼公众号</span></a></div><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2020/04/22/pub-flutter-tao/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">pub-flutter-tao</span></a></div><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2019/09/11/pub-flutter-gityuan/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">GitYuan Flutter相关tag学习笔记</span></a></div></section></div></div></div><footer id="footer"><div class="widgets"><div class="widgets-inner"><!-- Jade doesn't support dynamic inclusion with `each`.--><!-- So, I just hard coded the file names that will be included.--><div class="widgets__item"><h3 class="widgets__item__heading">Recent posts</h3><ul class="recent-posts"><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-renderobject/">Flutter源码浅析 - RenderObject</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-element/">Flutter源码浅析 - Element</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/28/flutter-rtfsc-pipelineowner/">Flutter源码浅析 - PipelineOwner</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/28/flutter-rtfsc-buildowner/">Flutter源码浅析 - BuildOwner</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/27/flutter-rtfsc-app-start-02/">源码角度浅析Flutter App启动过程（二） runApp()做了哪些工作？</a></li></ul></div><div class="widgets__item"><h3 class="widgets__item__heading">Tag cloud</h3><div class="tag-cloud"><a href="/mLixin.github.io/tags/Android/" style="font-size: 1.22rem;">Android</a> <a href="/mLixin.github.io/tags/Dart/" style="font-size: 0.94rem;">Dart</a> <a href="/mLixin.github.io/tags/Flutter/" style="font-size: 1.31rem;">Flutter</a> <a href="/mLixin.github.io/tags/Java/" style="font-size: 1.03rem;">Java</a> <a href="/mLixin.github.io/tags/LeetCode/" style="font-size: 1.41rem;">LeetCode</a> <a href="/mLixin.github.io/tags/TODO/" style="font-size: 1.13rem;">TODO</a> <a href="/mLixin.github.io/tags/Web/" style="font-size: 0.84rem;">Web</a> <a href="/mLixin.github.io/tags/hexo/" style="font-size: 0.75rem;">hexo</a> <a href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" style="font-size: 0.75rem;">全栈</a> <a href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 1.5rem;">数据结构与算法</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 0.94rem;">计算机网络</a> <a href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 0.84rem;">设计模式</a></div></div><div class="widgets__item"><h3 class="widgets__item__heading">Categories</h3><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/">Android</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E5%86%85%E9%83%A8%E6%9C%BA%E5%88%B6/">内部机制</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/">第三方库解析</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/">Dart</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="category-list-count">13</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a><span class="category-list-count">7</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/">Java</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">原理解析</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Web/">Web</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Web/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">微信小程序</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/">全栈</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%B6%E4%BB%96/">其他</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%B6%E4%BB%96/hexo/">hexo</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span class="category-list-count">103</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/LeetCode/">LeetCode</a><span class="category-list-count">102</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a><span class="category-list-count">1</span></li></ul></li></ul></div></div></div><p class="copyright"><small>© 2020 mLiXin<br>Powered by <a href="https://hexo.io" rel="external" target="_blank">Hexo</a>, Theme by <a href="https://github.com/hyunseob" rel="external" target="_blank">HyunSeob</a></small></p></footer><script src="/js/sharer.min.js"></script></body></html>
