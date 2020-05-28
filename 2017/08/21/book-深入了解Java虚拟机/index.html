@@ -7,11 +7,11 @@
 <meta property="og:description" content="第一章 走进Java Java技术体系的组成部分：  Java程序设计语言 各种硬件平台上的Java虚拟机 Class文件格式 Java API类库 第三方Java类库   Java虚拟机发展史  Sun Classic&#x2F;Exact…">
 <meta property="og:image" content="http://mlixin.com/images/default.jpg">
 <meta property="article:published_time" content="2017-08-21T03:22:25.000Z">
-<meta property="article:modified_time" content="2020-05-28T07:50:49.675Z">
+<meta property="article:modified_time" content="2020-05-28T09:53:32.331Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://mlixin.com/images/default.jpg"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2017-08-21 11:22:25"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">深入了解Java虚拟机 学习笔记</h1><div class="article__meta"><time class="article__meta__time" datetime="2017-08-21T03:22:25.000Z" itemprop="datePublished">2017-08-21 11:22:25</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Java/">Java</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Java/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="第一章-走进Java"><a href="#第一章-走进Java" class="headerlink" title="第一章 走进Java"></a>第一章 走进Java</h4><ol>
+<meta name="twitter:image" content="http://mlixin.com/images/default.jpg"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2017-08-21 11:22:25"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">深入了解Java虚拟机 学习笔记</h1><div class="article__meta"><time class="article__meta__time" datetime="2017-08-21T03:22:25.000Z" itemprop="datePublished">2017-08-21 11:22:25</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Java/">Java</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Java/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="第一章-走进Java"><a href="#第一章-走进Java" class="headerlink" title="第一章 走进Java"></a>第一章 走进Java</h4><ul>
 <li><p>Java技术体系的组成部分：</p>
 <ul>
 <li>Java程序设计语言</li>
@@ -69,8 +69,8 @@
 <li>64位虚拟机   </li>
 </ul>
 </li>
-</ol>
-<h4 id="第二章-Java内存区域与内存溢出异常"><a href="#第二章-Java内存区域与内存溢出异常" class="headerlink" title="第二章 Java内存区域与内存溢出异常"></a>第二章 Java内存区域与内存溢出异常</h4><ol>
+</ul>
+<h4 id="第二章-Java内存区域与内存溢出异常"><a href="#第二章-Java内存区域与内存溢出异常" class="headerlink" title="第二章 Java内存区域与内存溢出异常"></a>第二章 Java内存区域与内存溢出异常</h4><ul>
 <li><p>Java虚拟机所管理的内存包括哪几个运行时数据区域？</p>
 <ul>
 <li>线程隔离的：<ul>
@@ -201,8 +201,8 @@
 </li>
 </ul>
 </li>
-</ol>
-<h5 id="第二章-Again"><a href="#第二章-Again" class="headerlink" title="第二章 Again"></a>第二章 Again</h5><ol>
+</ul>
+<h5 id="第二章-Again"><a href="#第二章-Again" class="headerlink" title="第二章 Again"></a>第二章 Again</h5><ul>
 <li><p>线程私有的数据区域，生命周期与线程相同。</p>
 </li>
 <li><p>栈帧用于存储局部变量表、操作数栈、动态链接、方法出口等信息。</p>
@@ -279,8 +279,8 @@
 </li>
 </ul>
 </li>
-</ol>
-<h4 id="第三章-垃圾收集器与内存分配策略"><a href="#第三章-垃圾收集器与内存分配策略" class="headerlink" title="第三章 垃圾收集器与内存分配策略"></a>第三章 垃圾收集器与内存分配策略</h4><ol>
+</ul>
+<h4 id="第三章-垃圾收集器与内存分配策略"><a href="#第三章-垃圾收集器与内存分配策略" class="headerlink" title="第三章 垃圾收集器与内存分配策略"></a>第三章 垃圾收集器与内存分配策略</h4><ul>
 <li><p>垃圾收集器关注的是哪部分的内存？为什么？</p>
 <ul>
 <li>Java堆和方法区的内存。线程隔离的三个区域内存和线程有关，没成结束或方法结束，内存就随着回收了，而Java堆和方法区中的内存分配和回收都是动态的，我们只有在程序处于运行期间时才能知道会创建那些对象。</li>
@@ -384,8 +384,8 @@
 <li>空间分配担保：在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlerPromotionFailure设置值是否允许担保失败。如果允许，则继续检查老年大最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Monor GC是有风向的；如果小于，或者HandlePromotionFailure设置不允许冒险，那这时也要改为进行一次Full GC。</li>
 </ul>
 </li>
-</ol>
-<h5 id="第三章-Again"><a href="#第三章-Again" class="headerlink" title="第三章 Again"></a>第三章 Again</h5><ol>
+</ul>
+<h5 id="第三章-Again"><a href="#第三章-Again" class="headerlink" title="第三章 Again"></a>第三章 Again</h5><ul>
 <li><p>GC Roots包括哪些内容？</p>
 <ul>
 <li>虚拟机栈中引用的对象(栈帧中的局部变量表)</li>
@@ -484,8 +484,8 @@
 </li>
 <li><p>并行是指多条垃圾收集线程并行工作，但是用户线程仍然处于等待状态；并发是指用户线程与垃圾收集线程同时执行，用户程序在继续运行，而垃圾收集程序运行于另一个CPU上。</p>
 </li>
-</ol>
-<h4 id="第六章-类文件结构"><a href="#第六章-类文件结构" class="headerlink" title="第六章 类文件结构"></a>第六章 类文件结构</h4><ol>
+</ul>
+<h4 id="第六章-类文件结构"><a href="#第六章-类文件结构" class="headerlink" title="第六章 类文件结构"></a>第六章 类文件结构</h4><ul>
 <li><p>class文件是什么？内部结构是怎样的？</p>
 <ul>
 <li>Class文件是一组以8位字节为基础单位的而禁止留，各个数据项目严格按照顺序紧凑地排列在class文件之中，中间没有添加任何分隔符。当遇到需要占用8位字节以上空间的数据项的时候，则会按照高位在前的方式分割陈若干个8位字节进行存储</li>
@@ -569,8 +569,8 @@
 <li>Java虚拟机的指令由一个字节长度的、代表某种特定操作含义的数字以及跟随其后的零至多个代表此操作所需参数而构成。由于Java虚拟机采用面向操作数栈而不是寄存器的架构，所以大多数指令都不包含操作数，只有一个操作码。</li>
 </ul>
 </li>
-</ol>
-<h4 id="第七章-虚拟机类加载机制"><a href="#第七章-虚拟机类加载机制" class="headerlink" title="第七章 虚拟机类加载机制"></a>第七章 虚拟机类加载机制</h4><ol>
+</ul>
+<h4 id="第七章-虚拟机类加载机制"><a href="#第七章-虚拟机类加载机制" class="headerlink" title="第七章 虚拟机类加载机制"></a>第七章 虚拟机类加载机制</h4><ul>
 <li><p>在Class文件中描述的各种信息，最终都需要加载到虚拟机之后才能运行和使用。</p>
 </li>
 <li><p>什么是虚拟机的类加载机制？</p>
@@ -683,8 +683,8 @@
 <li>先价差是否已经被加载过，如果没有加载则调用父加载器的loadClass()方法，若父加载器为空，则默认使用启动类加载器作为父加载器。如果父类加载失败，抛出ClassNotFoundException异常后再调用自己的findClass()方法进行加载。</li>
 </ul>
 </li>
-</ol>
-</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Java/">Java</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T07:50:49.675Z"><meta itemprop="articleBody" content="第一章 走进Java
+</ul>
+</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Java/">Java</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T09:53:32.331Z"><meta itemprop="articleBody" content="第一章 走进Java
 Java技术体系的组成部分：
 
 Java程序设计语言
