@@ -2,11 +2,11 @@
 title: LeetCode.001-Two Sum
 date: 2019-06-17 16:19:03
 tags:
+- 数据结构与算法
 - LeetCode
-- Algorithm
-- Java
-- LeetCode-Easy
-categories: LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
 visible: hide
 ---
 ###### Question

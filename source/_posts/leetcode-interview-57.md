@@ -1,13 +1,13 @@
 ---
 title: LeetCode.面试题57-和为s的两个数字
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories:
-  - LeetCode
 date: 2020-04-15 10:37:15
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

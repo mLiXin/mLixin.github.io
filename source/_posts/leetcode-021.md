@@ -2,11 +2,11 @@
 title: LeetCode.021-Merge Two Sorted Lists 
 date: 2019-09-11 11:10:27
 tags:
+- 数据结构与算法
 - LeetCode
-- Algorithm
-- Java
-- LeetCode-Easy
-categories: LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
 visible: hide
 ---
 ###### Question

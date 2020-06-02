@@ -159,19 +159,19 @@ baidu_push: false
 # External url should start with http:// or https://
 menu:
   home: / || home
-  archives: /archives/ || calendar
-  categories: /categories/ || th
-  tags: /tags/ || tags
-  leetcode: /categories/LeetCode || heartbeat
-  tips: /tips/ || heart
   about: /about/ || user
+  android: /categories/Android || heartbeat
+  flutter: /categories/Flutter || heartbeat
+  leetcode: /categories/数据结构与算法/LeetCode || heartbeat
+  categories: /categories/ || th
+  tips: /tips/ || heart
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
 
 # Enable / Disable menu icons / item badges.
 menu_settings:
-  icons: true
+  icons: false
   badges: false
 
 

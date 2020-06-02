@@ -1,13 +1,13 @@
 ---
 title: LeetCode.096-Unique Binary Search Trees
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories:
-  - LeetCode
 date: 2019-10-28 11:15:47
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

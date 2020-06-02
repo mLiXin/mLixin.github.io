@@ -18,6 +18,15 @@ No one will give you anything in this life,You must earn it.
 		- {% post_link leetcode-total LeetCode 热题 %}
 		- {% post_link leetcode-interview-total LeetCode 剑指Offer %}
 		- {% post_link leetcode-coding-interview-total LeetCode 程序员面试金典 %}
+	- 《剑指offer》
+	- 《编程之美》
+	- 《编程珠玑》
+	- 《算法》
+	- 《算法导论》
+	- 《计算机程序设计艺术》
+	- 《算法帝国》
+	- 《数学之美》
+	- 《算法之美》 
 2. 计算机组成原理
 	- 《计算机组成原理》 by 唐朔飞
 3. 操作系统

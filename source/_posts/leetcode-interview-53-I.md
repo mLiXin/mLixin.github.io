@@ -1,13 +1,13 @@
 ---
 title: LeetCode.面试题53-I-在排序数组中查找数字 I
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories:
-  - LeetCode
 date: 2020-04-14 11:32:58
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

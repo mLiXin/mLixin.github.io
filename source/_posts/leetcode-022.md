@@ -1,13 +1,13 @@
 ---
 title: LeetCode.022-括号生成
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories:
-  - LeetCode
 date: 2020-04-09 10:03:14
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

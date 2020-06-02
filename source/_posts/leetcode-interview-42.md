@@ -1,13 +1,13 @@
 ---
 title: LeetCode.面试题42-连续子数组的最大和
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories:
-  - LeetCode
 date: 2020-04-13 13:44:19
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

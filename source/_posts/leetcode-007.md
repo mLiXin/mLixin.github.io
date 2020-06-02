@@ -2,12 +2,12 @@
 title: LeetCode.007-Reverse Integer
 date: 2019-07-15 09:50:25
 tags:
+- 数据结构与算法
 - LeetCode
-- Algorithm
-- Java
-- LeetCode-Easy
-categories: LeetCode
-visible: hide 
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

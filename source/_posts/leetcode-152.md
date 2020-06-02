@@ -1,13 +1,13 @@
 ---
 title: LeetCode.152-Maximum Product Subarray
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-xxx
-categories:
-  - LeetCode
 date: 2019-10-14 14:38:50
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

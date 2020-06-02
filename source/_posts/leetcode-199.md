@@ -1,13 +1,13 @@
 ---
 title: LeetCode.199-Binary Tree Right Side View
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories:
-  - LeetCode
 date: 2019-10-28 11:45:44
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

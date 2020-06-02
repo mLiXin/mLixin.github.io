@@ -1,13 +1,13 @@
 ---
 title: LeetCode.面试题27-二叉树的镜像
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories:
-  - LeetCode
 date: 2020-04-10 11:17:28
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

@@ -1,13 +1,13 @@
 ---
 title: LeetCode.142-Linked List Cycle II
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories: LeetCode
-visible: hide
 date: 2019-10-02 15:17:59
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source
@@ -56,4 +56,5 @@ Note: Do not modify the linked list.
     }
 	```
 - 提交结果
-	- Runtime: 0 ms, faster than 100.00% of Java online submissions for Linked List Cycle II.	- Memory Usage: 34.5 MB, less than 92.63% of Java online submissions for Linked List Cycle II. 
+	- Runtime: 0 ms, faster than 100.00% of Java online submissions for Linked List Cycle II.
+	- Memory Usage: 34.5 MB, less than 92.63% of Java online submissions for Linked List Cycle II. 

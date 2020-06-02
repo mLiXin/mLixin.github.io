@@ -5,17 +5,19 @@ title:
   tag: 标签
   schedule: 日程表
 menu:
-  home: 首页
+  home: Home
   archives: 时间线
   categories: 分类
   tags: 标签
   leetcode: LeetCode
-  about: 关于我
+  about: About
   tips: 说说
   search: 搜索
   schedule: 日程表
   sitemap: 站点地图
   commonweal: 公益 404
+  android: Android
+  flutter: Flutter
 sidebar:
   overview: 站点概览
   toc: 文章目录

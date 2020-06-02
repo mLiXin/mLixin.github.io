@@ -1,13 +1,13 @@
 ---
 title: LeetCode.面试题58-II-左旋转字符串
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories:
-  - LeetCode
 date: 2020-04-15 14:16:01
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

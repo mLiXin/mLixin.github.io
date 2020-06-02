@@ -1,13 +1,13 @@
 ---
 title: LeetCode.019-Remove Nth Node From End of List
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories: LeetCode
-visible: hide
 date: 2019-09-18 11:10:38
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

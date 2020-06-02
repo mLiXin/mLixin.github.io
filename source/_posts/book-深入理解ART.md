@@ -3,10 +3,9 @@ title: 深入理解Android:Java虚拟机ART 学习笔记
 date: 2019-5-09 14:39:43
 tags:
 - Android
-- 虚拟机
-- ART
 categories:
 - Android
+- 学习笔记
 ---
 #### 摘要
 暂时大概了解，深入太难，等我哪天C++写溜了再来。Done for now.

@@ -2,11 +2,11 @@
 title: LeetCode.008-String to Integer
 date: 2019-07-15 11:21:30
 tags:
+- 数据结构与算法
 - LeetCode
-- Algorithm
-- Java
-- LeetCode-Medium
-categories: LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
 visible: hide
 ---
 ###### Question

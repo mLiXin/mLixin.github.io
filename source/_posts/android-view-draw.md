@@ -3,10 +3,10 @@ title: Android View绘制流程
 date: 2018-09-04 14:56:33
 tags:
 - Android
-- View
 - TODO
 categories:
 - Android
+- 内部机制
 ---
 #### 摘要
 View的绘制流程主要包括三个过程：measure过程计算View的宽高，layout过程计算View的四个顶点的左边和实际的View的宽高，draw过程绘制View，只有draw方法完成以后，view的内容才会呈现在屏幕上。

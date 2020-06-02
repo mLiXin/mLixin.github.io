@@ -1,13 +1,13 @@
 ---
 title: LeetCode.151-翻转字符串里的单词
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories:
-  - LeetCode
 date: 2020-04-10 10:20:38
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

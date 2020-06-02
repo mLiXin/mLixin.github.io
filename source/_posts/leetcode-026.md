@@ -1,13 +1,13 @@
 ---
 title: LeetCode.026-Remove Duplicates from Sorted Array
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories: LeetCode
-visible: hide
 date: 2019-09-11 11:36:15
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

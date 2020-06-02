@@ -1,13 +1,13 @@
 ---
 title: LeetCode.面试题21-调整数组顺序使奇数位于偶数前面
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories:
-  - LeetCode
 date: 2020-04-08 10:25:49
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

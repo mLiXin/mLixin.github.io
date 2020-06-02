@@ -1,13 +1,13 @@
 ---
 title: LeetCode.面试题53-II-0～n-1中缺失的数字
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-xxx
-categories:
-  - LeetCode
 date: 2020-04-14 11:50:09
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

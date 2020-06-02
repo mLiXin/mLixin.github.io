@@ -3,9 +3,9 @@ title: 计算机基础学习笔记 网络相关
 date: 2019-09-11 09:59:32
 tags:
 - 计算机网络
-- pub
 categories:
 - 计算机网络
+- 学习笔记
 ---
 #### [面试官问我：一个 TCP 连接可以发多少个 HTTP 请求？我竟然回答不上来...](https://mp.weixin.qq.com/s/_UsD7w1LAdyFxPe3VgNQWg)
 1. 现代浏览器在与服务器建立了一个 TCP 连接后是否会在一个 HTTP 请求完成后断开？什么情况下会断开？

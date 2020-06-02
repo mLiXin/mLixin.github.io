@@ -3,9 +3,9 @@ title: Flutter入门(二) Flutter Widget一览
 date: 2020-04-09 15:46:51
 tags:
 - Flutter
-- Dart
 categories:
 - Flutter
+- 学习笔记
 ---
 #### 摘要
 Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46)

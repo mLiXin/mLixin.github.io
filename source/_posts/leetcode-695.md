@@ -1,13 +1,13 @@
 ---
 title: LeetCode.695-Max Area of Island
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories:
-  - LeetCode
 date: 2019-11-20 10:58:51
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

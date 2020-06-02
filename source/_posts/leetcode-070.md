@@ -1,13 +1,13 @@
 ---
 title: LeetCode.070-Climbing Stairs
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories: LeetCode
-visible: hide
 date: 2019-09-17 10:12:20
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

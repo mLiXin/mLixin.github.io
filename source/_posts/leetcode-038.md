@@ -1,13 +1,13 @@
 ---
 title: LeetCode.038-Count and Say
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories: LeetCode
-visible: hide
 date: 2019-09-12 10:22:37
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

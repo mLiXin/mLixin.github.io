@@ -3,9 +3,9 @@ title: Geek Android开发高手课 学习笔记
 date: 2019-01-03 09:37:13
 tags:
 - Android
-- GeekBang
 categries:
 - Android
+- 进阶
 ---
 #### 摘要
 一遍不行就两遍，看不懂就死磕，一直看不懂就一直死磕。

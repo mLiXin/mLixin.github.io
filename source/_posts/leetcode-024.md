@@ -1,13 +1,13 @@
 ---
 title: LeetCode.024-Swap Nodes in Pairs
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories: LeetCode
-visible: hide
 date: 2019-09-30 18:09:12
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

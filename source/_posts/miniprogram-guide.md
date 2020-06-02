@@ -2,10 +2,10 @@
 title: 微信小程序-开发指南-学习笔记
 date: 2020-04-09 10:34:03
 tags:
-- 小程序
-- 学习笔记
+- Web
 categories:
-- 小程序
+- Web
+- 微信小程序
 ---
 #### 摘要
 [微信小程序](https://developers.weixin.qq.com/miniprogram/dev/framework/quickstart/code.html#JSON-%E9%85%8D%E7%BD%AE)

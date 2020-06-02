@@ -1,13 +1,13 @@
 ---
 title: LeetCode.066-Plus One
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories: LeetCode
-visible: hide
 date: 2019-09-16 09:56:52
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

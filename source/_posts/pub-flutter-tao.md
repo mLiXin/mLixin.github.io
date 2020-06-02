@@ -3,9 +3,9 @@ title: pub-flutter-tao
 date: 2020-04-22 16:41:05
 tags:
 - Flutter
-- 学习笔记
 categories:
 - Flutter
+- 学习笔记
 ---
 #### 摘要
 淘系技术 公众号Flutter相关文章学习笔记

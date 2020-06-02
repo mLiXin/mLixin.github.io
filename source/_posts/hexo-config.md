@@ -2,6 +2,10 @@
 title: Hexo配置相关
 date: 2020-03-30 15:04:45
 tags:
+- hexo
+categories:
+- 其他
+- hexo
 ---
 #### 多设备切换
 

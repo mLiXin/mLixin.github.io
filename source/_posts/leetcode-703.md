@@ -1,13 +1,13 @@
 ---
 title: LeetCode.703-Kth Largest Element in a Stream
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Easy
-categories: LeetCode
-visible: hide
 date: 2019-10-02 19:00:01
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

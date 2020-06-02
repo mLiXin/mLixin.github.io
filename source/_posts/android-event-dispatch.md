@@ -3,9 +3,9 @@ title: 伪代码看懂Android事件分发机制
 date: 2019-07-29 17:29:31
 tags:
 - Android
-- 事件传递
 categories:
 - Android
+- 内部机制
 ---
 #### 分发事件伪代码
 ```Java

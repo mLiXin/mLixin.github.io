@@ -3,9 +3,9 @@ title: Java集合(一) 详解Java中的List接口
 date: 2019-12-09 16:08:22
 tags:
 - Java
-- Android
 categories:
 - Java
+- 原理解析
 ---
 #### 摘要
 List是有序、可重复的容器。

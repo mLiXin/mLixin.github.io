@@ -3,10 +3,10 @@ title: Android JsBridge的原理与实现
 date: 2019-05-24 18:06:36
 tags:
 - Android
-- Hybrid
-- JsBridge
+- Web
 categories:
 - Android
+- 内部机制
 ---
 ##### Native调用Js
 - api19之前

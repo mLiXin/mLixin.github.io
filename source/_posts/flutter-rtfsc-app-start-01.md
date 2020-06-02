@@ -3,10 +3,9 @@ title: 源码角度浅析Flutter App启动过程（一） Android平台做了哪
 date: 2020-04-26 17:51:32
 tags:
 - Flutter
-- RTFSC
-- TODO
 categories:
 - Flutter
+- 源码学习
 ---
 
 #### 摘要

@@ -1,13 +1,13 @@
 ---
 title: LeetCode.1116-Print Zero Even Odd
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-xxx
-categories:
-  - LeetCode
 date: 2019-11-22 10:43:52
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

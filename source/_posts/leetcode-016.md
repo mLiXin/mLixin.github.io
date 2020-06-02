@@ -1,14 +1,13 @@
 ---
 title: LeetCode.016-3Sum Closest
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-  - TODO
-categories: LeetCode
-visible: hide
 date: 2019-09-18 10:57:04
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

@@ -2,12 +2,12 @@
 title: LeetCode.006-ZigZag Conversion
 date: 2019-07-12 16:36:29
 tags:
+- 数据结构与算法
 - LeetCode
-- Algorithm
-- Java
-- LeetCode-Medium
-categories: LeetCode
-visible: hide 
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

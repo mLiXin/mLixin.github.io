@@ -2,12 +2,11 @@
 title: LeetCode.012-Integer to Roman
 date: 2019-07-24 17:44:46
 tags:
+- 数据结构与算法
 - LeetCode
-- Algorithm
-- Java
-- LeetCode-Medium
-- NEED_MORE_ATTENTION
-categories: LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
 visible: hide
 ---
 ###### Question

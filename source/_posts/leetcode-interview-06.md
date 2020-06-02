@@ -1,13 +1,13 @@
 ---
 title: LeetCode.面试题06-从尾到头打印链表
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-xxx
-categories:
-  - LeetCode
 date: 2020-03-30 18:09:29
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

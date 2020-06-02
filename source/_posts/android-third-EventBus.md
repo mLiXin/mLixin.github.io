@@ -3,9 +3,9 @@ title: Android Lib解析之EventBus
 date: 2018-02-17 13:50:30
 tags:
 - Android
-- 第三方库解析
 categories:
 - Android
+- 第三方库解析
 ---
 
 #### 介绍

@@ -1,16 +1,16 @@
 ---
-title: 源码角度浅析Flutter App启动过程（三） runApp()做了哪些工作？
-date: 2020-04-26 14:32:52
+title: 源码角度浅析Flutter App启动过程（二） runApp()做了哪些工作？
+date: 2020-04-27 14:32:52
 tags:
 - Flutter
-- RTFSC
 categories:
 - Flutter
+- 源码学习
 ---
 ### 摘要
-从源码角度来分析Flutter应用启动过程。
+version: Channel dev, v1.18.0-8.0.pre
 
-version: Channel stable, v1.12.13+hotfix.9
+从源码角度来分析Flutter应用启动过程。
 
 <!--more-->
 ### 由runApp引发的血案
@@ -245,8 +245,51 @@ class WidgetsFlutterBinding extends BindingBase with GestureBinding, ServicesBin
   }
 ```
 
+- 流程图
+
+```mermaid
+sequenceDiagram
+    participant binding.dart
+    participant WidgetsFlutterBinding
+binding.dart ->> binding.dart:runApp(app)
+binding.dart ->> WidgetsFlutterBinding:ensureInitialized()
+WidgetsFlutterBinding ->> WidgetsFlutterBinding:new WidgetsFlutterBinding()
+WidgetsFlutterBinding ->> BindingBase:new BindingBase()
+note over BindingBase:嵌套调用7个mixin
+BindingBase ->> BindingBase:initInstances()
+BindingBase ->> BindingBase:initServiceExtensions()
+BindingBase -->> WidgetsFlutterBinding:over
+WidgetsFlutterBinding -->> binding.dart:over
+binding.dart ->> WidgetsBinding:scheduleAttachRootWidget(app)
+WidgetsBinding ->> WidgetsBinding:attachRootWidget(app)
+WidgetsBinding ->> RenderObjectToWidgetAdapter:new RenderObjectToWidgetAdapter()
+RenderObjectToWidgetAdapter ->> RenderObjectToWidgetAdapter:attachToRenderTree(owner,null)
+RenderObjectToWidgetAdapter ->> RenderObjectToWidgetElement:createElement()
+RenderObjectToWidgetElement ->> RenderObjectToWidgetElement:assignOwner(owner)
+RenderObjectToWidgetElement ->> RenderObjectToWidgetElement:mount(null,null)
+RenderObjectToWidgetElement ->> SchedulerBinding:ensureVisualUpdate()
+SchedulerBinding ->> SchedulerBinding:scheduleFrame()
+SchedulerBinding ->> SchedulerBinding:ensureFrameCallbacksRegistered()
+SchedulerBinding ->> Window:scheduleFrame()
+note over Window:call native "Window_scheduleFrame"
+Window ->> SchedulerBinding:onBeginFrame
+SchedulerBinding ->> SchedulerBinding:handleBeginFrame
+note over SchedulerBinding:执行_transientCallbacks
+Window ->> SchedulerBinding:onDrawFrame
+SchedulerBinding ->> SchedulerBinding:handleDrawFrame
+note over SchedulerBinding:执行_persistentCallbacks、_postFrameCallbacks
+SchedulerBinding ->> RendererBinding:drawFrame()
+RendererBinding ->> PipelineOwner:flushLayout()
+RendererBinding ->> PipelineOwner:flushCompositingBits()
+RendererBinding ->> PipelineOwner:flushPaint()
+RendererBinding ->> RenderView:compositeFrame()
+RenderView ->> Window:render(Scene scene)
+note over Window:call native "Window_render"
+RendererBinding ->> PipelineOwner:flushSemantics()
+```
+
 - 总结
-    - 通过桥接的方式根据widget创建对应的Element树，如果Element已经存在，则会复用而不会重新创建
+    - 根据widget生成对应的ElementTree、RenderObjectTree，通过renderView生成对应的layerTree并发送给Engine
 
 #### `WidgetsFlutterBinding.scheduleWarmUpFrame()`
 [wscheduler/binding.dart#Scheduler]

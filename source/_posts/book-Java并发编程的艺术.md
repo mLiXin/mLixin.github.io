@@ -3,10 +3,9 @@ title: Java并发编程的艺术 学习笔记
 date: 2018-08-27 17:06:36
 tags:
 - Java
-- 并发编程
-- book
 categories:
 - Java
+- 学习笔记
 ---
 #### 摘要
 人有多大胆，地有多大产

@@ -2,11 +2,11 @@
 title: Android简析 - Handler机制
 date: 2018-01-03 11:39:26
 tags:
-- Android机制
-- Handler
+- Android
 - TODO
 categories:
 - Android
+- 内部机制
 ---
 #### Tips
 Base on API 27

@@ -1,13 +1,13 @@
 ---
 title: LeetCode.232-Implement Queue using Stacks
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-xxx
-categories: LeetCode
-visible: hide
 date: 2019-10-02 16:31:35
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

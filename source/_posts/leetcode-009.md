@@ -2,11 +2,11 @@
 title: LeetCode.09-Palindrome Number
 date: 2019-07-15 18:18:59
 tags:
+- 数据结构与算法
 - LeetCode
-- Algorithm
-- Java
-- LeetCode-Easy
-categories: LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
 visible: hide
 ---
 ###### Question

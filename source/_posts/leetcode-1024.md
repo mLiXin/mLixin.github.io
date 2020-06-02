@@ -1,13 +1,13 @@
 ---
 title: LeetCode.1024-Video Stitching
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories: LeetCode
-visible: hide
 date: 2019-10-12 09:32:58
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

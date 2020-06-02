@@ -1,13 +1,13 @@
 ---
 title: LeetCode.547-Friend Circles
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-xxx
-categories: LeetCode
-visible: hide 
 date: 2019-10-12 17:33:56
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

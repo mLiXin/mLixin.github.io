@@ -1,13 +1,13 @@
 ---
 title: LeetCode.625-最小因式分解
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-categories: LeetCode
-visible: hide
 date: 2019-10-11 17:40:33
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

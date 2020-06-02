@@ -5,6 +5,7 @@ tags:
 - Android
 categories:
 - Android
+- 内部机制
 ---
 
 #### 启动流程

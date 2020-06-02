@@ -2,11 +2,11 @@
 title: LeetCode.014-Longest Common Prefix
 date: 2019-08-08 15:44:39
 tags:
+- 数据结构与算法
 - LeetCode
-- Algorithm
-- Java
-- LeetCode-Easy
-categories: LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
 visible: hide
 ---
 ###### Question

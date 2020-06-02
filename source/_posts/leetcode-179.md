@@ -1,14 +1,13 @@
 ---
 title: LeetCode.179-Largest Number
-tags:
-  - LeetCode
-  - Algorithm
-  - Java
-  - LeetCode-Medium
-  - TODO
-categories: LeetCode
-visible: hide
 date: 2019-09-26 11:04:37
+tags:
+- 数据结构与算法
+- LeetCode
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source

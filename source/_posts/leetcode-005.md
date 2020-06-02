@@ -2,13 +2,12 @@
 title: LeetCode.005-Longest Palindromic Substring
 date: 2019-07-12 15:27:50
 tags:
+- 数据结构与算法
 - LeetCode
-- Algorithm
-- Java
-- NEED_MORE_ATTENTION
-- LeetCode-Medium
-categories: LeetCode
-visible: hide 
+categories:
+- 数据结构与算法
+- LeetCode
+visible: hide
 ---
 ###### Question
 - Source
