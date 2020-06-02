@@ -27,9 +27,10 @@
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
 <meta property="og:description" content="第一章 走进Java   Java技术体系的组成部分：  Java程序设计语言 各种硬件平台上的Java虚拟机 Class文件格式 Java API类库 第三方Java类库    Java虚拟机发展史  Sun Classic&#x2F;Exact VM  1996年sun公司发布JDK1.0，虚拟机就是Classic VM，这款虚拟机只能使用纯解释器方式来执行Java代码，如果要使用JIT编译器，就必须进">
 <meta property="article:published_time" content="2017-08-21T03:22:25.000Z">
-<meta property="article:modified_time" content="2020-05-28T09:53:32.331Z">
+<meta property="article:modified_time" content="2020-06-02T03:27:50.767Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Java">
+<meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://mlixin.com/2017/08/21/book-%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
@@ -212,10 +213,6 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/mLixin.github.io/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
                 </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/mLixin.github.io/categories/Java/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
-                </span>
             </span>
 
           
@@ -230,7 +227,7 @@
 
       
         <h4 id="第一章-走进Java">第一章 走进Java</h4>
-<ul>
+<ol>
 <li>
 <p>Java技术体系的组成部分：</p>
 <ul>
@@ -299,9 +296,9 @@
 <li>64位虚拟机</li>
 </ul>
 </li>
-</ul>
+</ol>
 <h4 id="第二章-Java内存区域与内存溢出异常">第二章 Java内存区域与内存溢出异常</h4>
-<ul>
+<ol>
 <li>
 <p>Java虚拟机所管理的内存包括哪几个运行时数据区域？</p>
 <ul>
@@ -461,9 +458,9 @@
 </li>
 </ul>
 </li>
-</ul>
+</ol>
 <h5 id="第二章-Again">第二章 Again</h5>
-<ul>
+<ol>
 <li>
 <p>线程私有的数据区域，生命周期与线程相同。</p>
 </li>
@@ -556,9 +553,9 @@
 </li>
 </ul>
 </li>
-</ul>
+</ol>
 <h4 id="第三章-垃圾收集器与内存分配策略">第三章 垃圾收集器与内存分配策略</h4>
-<ul>
+<ol>
 <li>
 <p>垃圾收集器关注的是哪部分的内存？为什么？</p>
 <ul>
@@ -683,9 +680,9 @@
 <li>空间分配担保：在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlerPromotionFailure设置值是否允许担保失败。如果允许，则继续检查老年大最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Monor GC是有风向的；如果小于，或者HandlePromotionFailure设置不允许冒险，那这时也要改为进行一次Full GC。</li>
 </ul>
 </li>
-</ul>
+</ol>
 <h5 id="第三章-Again">第三章 Again</h5>
-<ul>
+<ol>
 <li>
 <p>GC Roots包括哪些内容？</p>
 <ul>
@@ -804,9 +801,9 @@
 <li>
 <p>并行是指多条垃圾收集线程并行工作，但是用户线程仍然处于等待状态；并发是指用户线程与垃圾收集线程同时执行，用户程序在继续运行，而垃圾收集程序运行于另一个CPU上。</p>
 </li>
-</ul>
+</ol>
 <h4 id="第六章-类文件结构">第六章 类文件结构</h4>
-<ul>
+<ol>
 <li>
 <p>class文件是什么？内部结构是怎样的？</p>
 <ul>
@@ -907,9 +904,9 @@
 <li>Java虚拟机的指令由一个字节长度的、代表某种特定操作含义的数字以及跟随其后的零至多个代表此操作所需参数而构成。由于Java虚拟机采用面向操作数栈而不是寄存器的架构，所以大多数指令都不包含操作数，只有一个操作码。</li>
 </ul>
 </li>
-</ul>
+</ol>
 <h4 id="第七章-虚拟机类加载机制">第七章 虚拟机类加载机制</h4>
-<ul>
+<ol>
 <li>
 <p>在Class文件中描述的各种信息，最终都需要加载到虚拟机之后才能运行和使用。</p>
 </li>
@@ -1044,7 +1041,7 @@
 <li>先价差是否已经被加载过，如果没有加载则调用父加载器的loadClass()方法，若父加载器为空，则默认使用启动类加载器作为父加载器。如果父类加载失败，抛出ClassNotFoundException异常后再调用自己的findClass()方法进行加载。</li>
 </ul>
 </li>
-</ul>
+</ol>
 
     </div>
 
@@ -1055,6 +1052,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/mLixin.github.io/tags/Java/" rel="tag"># Java</a>
+              <a href="/mLixin.github.io/tags/%E8%AF%AD%E8%A8%80/" rel="tag"># 语言</a>
           </div>
 
         
@@ -1148,13 +1146,15 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
+            <a href="/mLixin.github.io/categories/">
+          
         <span class="site-state-item-count">26</span>
-        <span class="site-state-item-name">分类</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/mLixin.github.io/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
