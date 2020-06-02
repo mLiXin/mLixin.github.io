@@ -35,11 +35,11 @@ cache:
 # ---------------------------------------------------------------
 
 favicon:
-  small: /images/favicon-16x16-next.png
+  small: /images/top.png
  # medium: /images/favicon-32x32-next.png
-  medium: /images/spiderman.ico
-  apple_touch_icon: /images/apple-touch-icon-next.png
-  safari_pinned_tab: /images/logo.svg
+  medium: /images/top.png
+  apple_touch_icon: /images/top.png
+  safari_pinned_tab: /images/top.png
   #android_manifest: /images/manifest.json
   #ms_browserconfig: /images/browserconfig.xml
 
@@ -159,11 +159,11 @@ baidu_push: false
 # External url should start with http:// or https://
 menu:
   home: / || home
-  about: /about/ || user
   android: /categories/Android || heartbeat
   flutter: /categories/Flutter || heartbeat
-  leetcode: /categories/数据结构与算法/LeetCode || heartbeat
-  categories: /categories/ || th
+  web: /categories/Web || heartbeat
+  about: /about/ || user
+  archives: /archives/ || th
   tips: /tips/ || heart
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
@@ -230,9 +230,9 @@ avatar:
   # In theme directory (source/images): /images/avatar.gif
   # In site directory (source/uploads): /uploads/avatar.gif
   # You can also use other linking images.
-  url: #/images/avatar.gif
+  url: /images/avatar.jpg
   # If true, the avatar would be dispalyed in circle.
-  rounded: false
+  rounded: true
   # The value of opacity should be choose from 0 to 1 to set the opacity of the avatar.
   opacity: 1
   # If true, the avatar would be rotated with the cursor.
@@ -418,12 +418,12 @@ custom_logo:
 highlight_theme: night eighties
 
 # Enable "cheers" for archive page.
-cheers: true
+cheers: false
 
 # TagCloud settings for tags page.
 tagcloud:
   # If true, font size, font color and amount of tags can be customized
-  enable: false
+  enable: true
   # All values below are same as default, change them by yourself
   min: 12 # min font size in px
   max: 30 # max font size in px

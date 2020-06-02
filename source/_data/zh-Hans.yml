@@ -6,18 +6,19 @@ title:
   schedule: 日程表
 menu:
   home: Home
-  archives: 时间线
-  categories: 分类
+  archives: Total
+  categories: Categories
   tags: 标签
   leetcode: LeetCode
   about: About
-  tips: 说说
+  tips: Tips
   search: 搜索
   schedule: 日程表
   sitemap: 站点地图
   commonweal: 公益 404
   android: Android
   flutter: Flutter
+  web: Web
 sidebar:
   overview: 站点概览
   toc: 文章目录
