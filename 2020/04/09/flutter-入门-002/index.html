@@ -1,17 +1,237 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flutter入门(二) Flutter Widget一览 | mLiXin's Blog</title><link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/highlights/dracula.css"><link rel="canonical" href="http://mLixin.com/2020/04/09/flutter-入门-002/"/>
-<meta name="description" content="摘要 Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46) YouTube上Flutter有个系列：Widget of the…">
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/mLixin.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/mLixin.github.io/images/spiderman.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/mLixin.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/mLixin.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/mLixin.github.io/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/mLixin.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mlixin.com","root":"/mLixin.github.io/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false,"padding":18},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"save":"auto","color":"#222"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要 Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46) YouTube上Flutter有个系列：Widget of the week，基本上每个小部件都会有说明，可以参考。地址：需要搭梯子 Flutter现在支持Android、Ios、MacOS、Windows、Linux、Web，真香。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flutter入门(二) Flutter Widget一览">
-<meta property="og:url" content="http://mlixin.com/2020/04/09/flutter-%E5%85%A5%E9%97%A8-002/">
+<meta property="og:url" content="http://mlixin.com/2020/04/09/flutter-%E5%85%A5%E9%97%A8-002/index.html">
 <meta property="og:site_name" content="mLiXin&#39;s Blog">
-<meta property="og:description" content="摘要 Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46) YouTube上Flutter有个系列：Widget of the…">
+<meta property="og:description" content="摘要 Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46) YouTube上Flutter有个系列：Widget of the week，基本上每个小部件都会有说明，可以参考。地址：需要搭梯子 Flutter现在支持Android、Ios、MacOS、Windows、Linux、Web，真香。">
 <meta property="og:image" content="http://mlixin.com/images/flutter-basics-appbar.png">
 <meta property="article:published_time" content="2020-04-09T07:46:51.000Z">
 <meta property="article:modified_time" content="2020-05-28T07:53:00.884Z">
 <meta property="article:author" content="mLiXin">
 <meta property="article:tag" content="Flutter">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://mlixin.com/images/flutter-basics-appbar.png"><meta property="article:author" content="mLiXin"><meta property="twitter:label1" content="Published at"><meta property="twitter:data1" content="2020-04-09 15:46:51"><meta property="twitter:label2" content="Written by"><meta property="twitter:data2" content="mLiXin"><link rel="icon" href="/images/top.png"><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="https://schema.org/WebPage"><nav class="menu" id="menu"><div class="menu-inner"><div class="menu__left-area"><div class="menu__item"><a class="menu__item__link menu__item__link--brand" href="/" title="Home" rel="home"><img class="menu__item__link--brand__image" src="/images/top.png" alt="mLiXin's Blog"><span class="menu__item__link--brand__label">mLiXin's Blog</span></a></div></div><div class="menu__right-area"><div class="menu__item"><a class="menu__item__link" href="/">Home</a></div><div class="menu__item"><a class="menu__item__link" href="/about">About</a></div><div class="menu__item"><a class="menu__item__link" href="/archives">Archives</a></div></div></div></nav><div class="page-background"></div><div class="content-container"><div class="content-outer"><div class="content-inner" itemscope itemtype="https://schema.org/Blog"><article class="article" id="article" itemscope itemtype="https://schema.org/BlogPosting"><h1 class="article__title" itemprop="headline">Flutter入门(二) Flutter Widget一览</h1><div class="article__meta"><time class="article__meta__time" datetime="2020-04-09T07:46:51.000Z" itemprop="datePublished">2020-04-09 15:46:51</time><div class="article__meta__categories"><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="article__meta__categories__separator">></span><a class="article__meta__categories__item" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div></div><hr><div class="article__contents"><h4 id="摘要">摘要</h4>
+<meta name="twitter:image" content="http://mlixin.com/images/flutter-basics-appbar.png">
+
+<link rel="canonical" href="http://mlixin.com/2020/04/09/flutter-%E5%85%A5%E9%97%A8-002/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Flutter入门(二) Flutter Widget一览 | mLiXin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/mLixin.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">mLiXin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">The truth conquers all.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/mLixin.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/mLixin.github.io/archives/" rel="section"><i class="fa fa-fw fa-calendar"></i>时间线</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/mLixin.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/mLixin.github.io/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/mLixin.github.io/categories/LeetCode" rel="section"><i class="fa fa-fw fa-heartbeat"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-tips">
+
+    <a href="/mLixin.github.io/tips/" rel="section"><i class="fa fa-fw fa-heart"></i>说说</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/mLixin.github.io/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://mlixin.com/2020/04/09/flutter-%E5%85%A5%E9%97%A8-002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/mLixin.github.io/images/avatar.gif">
+      <meta itemprop="name" content="mLiXin">
+      <meta itemprop="description" content="Be true to yourself.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mLiXin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flutter入门(二) Flutter Widget一览
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-09 15:46:51" itemprop="dateCreated datePublished" datetime="2020-04-09T15:46:51+08:00">2020-04-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="摘要">摘要</h4>
 <p>Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46)</p>
 <p>YouTube上Flutter有个系列：Widget of the week，基本上每个小部件都会有说明，可以参考。地址：<a href="https://www.youtube.com/watch?v=b_sQ9bMltGU&amp;list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG" target="_blank" rel="noopener">需要搭梯子</a></p>
 <p>Flutter现在支持Android、Ios、MacOS、Windows、Linux、Web，真香。</p>
@@ -440,6 +660,201 @@
 <li>富文本</li>
 </ul>
 <h5 id="Text-3">Text</h5>
-</div><div class="article__tags"><a class="article__tags__item" href="/mLixin.github.io/tags/Flutter/">Flutter</a></div><div class="article__author" itemscope itemprop="author" itemtype="https://schema.org/Person"><img class="article__author__image" src="/images/avatar.jpg" alt="mLiXin"><a class="article__author__link" title="About mLiXin" rel="author">mLiXin</a><p class="article__author__desc">Be true to yourself.</p><div class="article__author__socials"></div><meta itemprop="name" content="mLiXin"></div><div class="sharer" id="sharer"><div class="sharer-inner"><div class="sharer__right"><button class="sharer__item" id="sharer-facebook"><i class="fa fa-facebook-official"></i></button><button class="sharer__item" id="sharer-twitter"><i class="fa fa-twitter"></i></button><button class="sharer__item" id="sharer-pinterest"><i class="fa fa-pinterest"></i></button><button class="sharer__item" id="sharer-pocket"><i class="fa fa-get-pocket"></i></button></div></div></div><!-- Disqus Code--><!-- Meta Tags for Structured Data--><meta itemprop="dateModified" content="2020-05-28T07:53:00.884Z"><meta itemprop="articleBody" content="摘要
-Flutter Widget一览，基于Flutter (Channel master, v1.18.0-5.0.pre.46)
-YouTube上Flutter有个系列：Widget of the..."><meta itemprop="url" content="http://mLixin.com/2020/04/09/flutter-入门-002/"><meta itemprop="mainEntityOfPage" content="http://mLixin.com/2020/04/09/flutter-入门-002/"><div itemscope itemtype="https://schema.org/Organization" itemprop="publisher"><meta itemprop="name" content="mLiXin's Blog"><div itemscope itemprop="logo" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="http://mLixin.com/images/top.png"></div></div><div itemscope itemtype="https://schema.org/ImageObject" itemprop="image"><meta itemprop="contentUrl" content="http://mLixin.com/images/default.jpg"><meta itemprop="url" content="http://mLixin.com/images/default.jpg"><meta itemprop="width" content="1280"><meta itemprop="height" content="720"></div></article><section class="related-posts"><h3>Related posts</h3><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2018/05/10/pub-flutter-%E9%97%B2%E9%B1%BC/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">Flutter学习笔记 - 闲鱼公众号</span></a></div><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2020/04/22/pub-flutter-tao/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">pub-flutter-tao</span></a></div><div class="related-posts__item__wrapper"><a class="related-posts__item" href="/mLixin.github.io/2019/09/11/pub-flutter-gityuan/"><div class="related-posts__item__background" style="background-image:url('/images/default.jpg');"></div><div class="related-posts__item__overlay"></div><span class="related-posts__item__title">GitYuan Flutter相关tag学习笔记</span></a></div></section></div></div></div><footer id="footer"><div class="widgets"><div class="widgets-inner"><!-- Jade doesn't support dynamic inclusion with `each`.--><!-- So, I just hard coded the file names that will be included.--><div class="widgets__item"><h3 class="widgets__item__heading">Recent posts</h3><ul class="recent-posts"><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-renderobject/">Flutter源码浅析 - RenderObject</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/29/flutter-rtfsc-element/">Flutter源码浅析 - Element</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/28/flutter-rtfsc-pipelineowner/">Flutter源码浅析 - PipelineOwner</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/28/flutter-rtfsc-buildowner/">Flutter源码浅析 - BuildOwner</a></li><li class="recent-posts__item"><a href="/mLixin.github.io/2020/04/27/flutter-rtfsc-app-start-02/">源码角度浅析Flutter App启动过程（二） runApp()做了哪些工作？</a></li></ul></div><div class="widgets__item"><h3 class="widgets__item__heading">Tag cloud</h3><div class="tag-cloud"><a href="/mLixin.github.io/tags/Android/" style="font-size: 1.22rem;">Android</a> <a href="/mLixin.github.io/tags/Dart/" style="font-size: 0.94rem;">Dart</a> <a href="/mLixin.github.io/tags/Flutter/" style="font-size: 1.31rem;">Flutter</a> <a href="/mLixin.github.io/tags/Java/" style="font-size: 1.03rem;">Java</a> <a href="/mLixin.github.io/tags/LeetCode/" style="font-size: 1.41rem;">LeetCode</a> <a href="/mLixin.github.io/tags/TODO/" style="font-size: 1.13rem;">TODO</a> <a href="/mLixin.github.io/tags/Web/" style="font-size: 0.84rem;">Web</a> <a href="/mLixin.github.io/tags/hexo/" style="font-size: 0.75rem;">hexo</a> <a href="/mLixin.github.io/tags/%E5%85%A8%E6%A0%88/" style="font-size: 0.75rem;">全栈</a> <a href="/mLixin.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 1.5rem;">数据结构与算法</a> <a href="/mLixin.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 0.94rem;">计算机网络</a> <a href="/mLixin.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 0.84rem;">设计模式</a></div></div><div class="widgets__item"><h3 class="widgets__item__heading">Categories</h3><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/">Android</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E5%86%85%E9%83%A8%E6%9C%BA%E5%88%B6/">内部机制</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Android/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E8%A7%A3%E6%9E%90/">第三方库解析</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/">Dart</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Dart/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/">Flutter</a><span class="category-list-count">13</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Flutter/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a><span class="category-list-count">7</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/">Java</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">原理解析</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Java/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Web/">Web</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/Web/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">微信小程序</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/">全栈</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%A8%E6%A0%88/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%B6%E4%BB%96/">其他</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E5%85%B6%E4%BB%96/hexo/">hexo</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span class="category-list-count">103</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/LeetCode/">LeetCode</a><span class="category-list-count">102</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/mLixin.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a><span class="category-list-count">1</span></li></ul></li></ul></div></div></div><p class="copyright"><small>© 2020 mLiXin<br>Powered by <a href="https://hexo.io" rel="external" target="_blank">Hexo</a>, Theme by <a href="https://github.com/HyunSeob/hexo-theme-overdose" rel="external" target="_blank">overdose</a></small></p></footer><script src="/js/sharer.min.js"></script></body></html>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/mLixin.github.io/tags/Flutter/" rel="tag"># Flutter</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mLixin.github.io/2020/04/09/flutter-%E5%85%A5%E9%97%A8-001/" rel="prev" title="Flutter入门(一) Dart基础">
+      <i class="fa fa-chevron-left"></i> Flutter入门(一) Dart基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/mLixin.github.io/2020/04/10/leetcode-151/" rel="next" title="LeetCode.151-翻转字符串里的单词">
+      LeetCode.151-翻转字符串里的单词 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Accessibility-辅助功能Widget"><span class="nav-number">2.</span> <span class="nav-text">Accessibility - 辅助功能Widget</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ExcludeSemantics"><span class="nav-number">2.1.</span> <span class="nav-text">ExcludeSemantics</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mergeSemantics"><span class="nav-number">2.2.</span> <span class="nav-text">mergeSemantics</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Semantics"><span class="nav-number">2.3.</span> <span class="nav-text">Semantics</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Animation-and-motion-动画和Motion"><span class="nav-number">3.</span> <span class="nav-text">Animation and motion - 动画和Motion</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedBuilder"><span class="nav-number">3.1.</span> <span class="nav-text">AnimatedBuilder</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedContainer"><span class="nav-number">3.2.</span> <span class="nav-text">AnimatedContainer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedCrossFade"><span class="nav-number">3.3.</span> <span class="nav-text">AnimatedCrossFade</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedDefaultTextStyle"><span class="nav-number">3.4.</span> <span class="nav-text">AnimatedDefaultTextStyle</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedListState"><span class="nav-number">3.5.</span> <span class="nav-text">AnimatedListState</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedModalBarrier"><span class="nav-number">3.6.</span> <span class="nav-text">AnimatedModalBarrier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedOpacity"><span class="nav-number">3.7.</span> <span class="nav-text">AnimatedOpacity</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedPhysicalModel"><span class="nav-number">3.8.</span> <span class="nav-text">AnimatedPhysicalModel</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedPositioned"><span class="nav-number">3.9.</span> <span class="nav-text">AnimatedPositioned</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedSize"><span class="nav-number">3.10.</span> <span class="nav-text">AnimatedSize</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedWidget"><span class="nav-number">3.11.</span> <span class="nav-text">AnimatedWidget</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnimatedWidgetBaseState"><span class="nav-number">3.12.</span> <span class="nav-text">AnimatedWidgetBaseState</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DecoratedBoxTransition"><span class="nav-number">3.13.</span> <span class="nav-text">DecoratedBoxTransition</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FadeTransition"><span class="nav-number">3.14.</span> <span class="nav-text">FadeTransition</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hero"><span class="nav-number">3.15.</span> <span class="nav-text">Hero</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PositionedTransition"><span class="nav-number">3.16.</span> <span class="nav-text">PositionedTransition</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RotationTransition"><span class="nav-number">3.17.</span> <span class="nav-text">RotationTransition</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ScaleTransition"><span class="nav-number">3.18.</span> <span class="nav-text">ScaleTransition</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SizeTransition"><span class="nav-number">3.19.</span> <span class="nav-text">SizeTransition</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SlideTransition"><span class="nav-number">3.20.</span> <span class="nav-text">SlideTransition</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Assets-images-and-icon"><span class="nav-number">4.</span> <span class="nav-text">Assets, images, and icon</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AssetBundle"><span class="nav-number">4.1.</span> <span class="nav-text">AssetBundle</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Icon"><span class="nav-number">4.2.</span> <span class="nav-text">Icon</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Image"><span class="nav-number">4.3.</span> <span class="nav-text">Image</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RawImage"><span class="nav-number">4.4.</span> <span class="nav-text">RawImage</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Async"><span class="nav-number">5.</span> <span class="nav-text">Async</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#FutureBuilder"><span class="nav-number">5.1.</span> <span class="nav-text">FutureBuilder</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#StreamBuilder"><span class="nav-number">5.2.</span> <span class="nav-text">StreamBuilder</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Basics-基础Widget"><span class="nav-number">6.</span> <span class="nav-text">Basics - 基础Widget</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Appbar"><span class="nav-number">6.1.</span> <span class="nav-text">Appbar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Column"><span class="nav-number">6.2.</span> <span class="nav-text">Column</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Container"><span class="nav-number">7.</span> <span class="nav-text">Container</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#FlutterLogo"><span class="nav-number">7.1.</span> <span class="nav-text">FlutterLogo</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Icon-2"><span class="nav-number">7.2.</span> <span class="nav-text">Icon</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Image-2"><span class="nav-number">7.3.</span> <span class="nav-text">Image</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Placeholder"><span class="nav-number">7.4.</span> <span class="nav-text">Placeholder</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RaisedButton"><span class="nav-number">7.5.</span> <span class="nav-text">RaisedButton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Row"><span class="nav-number">7.6.</span> <span class="nav-text">Row</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scaffold"><span class="nav-number">7.7.</span> <span class="nav-text">Scaffold</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Text"><span class="nav-number">7.8.</span> <span class="nav-text">Text</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cupertino-iOS-style-widgets"><span class="nav-number">8.</span> <span class="nav-text">Cupertino(iOS-style widgets)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoActionSheet"><span class="nav-number">8.1.</span> <span class="nav-text">CupertinoActionSheet</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoActivityIndicator"><span class="nav-number">8.2.</span> <span class="nav-text">CupertinoActivityIndicator</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoAlertDialog"><span class="nav-number">8.3.</span> <span class="nav-text">CupertinoAlertDialog</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoButton"><span class="nav-number">8.4.</span> <span class="nav-text">CupertinoButton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoContextMenu"><span class="nav-number">8.5.</span> <span class="nav-text">CupertinoContextMenu</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoDatePicker"><span class="nav-number">8.6.</span> <span class="nav-text">CupertinoDatePicker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoDialog"><span class="nav-number">8.7.</span> <span class="nav-text">CupertinoDialog</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoDialogAction"><span class="nav-number">8.8.</span> <span class="nav-text">CupertinoDialogAction</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoFullscreenDialogTransition"><span class="nav-number">8.9.</span> <span class="nav-text">CupertinoFullscreenDialogTransition</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoNavigationBar"><span class="nav-number">8.10.</span> <span class="nav-text">CupertinoNavigationBar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoPageScaffod"><span class="nav-number">8.11.</span> <span class="nav-text">CupertinoPageScaffod</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoPageTransition"><span class="nav-number">8.12.</span> <span class="nav-text">CupertinoPageTransition</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoPicker"><span class="nav-number">8.13.</span> <span class="nav-text">CupertinoPicker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoPopupSurface"><span class="nav-number">8.14.</span> <span class="nav-text">CupertinoPopupSurface</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoScrollbar"><span class="nav-number">8.15.</span> <span class="nav-text">CupertinoScrollbar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoSegmentedControl"><span class="nav-number">8.16.</span> <span class="nav-text">CupertinoSegmentedControl</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoSlider"><span class="nav-number">8.17.</span> <span class="nav-text">CupertinoSlider</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoSlidingSegmentedControl"><span class="nav-number">8.18.</span> <span class="nav-text">CupertinoSlidingSegmentedControl</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoSwitch"><span class="nav-number">8.19.</span> <span class="nav-text">CupertinoSwitch</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoTabBar"><span class="nav-number">8.20.</span> <span class="nav-text">CupertinoTabBar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoTabScaffold"><span class="nav-number">8.21.</span> <span class="nav-text">CupertinoTabScaffold</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoTabView"><span class="nav-number">8.22.</span> <span class="nav-text">CupertinoTabView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoTextField"><span class="nav-number">8.23.</span> <span class="nav-text">CupertinoTextField</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CupertinoTimerPicker"><span class="nav-number">8.24.</span> <span class="nav-text">CupertinoTimerPicker</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Input"><span class="nav-number">9.</span> <span class="nav-text">Input</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Form"><span class="nav-number">9.1.</span> <span class="nav-text">Form</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FormField"><span class="nav-number">9.2.</span> <span class="nav-text">FormField</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RawKeyboardListener"><span class="nav-number">9.3.</span> <span class="nav-text">RawKeyboardListener</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Interaction-Models-交互类"><span class="nav-number">10.</span> <span class="nav-text">Interaction Models - 交互类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AbsorbPointer"><span class="nav-number">10.1.</span> <span class="nav-text">AbsorbPointer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Dismissible"><span class="nav-number">10.2.</span> <span class="nav-text">Dismissible</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DragTarget"><span class="nav-number">10.3.</span> <span class="nav-text">DragTarget</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Draggable"><span class="nav-number">10.4.</span> <span class="nav-text">Draggable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GestureDetector"><span class="nav-number">10.5.</span> <span class="nav-text">GestureDetector</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#IgnorePointer"><span class="nav-number">10.6.</span> <span class="nav-text">IgnorePointer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LongPressDraggable"><span class="nav-number">10.7.</span> <span class="nav-text">LongPressDraggable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scrollable"><span class="nav-number">10.8.</span> <span class="nav-text">Scrollable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hero-2"><span class="nav-number">10.9.</span> <span class="nav-text">Hero</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Navigator"><span class="nav-number">10.10.</span> <span class="nav-text">Navigator</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Layout"><span class="nav-number">11.</span> <span class="nav-text">Layout</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Align"><span class="nav-number">11.1.</span> <span class="nav-text">Align</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AspectRatio"><span class="nav-number">11.2.</span> <span class="nav-text">AspectRatio</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Baseline"><span class="nav-number">11.3.</span> <span class="nav-text">Baseline</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Center"><span class="nav-number">11.4.</span> <span class="nav-text">Center</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ConstrainedBox"><span class="nav-number">11.5.</span> <span class="nav-text">ConstrainedBox</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Container-2"><span class="nav-number">11.6.</span> <span class="nav-text">Container</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CustomSingleChildLayout"><span class="nav-number">11.7.</span> <span class="nav-text">CustomSingleChildLayout</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Expand"><span class="nav-number">11.8.</span> <span class="nav-text">Expand</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FittedBox"><span class="nav-number">11.9.</span> <span class="nav-text">FittedBox</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FractionallySize"><span class="nav-number">11.10.</span> <span class="nav-text">FractionallySize</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#IntrinsicHeight"><span class="nav-number">11.11.</span> <span class="nav-text">IntrinsicHeight</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#IntrinsicWidth"><span class="nav-number">11.12.</span> <span class="nav-text">IntrinsicWidth</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LimitedBox"><span class="nav-number">11.13.</span> <span class="nav-text">LimitedBox</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Offstage"><span class="nav-number">11.14.</span> <span class="nav-text">Offstage</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#OverflowBox"><span class="nav-number">11.15.</span> <span class="nav-text">OverflowBox</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Padding"><span class="nav-number">11.16.</span> <span class="nav-text">Padding</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SizedBox"><span class="nav-number">11.17.</span> <span class="nav-text">SizedBox</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SizedOverflowBox"><span class="nav-number">11.18.</span> <span class="nav-text">SizedOverflowBox</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Transform"><span class="nav-number">11.19.</span> <span class="nav-text">Transform</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Column-2"><span class="nav-number">11.20.</span> <span class="nav-text">Column</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CustomMultiChildLayout"><span class="nav-number">11.21.</span> <span class="nav-text">CustomMultiChildLayout</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Flow"><span class="nav-number">11.22.</span> <span class="nav-text">Flow</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GridView"><span class="nav-number">11.23.</span> <span class="nav-text">GridView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#IndexedStack"><span class="nav-number">11.24.</span> <span class="nav-text">IndexedStack</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LayoutBuilder"><span class="nav-number">11.25.</span> <span class="nav-text">LayoutBuilder</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ListBody"><span class="nav-number">11.26.</span> <span class="nav-text">ListBody</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ListView"><span class="nav-number">11.27.</span> <span class="nav-text">ListView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Row-2"><span class="nav-number">11.28.</span> <span class="nav-text">Row</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Stack"><span class="nav-number">11.29.</span> <span class="nav-text">Stack</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Table"><span class="nav-number">11.30.</span> <span class="nav-text">Table</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Wrap"><span class="nav-number">11.31.</span> <span class="nav-text">Wrap</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Material-Components"><span class="nav-number">12.</span> <span class="nav-text">Material Components</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Appbar-2"><span class="nav-number">12.1.</span> <span class="nav-text">Appbar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BottomNavigationBar"><span class="nav-number">12.2.</span> <span class="nav-text">BottomNavigationBar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Drarwer"><span class="nav-number">12.3.</span> <span class="nav-text">Drarwer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MaterialApp"><span class="nav-number">12.4.</span> <span class="nav-text">MaterialApp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scaffold-2"><span class="nav-number">12.5.</span> <span class="nav-text">Scaffold</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SliverAppBar"><span class="nav-number">12.6.</span> <span class="nav-text">SliverAppBar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TabBar"><span class="nav-number">12.7.</span> <span class="nav-text">TabBar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TabBarView"><span class="nav-number">12.8.</span> <span class="nav-text">TabBarView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#WidgetsApp"><span class="nav-number">12.9.</span> <span class="nav-text">WidgetsApp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ButtonBar"><span class="nav-number">12.10.</span> <span class="nav-text">ButtonBar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DropdownButton"><span class="nav-number">12.11.</span> <span class="nav-text">DropdownButton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FlatButton"><span class="nav-number">12.12.</span> <span class="nav-text">FlatButton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FloatingActionButton"><span class="nav-number">12.13.</span> <span class="nav-text">FloatingActionButton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#IconButton"><span class="nav-number">12.14.</span> <span class="nav-text">IconButton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#OutlinButton"><span class="nav-number">12.15.</span> <span class="nav-text">OutlinButton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PopupMenuButton"><span class="nav-number">12.16.</span> <span class="nav-text">PopupMenuButton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RaisedButton-2"><span class="nav-number">12.17.</span> <span class="nav-text">RaisedButton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Checkbox"><span class="nav-number">12.18.</span> <span class="nav-text">Checkbox</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-Time-Pickers"><span class="nav-number">12.19.</span> <span class="nav-text">Data&amp;Time Pickers</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Radio"><span class="nav-number">12.20.</span> <span class="nav-text">Radio</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Slider"><span class="nav-number">12.21.</span> <span class="nav-text">Slider</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Switch"><span class="nav-number">12.22.</span> <span class="nav-text">Switch</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TextField"><span class="nav-number">12.23.</span> <span class="nav-text">TextField</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AlertDialog"><span class="nav-number">12.24.</span> <span class="nav-text">AlertDialog</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BottomSheet"><span class="nav-number">12.25.</span> <span class="nav-text">BottomSheet</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ExpansionPanel"><span class="nav-number">12.26.</span> <span class="nav-text">ExpansionPanel</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SimpleDialog"><span class="nav-number">12.27.</span> <span class="nav-text">SimpleDialog</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SnackBar"><span class="nav-number">12.28.</span> <span class="nav-text">SnackBar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Card"><span class="nav-number">12.29.</span> <span class="nav-text">Card</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Chip"><span class="nav-number">12.30.</span> <span class="nav-text">Chip</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CircularProgressIndicator"><span class="nav-number">12.31.</span> <span class="nav-text">CircularProgressIndicator</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DataTable"><span class="nav-number">12.32.</span> <span class="nav-text">DataTable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GridView-2"><span class="nav-number">12.33.</span> <span class="nav-text">GridView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Icon-3"><span class="nav-number">12.34.</span> <span class="nav-text">Icon</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Image-3"><span class="nav-number">12.35.</span> <span class="nav-text">Image</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LinearProgressIndicator"><span class="nav-number">12.36.</span> <span class="nav-text">LinearProgressIndicator</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Tooltip"><span class="nav-number">12.37.</span> <span class="nav-text">Tooltip</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Divider"><span class="nav-number">12.38.</span> <span class="nav-text">Divider</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ListTile"><span class="nav-number">12.39.</span> <span class="nav-text">ListTile</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Stepper"><span class="nav-number">12.40.</span> <span class="nav-text">Stepper</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Painting-and-effects"><span class="nav-number">13.</span> <span class="nav-text">Painting and effects</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#BackdropFilter"><span class="nav-number">13.1.</span> <span class="nav-text">BackdropFilter</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ClipOval"><span class="nav-number">13.2.</span> <span class="nav-text">ClipOval</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ClipPath"><span class="nav-number">13.3.</span> <span class="nav-text">ClipPath</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ClipRect"><span class="nav-number">13.4.</span> <span class="nav-text">ClipRect</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CustomPaint"><span class="nav-number">13.5.</span> <span class="nav-text">CustomPaint</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DecoratedBox"><span class="nav-number">13.6.</span> <span class="nav-text">DecoratedBox</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FractionalTranslation"><span class="nav-number">13.7.</span> <span class="nav-text">FractionalTranslation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Opacity"><span class="nav-number">13.8.</span> <span class="nav-text">Opacity</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RotatedBox"><span class="nav-number">13.9.</span> <span class="nav-text">RotatedBox</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Transform-2"><span class="nav-number">13.10.</span> <span class="nav-text">Transform</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Scrolling"><span class="nav-number">14.</span> <span class="nav-text">Scrolling</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CustomScrollView"><span class="nav-number">14.1.</span> <span class="nav-text">CustomScrollView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GridView-3"><span class="nav-number">14.2.</span> <span class="nav-text">GridView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ListView-2"><span class="nav-number">14.3.</span> <span class="nav-text">ListView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NestedScrollView"><span class="nav-number">14.4.</span> <span class="nav-text">NestedScrollView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NotificationListener"><span class="nav-number">14.5.</span> <span class="nav-text">NotificationListener</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PageView"><span class="nav-number">14.6.</span> <span class="nav-text">PageView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RefreshIndicator"><span class="nav-number">14.7.</span> <span class="nav-text">RefreshIndicator</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ScrollConfiguration"><span class="nav-number">14.8.</span> <span class="nav-text">ScrollConfiguration</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scroll"><span class="nav-number">14.9.</span> <span class="nav-text">Scroll</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scrollbar"><span class="nav-number">14.10.</span> <span class="nav-text">Scrollbar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SingleChildScrollView"><span class="nav-number">14.11.</span> <span class="nav-text">SingleChildScrollView</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Styling"><span class="nav-number">15.</span> <span class="nav-text">Styling</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#MediaQuery"><span class="nav-number">15.1.</span> <span class="nav-text">MediaQuery</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Padding-2"><span class="nav-number">15.2.</span> <span class="nav-text">Padding</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Theme"><span class="nav-number">15.3.</span> <span class="nav-text">Theme</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Text-2"><span class="nav-number">16.</span> <span class="nav-text">Text</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DefaultTextStyle"><span class="nav-number">16.1.</span> <span class="nav-text">DefaultTextStyle</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RichText"><span class="nav-number">16.2.</span> <span class="nav-text">RichText</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Text-3"><span class="nav-number">16.3.</span> <span class="nav-text">Text</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mLiXin</p>
+  <div class="site-description" itemprop="description">Be true to yourself.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/mLixin.github.io/archives/">
+        
+          <span class="site-state-item-count">140</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/mLixin.github.io/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mLiXin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/mLixin.github.io/lib/anime.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/mLixin.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/mLixin.github.io/js/utils.js"></script>
+
+<script src="/mLixin.github.io/js/motion.js"></script>
+
+
+<script src="/mLixin.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/mLixin.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
